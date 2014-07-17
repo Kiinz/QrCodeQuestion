@@ -61,6 +61,7 @@ public class QuestCustomAdapter extends ArrayAdapter<String>{
 				intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 				context.startActivity(intent);
 				
+				
 //				Toast.makeText(context, "Bestenliste wurde gedrückt", Toast.LENGTH_LONG).show();
 				
 			}
