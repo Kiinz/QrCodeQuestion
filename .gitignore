@@ -63,5 +63,3 @@ $RECYCLE.BIN/
 *.msp
 .idea/*
 *.iml
-bin/*
-*.settings
