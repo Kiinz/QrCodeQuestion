@@ -21,7 +21,7 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 	
 	
 	Daten data1 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data2 = new Daten ("Messner1","Dominik","Messi",100);
+	Daten data2 = new Daten ("Messner","Dominik","Messi",100);
 	Daten data3 = new Daten ("Hans","Koch","Kochl",32);
 	Daten data4 = new Daten ("Franz","Swatolav","Franzi1",45);
 	Daten data5 = new Daten ("Ignaz","Maier","Igi",66);
@@ -55,8 +55,7 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 	Daten data33 = new Daten ("Messner","Dominik","Messi",100);
 	Daten data34 = new Daten ("Hans","Koch","Kochl",32);
 	Daten data35 = new Daten ("Franz","Swatolav","Franzi1",45);
-	Daten data36 = new Daten ("Ignaz","Maier","Igi",66);
-	
+
 	
 	TextView text1;
 	TextView text2;
@@ -134,11 +133,8 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
+    }
 	
 public void setRows(ArrayList<Daten>daten){
     	

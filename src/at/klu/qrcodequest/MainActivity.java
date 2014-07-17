@@ -26,7 +26,6 @@ public class MainActivity extends Activity {
 		btscan.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 
 				try {
 					
@@ -36,9 +35,8 @@ public class MainActivity extends Activity {
 					startActivityForResult(intent, 0);
 				
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
-					Toast.makeText(getApplicationContext(), "ERROR:" + e, 1).show();
+					Toast.makeText(getApplicationContext(), "ERROR:" + e, Toast.LENGTH_SHORT).show();
 
 				}
 
