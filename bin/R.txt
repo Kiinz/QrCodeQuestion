@@ -533,6 +533,7 @@ int string msg_share_subject_line 0x7f0a004a
 int string msg_share_text 0x7f0a004b
 int string msg_sure 0x7f0a004c
 int string msg_unmount_usb 0x7f0a004d
+int string node 0x7f0a008f
 int string preferences_actions_title 0x7f0a004e
 int string preferences_bulk_mode_summary 0x7f0a004f
 int string preferences_bulk_mode_title 0x7f0a0050
@@ -557,6 +558,7 @@ int string preferences_search_country 0x7f0a0062
 int string preferences_supplemental_summary 0x7f0a0063
 int string preferences_supplemental_title 0x7f0a0064
 int string preferences_vibrate_title 0x7f0a0065
+int string question 0x7f0a0090
 int string quests 0x7f0a008d
 int string result_address_book 0x7f0a0066
 int string result_calendar 0x7f0a0067

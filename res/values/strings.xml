@@ -12,5 +12,7 @@
     <string name="AppName">QR-Code-Quest</string>
     <string name="quests">Quests</string>
     <string name="bestenliste">Bestenliste</string>
+    <string name="node">NODE</string>
+    <string name="question">Question</string>
 
 </resources>

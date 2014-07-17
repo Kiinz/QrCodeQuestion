@@ -5,21 +5,25 @@
                 android:layout_height="match_parent">
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="NODE"
-            android:id="@+id/textViewNode" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"/>
+        android:id="@+id/textViewNode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="@string/node"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="QUESTION"
-            android:id="@+id/textViewQuestion"
-            android:layout_marginTop="30dp"
-            android:layout_below="@+id/textViewNode"
-            android:layout_marginLeft="8dp" />
+        android:id="@+id/textViewQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewNode"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="30dp"
+        android:text="@string/question"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
     <ScrollView
             android:orientation="vertical"
             android:layout_width="fill_parent"
