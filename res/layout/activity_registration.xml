@@ -8,28 +8,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Registrieren"
+            android:text="@string/registrieren"
             android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Vorname:"
+            android:text="@string/vorname"
             android:id="@+id/textView2"
             android:layout_marginLeft="10dp" android:layout_marginTop="50dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Nachname:"
+            android:text="@string/nachname"
             android:id="@+id/textView3" android:layout_below="@+id/textView2" android:layout_alignStart="@+id/textView2"
             android:layout_marginTop="25dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Spitzname:"
+            android:text="@string/spitzname"
             android:id="@+id/textView4" android:layout_below="@+id/textView3" android:layout_alignStart="@+id/textView3"
             android:layout_marginTop="25dp"/>
     <EditText
@@ -37,29 +37,32 @@
             android:layout_height="wrap_content"
             android:id="@+id/editText"
             android:layout_above="@+id/textView3"
-            android:singleLine="true" android:layout_alignParentEnd="true" android:layout_alignStart="@+id/editText2"/>
+            android:singleLine="true" android:layout_alignParentEnd="true" android:layout_alignStart="@+id/editText2"
+            android:inputType="textPersonName"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/editText2" android:layout_above="@+id/textView4"
-            android:singleLine="true" android:layout_alignParentEnd="true" android:layout_toRightOf="@+id/textView3"/>
+            android:singleLine="true" android:layout_alignParentEnd="true" android:layout_toRightOf="@+id/textView3"
+            android:inputType="textPersonName"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/editText3" android:layout_alignBottom="@+id/textView4"
-            android:singleLine="true" android:layout_alignParentEnd="true" android:layout_alignStart="@+id/editText2"/>
+            android:singleLine="true" android:layout_alignParentEnd="true" android:layout_alignStart="@+id/editText2"
+            android:inputType="textNoSuggestions"/>
     <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Namen in Bestenliste eintragen?"
+            android:text="@string/nameInBestenliste"
             android:id="@+id/checkBox"
             android:layout_below="@+id/textView4"
             android:layout_alignStart="@+id/textView4" android:layout_marginTop="25dp" android:checked="false"
-            android:textSize="22dp"/>
+            android:textSize="22sp"/>
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registrieren"
+            android:text="@string/registrieren"
             android:id="@+id/button" android:layout_below="@+id/checkBox" android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"/>
 </RelativeLayout>

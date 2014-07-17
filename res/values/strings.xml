@@ -14,5 +14,10 @@
     <string name="bestenliste">Bestenliste</string>
     <string name="node">NODE</string>
     <string name="question">Question</string>
+    <string name="registrieren">Registrieren</string>
+    <string name="vorname">Vorname:</string>
+    <string name="nachname">Nachname:</string>
+    <string name="spitzname">Spitzname:</string>
+    <string name="nameInBestenliste">Namen in Bestenliste eintragen?</string>
 
 </resources>
