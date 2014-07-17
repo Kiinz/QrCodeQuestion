@@ -88,7 +88,7 @@ public class Aufrufen {
     		int active = Integer.parseInt(user.getString("active"));
     		int id = Integer.parseInt(user.getString("id"));
     		
-    		User user1 = new User(id, active,firstname,lastname,nickname,userId);
+    		User user1 = new User(active,firstname,lastname,nickname,userId);
     		users.add(user1);
     		
     		

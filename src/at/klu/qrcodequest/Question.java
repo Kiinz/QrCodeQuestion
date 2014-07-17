@@ -35,6 +35,7 @@ public class Question {
             e.printStackTrace();
         }
         HTTPHelper.makeGetRequest(url);
+        HTTPHelper.makePostRequest(url, "asd");
     }
 
     public Question() {
@@ -45,7 +46,7 @@ public class Question {
             e.printStackTrace();
         }
         HTTPHelper.makeGetRequest(url);
-        HTTPHelper.makePostRequest();
+
 
     }
 

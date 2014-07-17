@@ -1,5 +1,8 @@
 package at.klu.qrcodequest;
 
+import android.content.Context;
+import android.telephony.TelephonyManager;
+
 public class User {
 	
 	private int id;
@@ -13,10 +16,9 @@ public class User {
 		
 	}
 	
-	public User(int id, int active, String firstname, String lastname,
+	public User(int active, String firstname, String lastname,
 			String nickname, String userId) {
 		super();
-		this.id = id;
 		this.active = active;
 		this.firstname = firstname;
 		this.lastname = lastname;

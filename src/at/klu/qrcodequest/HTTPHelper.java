@@ -50,11 +50,13 @@ public class HTTPHelper {
         }
     }
 
-    public static void makePostRequest(URL url) {
+    public static void makePostRequest(URL url, String postParameters) {
         try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-            String postParameters = "param1=value1&param2=value2";
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
 
+            postParameters = "test=" + postParameters;
+            urlConnection = (HttpURLConnection) url.openConnection();
 
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
