@@ -46,7 +46,7 @@ public class MainActivity extends Activity {
 		});
 
 	}
-	//In the same activity you’ll need the following to retrieve the results:
+	//In the same activity youï¿½ll need the following to retrieve the results:
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode == 0) {
 
