@@ -67,3 +67,4 @@ $RECYCLE.BIN/
 .settings
 bin/*
 .project
+project.properties
