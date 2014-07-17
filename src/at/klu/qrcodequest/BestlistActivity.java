@@ -21,7 +21,7 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 	
 	
 	Daten data1 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data2 = new Daten ("Messner","Dominik1","Messi",100);
+	Daten data2 = new Daten ("Messner","Dominik","Messi",100);
 	Daten data3 = new Daten ("Hans","Koch","Kochl",32);
 	Daten data4 = new Daten ("Franz","Swatolav","Franzi1",45);
 	Daten data5 = new Daten ("Ignaz","Maier","Igi",66);
