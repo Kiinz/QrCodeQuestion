@@ -118,6 +118,7 @@ public class QuestionsActivity extends Activity {
         answerList2.add("gfdgfd");
         answerList2.add("xxxxxx");
 
+        Question asd = new Question();
 
         questionWithAnswers = new QuestionWithAnswers();
         questionWithAnswers.setQuestion("Wie gehts?");
