@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import java.net.URL;
+
 public class RegistrationActivity extends Activity {
 
     private Button registerButton;
@@ -12,11 +14,13 @@ public class RegistrationActivity extends Activity {
     private CheckBox checkBox;
     private String vorname, nachname, spitzname;
     private Boolean useName;
+    public static Activity registrationActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        registrationActivity = this;
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         registerButton = (Button) findViewById(R.id.button);
@@ -40,6 +44,7 @@ public class RegistrationActivity extends Activity {
                 } else if ((!vorname.matches("^[A-Za-z]{3,15}$") || !nachname.matches("^[A-Za-z]{3,15}$")) && useName) {
                     Toast.makeText(getApplicationContext(), "Bitte geben Sie einen gültigen Namen ein!", Toast.LENGTH_LONG).show();
                 }
+                URL urlToRequest = new URL("http://posttestserver.com/posxt.php");
 
 
             }

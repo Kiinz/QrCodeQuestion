@@ -1,6 +1,7 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
@@ -64,9 +65,10 @@ public class QuestionsActivity extends Activity {
 
             bt = new Button(this);
             bt.setText(answer);
+            bt.setTextSize(20);
             bt.setBackgroundResource(R.drawable.questionbutton);
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0,0,15,3);
+            layoutParams.setMargins(0, 0, 15, 3);
             bt.setLayoutParams(layoutParams);
             verticalLayout.addView(bt);
 
@@ -143,5 +145,9 @@ public class QuestionsActivity extends Activity {
 
         randomKeys = Arrays.asList(numbers);
         Collections.shuffle(randomKeys); //Zufällige Keys, um die Antworten zu mischen
+    }
+
+    public Context getContext() {
+        return getApplicationContext();
     }
 }
