@@ -63,3 +63,7 @@ $RECYCLE.BIN/
 *.msp
 .idea/*
 *.iml
+.classpath
+.settings
+bin/*
+.project
