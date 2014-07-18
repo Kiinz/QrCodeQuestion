@@ -12,8 +12,8 @@ import java.util.Map;
 
 public class HTTPHelper {
 
-    private static HttpURLConnection urlConnection = null;
     private static StringBuffer stringBuffer;
+
 
     public static StringBuffer makeGetRequest(String urlString) {
         try {
@@ -21,16 +21,16 @@ public class HTTPHelper {
             StrictMode.ThreadPolicy policy = new StrictMode.
                     ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            HttpURLConnection con = (HttpURLConnection) url
-                    .openConnection();
-            return readStream(con.getInputStream());
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            readStream(con.getInputStream());
+            return stringBuffer;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private static StringBuffer readStream(InputStream in) {
+    private static void readStream(InputStream in) {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(in));
@@ -49,7 +49,6 @@ public class HTTPHelper {
                 }
             }
         }
-        return null;
     }
 
     public static void makePostRequest(URL url, String postParameters) {
@@ -58,7 +57,7 @@ public class HTTPHelper {
             StrictMode.setThreadPolicy(policy);
 
             postParameters = "test=" + postParameters;
-            urlConnection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");

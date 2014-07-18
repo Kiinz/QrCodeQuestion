@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -120,7 +123,7 @@ public class QuestionsActivity extends Activity {
         answerList2.add("gfdgfd");
         answerList2.add("xxxxxx");
 
-        Question asd = new Question();
+        String[] questionsString = getQuestions();
 
         questionWithAnswers = new QuestionWithAnswers();
         questionWithAnswers.setQuestion("Wie gehts?");
@@ -145,6 +148,50 @@ public class QuestionsActivity extends Activity {
 
         randomKeys = Arrays.asList(numbers);
         Collections.shuffle(randomKeys); //Zufällige Keys, um die Antworten zu mischen
+    }
+
+    public static String[] getQuestions() {
+        int active, seq, dtEval;
+        String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
+
+        String questionsString = HTTPHelper.makeGetRequest("http://192.168.136.81").toString();
+
+        ArrayList <Question> questions = new ArrayList<Question>();
+
+        JSONObject obj;
+        try {
+            obj = new JSONObject(questionsString);
+            JSONArray array = obj.getJSONArray("Questions");
+
+            for (int i = 0; i < array.length(); i++){
+
+                JSONObject questionJSON = array.getJSONObject(i);
+
+                active = questionJSON.getInt("active");
+                seq = questionJSON.getInt("sequence");
+                dtEval = questionJSON.getInt("dtEvaluation");
+                name = questionJSON.getString("name");
+                descr = questionJSON.getString("description");
+                o1 = questionJSON.getString("option1");
+                o2 = questionJSON.getString("option2");
+                o3 = questionJSON.getString("option3");
+                o4 = questionJSON.getString("option4");
+                o5 = questionJSON.getString("option5");
+                o6 = questionJSON.getString("option6");
+                o7 = questionJSON.getString("option7");
+                o8 = questionJSON.getString("option8");
+                o9 = questionJSON.getString("option9");
+                o10 = questionJSON.getString("option10");
+
+                Question question = new Question(active, seq, dtEval, name, descr, o1,o2,o3,o4,o5,o6,o7,o8,o9,o10);
+                questions.add(question);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        return questions.toArray(new String[questions.size()]);
     }
 
     public Context getContext() {

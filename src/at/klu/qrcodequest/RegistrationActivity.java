@@ -61,7 +61,7 @@ public class RegistrationActivity extends Activity {
                     String postParameter = UserMethodes.UsertoJSon(user);
 
                     try {
-                        HTTPHelper.makePostRequest(new URL("http://posttestserver.com/post.php"), postParameter);
+                        HTTPHelper.makePostRequest(new URL(" http://193.171.127.102:8080/Quest/user/save"), postParameter);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -77,7 +77,7 @@ public class RegistrationActivity extends Activity {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        assert md != null;
+        assert md != null; //Programm bricht ab wenn md null
         md.update(s.getBytes());
         byte[] bytes = md.digest();
         StringBuilder buffer = new StringBuilder();
