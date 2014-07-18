@@ -2,6 +2,8 @@ package at.klu.qrcodequest;
 
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +20,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 
 	ListView list;
 	QuestCustomAdapter adapter;
+	ArrayList<Quest> quests = new ArrayList<Quest>();
 	
 	    @Override
 	    protected void onCreate(Bundle savedInstanceState) {
@@ -26,21 +29,32 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        
 	        list = (ListView)findViewById(R.id.listView1);
 	        list.setOnItemClickListener(this);
+	       
 	        
-	        ArrayList<String> values = new ArrayList<String>();
+	        try {
+				quests = QuestsMethodes.getQuestsfromJSONString();
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        ArrayList<String> values =  new ArrayList<String>();
 	        
-	        values.add("HTL-Mössingerstraße");
-	        values.add("FH-Kärnten");
-	        values.add("Hauptschule Neumarkt");
-	        values.add("HTL-Mössingerstraße");
-	        values.add("FH-Kärnten");
-	        values.add("Hauptschule Neumarkt");
-	        values.add("HTL-Mössingerstraße");
-	        values.add("FH-Kärnten");
-	        values.add("Hauptschule Neumarkt");
-	        values.add("HTL-Mössingerstraße");
-	        values.add("FH-Kärnten");
-	        values.add("Hauptschule Neumarkt");
+	        for (int i = 0; i < quests.size(); i++){
+	        	values.add(quests.get(i).getName());
+	        }
+	        
+//	        values.add("HTL-Mössingerstraße");
+//	        values.add("FH-Kärnten");
+//	        values.add("Hauptschule Neumarkt");
+//	        values.add("HTL-Mössingerstraße");
+//	        values.add("FH-Kärnten");
+//	        values.add("Hauptschule Neumarkt");
+//	        values.add("HTL-Mössingerstraße");
+//	        values.add("FH-Kärnten");
+//	        values.add("Hauptschule Neumarkt");
+//	        values.add("HTL-Mössingerstraße");
+//	        values.add("FH-Kärnten");
+//	        values.add("Hauptschule Neumarkt");
 	        
 	        //ArrayAdapter<String>data = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,android.R.id.text1, values);
 	        
@@ -75,11 +89,17 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
+			
 			int iposition = position;
 			String itemValue = (String) list.getItemAtPosition(position);
+	
 			
-			Intent qrreader = new Intent (getApplicationContext(), MainActivity.class);
-			startActivity(qrreader);
+			if(quests.get(iposition).getDtRegistration() == 2){
+				
+				Intent qrreader = new Intent (getApplicationContext(), MainActivity.class);
+				startActivity(qrreader);
+				
+			}
 			
 //			Toast.makeText(getApplicationContext(), "" + iposition + " " + itemValue, Toast.LENGTH_LONG).show();
 		}

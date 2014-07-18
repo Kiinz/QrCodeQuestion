@@ -57,6 +57,7 @@ public class QuestCustomAdapter extends ArrayAdapter<String>{
 			
 			@Override
 			public void onClick(View v) {
+				
 				intent = new Intent(context,BestlistActivity.class);
 				intent.addFlags(intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity auﬂerhalb einer Activity gestartet werden
 				context.startActivity(intent);
