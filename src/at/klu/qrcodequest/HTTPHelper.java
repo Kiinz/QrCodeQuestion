@@ -9,33 +9,34 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
 
-/**
- * Created by Messna on 17.07.2014.
- */
+
 public class HTTPHelper {
 
-    static HttpURLConnection urlConnection = null;
+    private static HttpURLConnection urlConnection = null;
+    private static StringBuffer stringBuffer;
 
-    public static void makeGetRequest(URL url) {
+    public static StringBuffer makeGetRequest(String urlString) {
         try {
+            URL url = new URL(urlString);
             StrictMode.ThreadPolicy policy = new StrictMode.
                     ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             HttpURLConnection con = (HttpURLConnection) url
                     .openConnection();
-            readStream(con.getInputStream());
+            return readStream(con.getInputStream());
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
-    private static void readStream(InputStream in) {
+    private static StringBuffer readStream(InputStream in) {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                stringBuffer.append(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,6 +49,7 @@ public class HTTPHelper {
                 }
             }
         }
+        return null;
     }
 
     public static void makePostRequest(URL url, String postParameters) {

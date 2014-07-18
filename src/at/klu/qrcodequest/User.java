@@ -1,8 +1,5 @@
 package at.klu.qrcodequest;
 
-import android.content.Context;
-import android.telephony.TelephonyManager;
-
 public class User {
 	
 	private int id;

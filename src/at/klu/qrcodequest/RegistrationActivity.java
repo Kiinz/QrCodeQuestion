@@ -7,12 +7,10 @@ import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.*;
 
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.Map;
 
 public class RegistrationActivity extends Activity {
@@ -56,52 +54,37 @@ public class RegistrationActivity extends Activity {
 
                 } else { //Alle Eingaben valid
 
-                    final TelephonyManager tm = (TelephonyManager) getBaseContext().getSystemService(Context.TELEPHONY_SERVICE);
-                    userID = tm.getDeviceId();
-//                    userID = new String(Hex.en)
+                    userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+                    userID = sha1(userID);
+                    System.out.println(userID);
                     user = new User(1, vorname, nachname, spitzname, userID);
                     String postParameter = UserMethodes.UsertoJSon(user);
+
                     try {
                         HTTPHelper.makePostRequest(new URL("http://posttestserver.com/post.php"), postParameter);
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
                 }
-
-
-
-
-
             }
         });
     }
 
-    String sha1Hash(String toHash) {
-        String hash = null;
+    private String sha1(String s) {
+        MessageDigest md = null;
         try {
-            MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
-            byte[] bytes = toHash.getBytes("UTF-8");
-            digest.update(bytes, 0, bytes.length);
-            bytes = digest.digest();
-            hash = bytesToHex( bytes );
-        }
-        catch(NoSuchAlgorithmException e) {
+            md = MessageDigest.getInstance("SHA-1");
+        } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        catch(UnsupportedEncodingException e) {
-            e.printStackTrace();
+        assert md != null;
+        md.update(s.getBytes());
+        byte[] bytes = md.digest();
+        StringBuilder buffer = new StringBuilder();
+        for (byte aByte : bytes) {
+            String tmp = Integer.toString((aByte & 0xff) + 0x100, 16).substring(1);
+            buffer.append(tmp);
         }
-        return hash;
-    }
-
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[ bytes.length * 2 ];
-        for( int j = 0; j < bytes.length; j++ ) {
-            int v = bytes[ j ] & 0xFF;
-            hexChars[ j * 2 ] = hexArray[ v >>> 4 ];
-            hexChars[ j * 2 + 1 ] = hexArray[ v & 0x0F ];
-        }
-        return new String(hexChars);
+        return buffer.toString();
     }
 }
