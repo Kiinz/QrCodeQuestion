@@ -117,7 +117,7 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
         daten.add(data35);
         
         
-        setRows(daten);
+        setRows(daten); 
 	}
 
 	@Override
@@ -139,12 +139,12 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 public void setRows(ArrayList<Daten>daten){
     	
     	TableLayout layout = (TableLayout) findViewById(R.id.table);
-    	int length = daten.size();
+    	int length = daten.size(); //Länge der Array List abfragen
     	
     	
     	for (int x = 0; x < length; x++){
     		
-    		TableRow row = new TableRow(this);
+    		TableRow row = new TableRow(this); //Erstellen einer neuen Reihe
     		TableRow.LayoutParams layoutp = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT);
     		layoutp.setMargins(2, 2, 2, 2);
     		row.setLayoutParams(layoutp);
@@ -155,14 +155,13 @@ public void setRows(ArrayList<Daten>daten){
     		text3 = new TextView(this);
     		text4 = new TextView(this);
     		
-    		Drawable hintergrund = getResources().getDrawable(R.drawable.bestenliste_style);
+//    		Drawable hintergrund = getResources().getDrawable(R.drawable.bestenliste_style); //
     		
+    		//textViews erhalten einen Hintergrund mit schwarzem Rahmen für die Tabellenansicht
     		text1.setBackgroundResource(R.drawable.bestenliste_row1);
     		text2.setBackgroundResource(R.drawable.bestenliste_style2);
     		text3.setBackgroundResource(R.drawable.bestenliste_style2);
     		text4.setBackgroundResource(R.drawable.bestenliste_style2);
-    		
-    		
     		
     		
 //    		text1.setPadding(15, 0, 0, 0);
@@ -186,14 +185,14 @@ public void setRows(ArrayList<Daten>daten){
     		text1.setText("" + benutzer);
     		
     		
-    		row.addView(text1);
+    		row.addView(text1);//einer Reihe wird ein textView hinzugfügt
     		row.addView(text2);
     		row.addView(text3);
     		row.addView(text4);
     		
 //    		int i = x+1;
     		
-    		layout.addView(row,x);
+    		layout.addView(row,x); //Reihe wird zum TableLayout hinzugefügt
     		
     		
     	}

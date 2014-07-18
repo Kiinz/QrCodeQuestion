@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	
 	Button btscan;
 	EditText textField1;
 
@@ -29,10 +30,11 @@ public class MainActivity extends Activity {
 
 				try {
 					
+					//Es wird eine neues Intent aufgerufen (QR-Code Reader)
 					Intent intent = new Intent(
 							"com.google.zxing.client.android.SCAN");
-					intent.putExtra("SCAN_MODE", "QR_CODE_MODE,PRODUCT_MODE");
-					startActivityForResult(intent, 0);
+					intent.putExtra("SCAN_MODE", "QR_CODE_MODE,PRODUCT_MODE");//für das Intent können zusätzliche Optionen gesetzt werden
+					startActivityForResult(intent, 0); //Starten der Activity, die ein Ergebnis (Result) zurückliefert
 				
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -46,10 +48,10 @@ public class MainActivity extends Activity {
 	}
 	//In the same activity youï¿½ll need the following to retrieve the results:
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		if (requestCode == 0) {
+		if (requestCode == 0) {		//RequestCode dient zu identifizierung der Activity, die das Ergebnis liefert
 
-			if (resultCode == RESULT_OK) {
-				textField1.setText(intent.getStringExtra("SCAN_RESULT"));
+			if (resultCode == RESULT_OK) {	
+				textField1.setText(intent.getStringExtra("SCAN_RESULT")); //das Scan-Result wird ausgegeben (Daten von gelesen QR-Code)
 			} else if (resultCode == RESULT_CANCELED) {
 				
 			}
