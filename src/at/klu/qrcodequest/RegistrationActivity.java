@@ -11,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class RegistrationActivity extends Activity {
@@ -58,7 +59,14 @@ public class RegistrationActivity extends Activity {
                     userID = sha1(userID);
                     System.out.println(userID);
                     user = new User(1, vorname, nachname, spitzname, userID);
-                    String postParameter = UserMethodes.UsertoJSon(user);
+                    Map <String, String> userParameters = new HashMap<String, String>();
+                    userParameters.put("userId", userID);
+                    userParameters.put("firstname", vorname);
+                    userParameters.put("lastname", nachname);
+                    userParameters.put("nickname", spitzname);
+                    userParameters.put("dtOwner", "2");
+                    String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
+//                    String postParameter = UserMethodes.UsertoJSon(user);
 
                     try {
                         HTTPHelper.makePostRequest(new URL(" http://193.171.127.102:8080/Quest/user/save"), postParameter);

@@ -56,7 +56,7 @@ public class HTTPHelper {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-            postParameters = "test=" + postParameters;
+//            postParameters = "test=" + postParameters;
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             urlConnection.setDoOutput(true);
