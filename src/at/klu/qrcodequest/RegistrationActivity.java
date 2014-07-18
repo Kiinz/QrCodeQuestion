@@ -44,6 +44,11 @@ public class RegistrationActivity extends Activity {
                 spitzname = spitznameText.getText().toString();
                 useName = checkBox.isChecked();
 
+                if (!useName) {
+                    vorname = "unknown";
+                    nachname = "unknown";
+                }
+
                 if (!spitzname.matches("^[A-Za-z0-9öäüÜÄÖ:)(,._-]{3,15}$")) {
                     if (spitzname.matches("^.{0,3}$")) {
                         Toast.makeText(getApplicationContext(), "Bitte geben Sie einen Spitznamen ein!", Toast.LENGTH_LONG).show();
@@ -65,6 +70,7 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("lastname", nachname);
                     userParameters.put("nickname", spitzname);
                     userParameters.put("dtOwner", "2");
+                    userParameters.put("active", "1");
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
 
