@@ -78,25 +78,11 @@ public class HTTPHelper {
 
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
-<<<<<<< HEAD
                 throw new HTTPExceptions("falseStatusCode");
             }
 
         } catch (SocketTimeoutException e) {
             throw new HTTPExceptions("timeout");
-=======
-                //TODO Exception werfen
-<<<<<<< HEAD
-                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show(); 
-                
-            }
-            return stringBuffer;
-=======
-                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
-            }
-
->>>>>>> parent of 439e7e2... HTTPException
->>>>>>> a9cc6fb66e4a1675584566ec40b148bc68361234
         } catch (IOException e) {
             e.printStackTrace();
         }
