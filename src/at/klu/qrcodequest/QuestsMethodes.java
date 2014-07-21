@@ -22,14 +22,14 @@ public class QuestsMethodes {
     		
     		String description = quest.getString("description");
     		String name = quest.getString("name");
-    		int questPk = quest.getInt("questPk");
+    		int id = quest.getInt("id");
     		int active = quest.getInt("active");
     		int sequence = quest.getInt("sequence");
     		int dtOwner = quest.getInt("dtOwner");
     		int dtRegistration = quest.getInt("dtRegistration");
     		
     		
-    		Quest quest1 = new Quest(questPk, active, sequence,dtOwner,dtRegistration,name,description);
+    		Quest quest1 = new Quest(id, active, sequence,dtOwner,dtRegistration,name,description);
     		quests.add(quest1);
 	}
     	return quests;
