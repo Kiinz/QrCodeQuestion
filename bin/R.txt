@@ -265,12 +265,13 @@ int drawable button_pressed 0x7f02005b
 int drawable button_style 0x7f02005c
 int drawable button_style2 0x7f02005d
 int drawable hintergrund1 0x7f02005e
-int drawable icon1 0x7f02005f
-int drawable launcher_icon 0x7f020060
-int drawable questionbutton 0x7f020061
-int drawable share_via_barcode 0x7f020062
-int drawable shopper_icon 0x7f020063
-int drawable textfield_style1 0x7f020064
+int drawable ic_launcher 0x7f02005f
+int drawable icon1 0x7f020060
+int drawable launcher_icon 0x7f020061
+int drawable questionbutton 0x7f020062
+int drawable share_via_barcode 0x7f020063
+int drawable shopper_icon 0x7f020064
+int drawable textfield_style1 0x7f020065
 int id action_bar 0x7f070028
 int id action_bar_activity_content 0x7f070015
 int id action_bar_container 0x7f070027
@@ -444,6 +445,7 @@ int layout support_simple_spinner_dropdown_item 0x7f030028
 int menu bestlist 0x7f0f0000
 int menu main 0x7f0f0001
 int menu quest 0x7f0f0002
+int menu start 0x7f0f0003
 int raw beep 0x7f060000
 int string AppName 0x7f0c008c
 int string abc_action_bar_home_description 0x7f0c0001
