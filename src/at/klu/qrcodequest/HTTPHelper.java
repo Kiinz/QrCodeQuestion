@@ -4,10 +4,7 @@ import android.os.StrictMode;
 import android.widget.Toast;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.util.Map;
 
 
@@ -53,7 +50,7 @@ public class HTTPHelper {
         }
     }
 
-    public static StringBuffer makePostRequest(String urlString, String postParameters) {
+    public static StringBuffer makePostRequest(String urlString, String postParameters) throws StatusCodeException {
         URL url = null;
         try {
             url = new URL(urlString);
@@ -69,6 +66,7 @@ public class HTTPHelper {
 
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
+            urlConnection.setConnectTimeout(1000);
             urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
@@ -79,10 +77,11 @@ public class HTTPHelper {
 
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
-                //TODO Exception werfen
-                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+                throw new StatusCodeException();
             }
 
+        } catch (SocketTimeoutException e) {
+            Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: Anfrage dauerte zu lange, überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -113,5 +112,10 @@ public class HTTPHelper {
             }
         }
         return parametersAsQueryString.toString();
+    }
+}
+
+class StatusCodeException extends Exception {
+    public StatusCodeException() {
     }
 }

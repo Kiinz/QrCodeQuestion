@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+import java.net.SocketTimeoutException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ public class RegistrationActivity extends Activity {
         registrationActivity = this;
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
-        Button registerButton = (Button) findViewById(R.id.button);
+        final Button registerButton = (Button) findViewById(R.id.button);
         vornameText = (EditText) findViewById(R.id.editText);
         nachnameText = (EditText) findViewById(R.id.editText2);
         spitznameText = (EditText) findViewById(R.id.editText3);
@@ -35,6 +36,8 @@ public class RegistrationActivity extends Activity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                registerButton.setClickable(false);
+
                 vorname = vornameText.getText().toString();
                 nachname = nachnameText.getText().toString();
                 spitzname = spitznameText.getText().toString();
@@ -69,9 +72,15 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("active", "1");
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
-                    HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
-                    
-                    Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+                    try {
+                        HTTPHelper.makePostRequest("http://195.171.127.102:8080/Quest/user/save", postParameter);
+
+                    } catch (StatusCodeException e) {
+                        Toast.makeText(getApplicationContext(), "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+
+                    Intent intent = new Intent (getApplicationContext(),MainActivity.class);
                     startActivity(intent);
 
                 }
