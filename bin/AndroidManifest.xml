@@ -7,57 +7,50 @@
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="19" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.FLASHLIGHT"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon1"
         android:label="@string/AppName"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-                android:name=".QuestionsActivity"
-                android:label="@string/app_name"
-                android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
-                android:configChanges="orientation"
-                android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.default"/>
-            </intent-filter>
+            android:name=".QuestionsActivity"
+            android:configChanges="orientation"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".BestlistActivity"
-            android:label="@string/title_activity_bestlist"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" >
+            android:label="@string/title_activity_bestlist"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-                android:name=".RegistrationActivity"
-                android:label="@string/title_activity_quest"
-                android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
-                android:configChanges="orientation"
-                android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".RegistrationActivity"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_quest"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name=".QuestActivity"
-            android:label="@string/title_activity_quest"
-            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"
             android:configChanges="orientation"
-            android:screenOrientation="portrait" >
+            android:label="@string/title_activity_quest"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
         </activity>
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
@@ -67,12 +60,25 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
                 <action android:name="com.google.zxing.client.android.SCAN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".StartActivity"
+            android:label="@string/title_activity_start"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter> >
         </activity>
     </application>
 

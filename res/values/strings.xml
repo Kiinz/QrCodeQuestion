@@ -19,5 +19,7 @@
     <string name="nachname">Nachname:</string>
     <string name="spitzname">Spitzname:</string>
     <string name="nameInBestenliste">Namen in Bestenliste eintragen?</string>
+    <string name="title_activity_start">StartActivity</string>
+    <string name="weiter">Weiter</string>
 
 </resources>
