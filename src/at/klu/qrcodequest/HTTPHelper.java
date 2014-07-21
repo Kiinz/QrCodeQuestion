@@ -51,7 +51,7 @@ public class HTTPHelper {
         }
     }
 
-    public static StringBuffer makePostRequest(String urlString, String postParameters, Context context) throws HTTPExceptions {
+    public static StringBuffer makePostRequest(String urlString, String postParameters) throws HTTPExceptions {
         URL url = null;
         try {
             url = new URL(urlString);
@@ -67,19 +67,21 @@ public class HTTPHelper {
 
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
-            urlConnection.setConnectTimeout(1000);
+            urlConnection.setConnectTimeout(10000);
             urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
-            PrintWriter out = new PrintWriter(urlConnection.getOutputStream());
+
+            PrintWriter out = new PrintWriter(urlConnection.getOutputStream()); //Post parameters
             out.print(postParameters);
             out.close();
-            readStream(urlConnection.getInputStream());
 
             int statusCode = urlConnection.getResponseCode();
-            if (statusCode != HttpURLConnection.HTTP_OK) {
+            if (statusCode != HttpURLConnection.HTTP_OK) {  //!=200
                 throw new HTTPExceptions("falseStatusCode");
             }
+
+            readStream(urlConnection.getInputStream()); //Antwort auslesen
 
         } catch (SocketTimeoutException e) {
             throw new HTTPExceptions("timeout");

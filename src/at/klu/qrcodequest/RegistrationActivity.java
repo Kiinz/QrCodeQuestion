@@ -60,7 +60,6 @@ public class RegistrationActivity extends Activity {
 
                     userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
                     userID = sha1(userID);
-                    System.out.println(userID);
                     user = new User(1, vorname, nachname, spitzname, userID);
                     Map<String, String> userParameters = new HashMap<String, String>();
                     userParameters.put("userId", userID);
@@ -72,7 +71,7 @@ public class RegistrationActivity extends Activity {
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
                     try {
-                        HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter, getApplicationContext());
+                        HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
                     } catch (HTTPExceptions e) {
                         if (e.getMessage().equals("timeout")) {
                             Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
