@@ -112,7 +112,7 @@ public class RegistrationActivity extends Activity {
         @Override
         protected Void doInBackground(Void... arg0) {
             try {
-                HTTPHelper.makePostRequest("http://195.55.55.55/Quest/user/save", postParameter);
+                HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
             } catch (HTTPExceptions e) {
                 if (e.getMessage().equals("timeout")) {
                     Handler handler = new Handler(getApplicationContext().getMainLooper());
