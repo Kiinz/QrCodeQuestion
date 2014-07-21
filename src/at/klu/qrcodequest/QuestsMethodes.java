@@ -13,7 +13,7 @@ public class QuestsMethodes {
 		
     	ArrayList <Quest> quests = new ArrayList<Quest>();
     	
-    	JSONObject obj = new JSONObject(HTTPHelper.makeGetRequest("http://192.168.1.199/quests.html").toString());
+    	JSONObject obj = new JSONObject(HTTPHelper.makeGetRequest("http://pastebin.com/raw.php?i=DsQuFG6c").toString());
     	JSONArray array = obj.getJSONArray("Quests");
     	
     	for (int i = 0; i < array.length(); i++){

@@ -131,7 +131,7 @@ public class RegistrationActivity extends Activity {
                 registerButton.setClickable(true);
                 return null;
             }
-            Intent intent = new Intent (getApplicationContext(),MainActivity.class);
+            Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
             startActivity(intent);
             return null;
         }
