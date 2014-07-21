@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class HTTPHelper {
 
-    private static StringBuffer stringBuffer;
+    private static StringBuffer stringBuffer = new StringBuffer();
 
 
     public static StringBuffer makeGetRequest(String urlString) {
