@@ -81,10 +81,16 @@ public class HTTPHelper {
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
                 //TODO Exception werfen
+<<<<<<< HEAD
                 Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show(); 
                 
             }
             return stringBuffer;
+=======
+                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+            }
+
+>>>>>>> parent of 439e7e2... HTTPException
         } catch (IOException e) {
             e.printStackTrace();
             return stringBuffer;
