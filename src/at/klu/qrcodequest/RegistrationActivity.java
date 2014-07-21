@@ -1,14 +1,10 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.*;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -16,12 +12,10 @@ import java.util.Map;
 
 public class RegistrationActivity extends Activity {
 
-    private Button registerButton;
     private TextView vornameText, nachnameText, spitznameText;
     private CheckBox checkBox;
     private String vorname, nachname, spitzname, userID;
     private Boolean useName;
-    private Map<String, String> parameterHashMap;
     private User user;
     public static Activity registrationActivity;
 
@@ -32,7 +26,7 @@ public class RegistrationActivity extends Activity {
         registrationActivity = this;
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
-        registerButton = (Button) findViewById(R.id.button);
+        Button registerButton = (Button) findViewById(R.id.button);
         vornameText = (EditText) findViewById(R.id.editText);
         nachnameText = (EditText) findViewById(R.id.editText2);
         spitznameText = (EditText) findViewById(R.id.editText3);
@@ -64,7 +58,7 @@ public class RegistrationActivity extends Activity {
                     userID = sha1(userID);
                     System.out.println(userID);
                     user = new User(1, vorname, nachname, spitzname, userID);
-                    Map <String, String> userParameters = new HashMap<String, String>();
+                    Map<String, String> userParameters = new HashMap<String, String>();
                     userParameters.put("userId", userID);
                     userParameters.put("firstname", vorname);
                     userParameters.put("lastname", nachname);
@@ -73,12 +67,8 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("active", "1");
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
+                    HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
 
-                    try {
-                        HTTPHelper.makePostRequest(new URL(" http://193.171.127.102:8080/Quest/user/save"), postParameter);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         });
