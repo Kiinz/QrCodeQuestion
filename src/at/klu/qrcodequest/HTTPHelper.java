@@ -5,10 +5,7 @@ import android.os.StrictMode;
 import android.widget.Toast;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.util.Map;
 
 
@@ -54,13 +51,8 @@ public class HTTPHelper {
         }
     }
 
-<<<<<<< HEAD
     public static StringBuffer makePostRequest(String urlString, String postParameters, Context context) throws HTTPExceptions {
-=======
-    public static StringBuffer makePostRequest(String urlString, String postParameters) {
->>>>>>> origin/master
         URL url = null;
-        stringBuffer.setLength(0);
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
@@ -75,6 +67,7 @@ public class HTTPHelper {
 
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
+            urlConnection.setConnectTimeout(1000);
             urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
             urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
@@ -85,30 +78,15 @@ public class HTTPHelper {
 
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
-<<<<<<< HEAD
                 throw new HTTPExceptions("falseStatusCode");
             }
 
         } catch (SocketTimeoutException e) {
             throw new HTTPExceptions("timeout");
-=======
-                //TODO Exception werfen
-<<<<<<< HEAD
-                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show(); 
-                
-            }
-            return stringBuffer;
-=======
-                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
-            }
-
->>>>>>> parent of 439e7e2... HTTPException
->>>>>>> origin/master
         } catch (IOException e) {
             e.printStackTrace();
-            return stringBuffer;
         }
-       
+        return stringBuffer;
     }
 
     private static final char PARAMETER_DELIMITER = '&';
@@ -137,12 +115,9 @@ public class HTTPHelper {
         return parametersAsQueryString.toString();
     }
 }
-<<<<<<< HEAD
 
 class HTTPExceptions extends Exception {
     public HTTPExceptions(String reason) {
         super(reason);
     }
 }
-=======
->>>>>>> origin/master
