@@ -1,6 +1,7 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -30,6 +31,7 @@ public class RegistrationActivity extends Activity {
         vornameText = (EditText) findViewById(R.id.editText);
         nachnameText = (EditText) findViewById(R.id.editText2);
         spitznameText = (EditText) findViewById(R.id.editText3);
+        
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,6 +70,9 @@ public class RegistrationActivity extends Activity {
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
                     HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
+                    
+                    Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+                    startActivity(intent);
 
                 }
             }

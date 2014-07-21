@@ -12,10 +12,10 @@ public class Quest {
 	public Quest(){
 		
 	}
-	public Quest(int questPk, int active, int sequence, int dtOwner,
+	public Quest(int id, int active, int sequence, int dtOwner,
 			int dtRegistration, String name, String description) {
 		super();
-		this.id = questPk;
+		this.id = id;
 		this.active = active;
 		this.sequence = sequence;
 		this.dtOwner = dtOwner;
@@ -24,12 +24,12 @@ public class Quest {
 		this.description = description;
 	}
 
-	public int getQuestPk() {
+	public int getId() {
 		return id;
 	}
 
-	public void setQuestPk(int questPk) {
-		this.id = questPk;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public int getActive() {
@@ -82,7 +82,7 @@ public class Quest {
 
 	@Override
 	public String toString() {
-		return "Quest [questPk=" + id + ", active=" + active
+		return "Quest [id=" + id + ", active=" + active
 				+ ", sequence=" + sequence + ", dtOwner=" + dtOwner
 				+ ", dtRegistration=" + dtRegistration + ", name=" + name
 				+ ", description=" + description + "]";

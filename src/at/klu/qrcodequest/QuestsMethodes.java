@@ -5,8 +5,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
 public class QuestsMethodes {
+
 
 	public static ArrayList<Quest> getQuestsfromJSONString() throws JSONException{
 		
