@@ -1,19 +1,16 @@
 package at.klu.qrcodequest;
 
-import java.util.ArrayList;
-
-import org.json.JSONException;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import org.json.JSONException;
+
+import java.util.ArrayList;
 
 
 public class QuestActivity extends Activity implements OnItemClickListener {
@@ -37,10 +34,10 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 				e.printStackTrace();
 			}
 	        ArrayList<String> values =  new ArrayList<String>();
-	        
-	        for (int i = 0; i < quests.size(); i++){
-	        	values.add(quests.get(i).getName()); //speichert die Namen der Quest in die ArrayList
-	        }
+
+            for (Quest quest : quests) {
+                values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
+            }
 	        
 //	        values.add("HTL-M�ssingerstra�e");
 //	        values.add("FH-K�rnten");
@@ -72,35 +69,22 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        return true;
 	    }
 
-	    @Override
-	    public boolean onOptionsItemSelected(MenuItem item) {
-	        // Handle action bar item clicks here. The action bar will
-	        // automatically handle clicks on the Home/Up button, so long
-	        // as you specify a parent activity in AndroidManifest.xml.
-	        int id = item.getItemId();
-	        if (id == R.id.action_settings) {
-	            return true;
-	        }
-	        return super.onOptionsItemSelected(item);
-	    }
 
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-			
-			int iposition = position;
-			String itemValue = (String) list.getItemAtPosition(position);
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            String itemValue = (String) list.getItemAtPosition(position);
 	
 			
-			if(quests.get(iposition).getDtRegistration() == 2){
+			if(quests.get(position).getDtRegistration() == 2){
 				
 				Intent qrreader = new Intent (getApplicationContext(), MainActivity.class);
 				startActivity(qrreader);
 				
 			}
 			
-//			Toast.makeText(getApplicationContext(), "" + iposition + " " + itemValue, Toast.LENGTH_LONG).show();
+//			Toast.makeText(getApplicationContext(), "" + position + " " + itemValue, Toast.LENGTH_LONG).show();
 		}
 		
 	}
