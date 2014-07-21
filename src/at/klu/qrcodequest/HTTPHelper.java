@@ -51,7 +51,7 @@ public class HTTPHelper {
         }
     }
 
-    public static void makePostRequest(URL url, String postParameters) {
+    public static StringBuffer makePostRequest(URL url, String postParameters) {
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -67,6 +67,7 @@ public class HTTPHelper {
             PrintWriter out = new PrintWriter(urlConnection.getOutputStream());
             out.print(postParameters);
             out.close();
+            readStream(urlConnection.getInputStream());
 
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
@@ -77,6 +78,7 @@ public class HTTPHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return stringBuffer;
     }
 
     private static final char PARAMETER_DELIMITER = '&';
@@ -91,10 +93,13 @@ public class HTTPHelper {
                     parametersAsQueryString.append(PARAMETER_DELIMITER);
                 }
 
-                parametersAsQueryString.append(parameterName)
-                        .append(PARAMETER_EQUALS_CHAR)
-                        .append(URLEncoder.encode(
-                                parameters.get(parameterName)));
+                try {
+                    parametersAsQueryString.append(parameterName)
+                            .append(PARAMETER_EQUALS_CHAR)
+                            .append(URLEncoder.encode(parameters.get(parameterName), "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
 
                 firstParameter = false;
             }
