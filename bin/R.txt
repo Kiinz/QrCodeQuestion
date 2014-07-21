@@ -271,6 +271,7 @@ int drawable launcher_icon 0x7f020061
 int drawable questionbutton 0x7f020062
 int drawable share_via_barcode 0x7f020063
 int drawable shopper_icon 0x7f020064
+int drawable textfield_style1 0x7f020065
 int id action_bar 0x7f070028
 int id action_bar_activity_content 0x7f070015
 int id action_bar_container 0x7f070027
