@@ -2,6 +2,7 @@ package at.klu.qrcodequest;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -14,6 +15,7 @@ import java.util.Map;
 public class RegistrationActivity extends Activity {
 
     private TextView vornameText, nachnameText, spitznameText;
+    private ProgressBar bar;
     private CheckBox checkBox;
     private String vorname, nachname, spitzname, userID;
     private Boolean useName;
@@ -27,6 +29,7 @@ public class RegistrationActivity extends Activity {
         registrationActivity = this;
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
+        bar = (ProgressBar) findViewById(R.id.marker_progress);
         final Button registerButton = (Button) findViewById(R.id.button);
         vornameText = (EditText) findViewById(R.id.editText);
         nachnameText = (EditText) findViewById(R.id.editText2);
@@ -71,7 +74,8 @@ public class RegistrationActivity extends Activity {
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
                     try {
-                        HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
+                        new ProgressTask().execute();
+                        HTTPHelper.makePostRequest("http://195.171.127.102:8080/Quest/user/save", postParameter);
                     } catch (HTTPExceptions e) {
                         if (e.getMessage().equals("timeout")) {
                             Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
@@ -107,4 +111,24 @@ public class RegistrationActivity extends Activity {
         }
         return buffer.toString();
     }
+
+    private class ProgressTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute(){
+            bar.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected Void doInBackground(Void... arg0) {
+            //my stuff is here
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            bar.setVisibility(View.GONE);
+        }
+    }
+
 }
+
