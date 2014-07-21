@@ -63,7 +63,7 @@ public class HTTPHelper {
             StrictMode.setThreadPolicy(policy);
 
 //            postParameters = "test=" + postParameters;
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null);
 
             urlConnection.setDoOutput(true);
             urlConnection.setRequestMethod("POST");
