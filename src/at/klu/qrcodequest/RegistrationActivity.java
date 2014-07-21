@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 
@@ -16,8 +17,9 @@ public class RegistrationActivity extends Activity {
 
     private TextView vornameText, nachnameText, spitznameText;
     private ProgressBar bar;
+    Button registerButton;
     private CheckBox checkBox;
-    private String vorname, nachname, spitzname, userID;
+    private String vorname, nachname, spitzname, userID, postParameter;
     private Boolean useName;
     private User user;
     public static Activity registrationActivity;
@@ -30,7 +32,7 @@ public class RegistrationActivity extends Activity {
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         bar = (ProgressBar) findViewById(R.id.marker_progress);
-        final Button registerButton = (Button) findViewById(R.id.button);
+        registerButton = (Button) findViewById(R.id.button);
         vornameText = (EditText) findViewById(R.id.editText);
         nachnameText = (EditText) findViewById(R.id.editText2);
         spitznameText = (EditText) findViewById(R.id.editText3);
@@ -71,23 +73,12 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("nickname", spitzname);
                     userParameters.put("dtOwner", "2");
                     userParameters.put("active", "1");
-                    String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
-//                    String postParameter = UserMethodes.UsertoJSon(user);
-                    try {
-                        new ProgressTask().execute();
-                        HTTPHelper.makePostRequest("http://195.171.127.102:8080/Quest/user/save", postParameter);
-                    } catch (HTTPExceptions e) {
-                        if (e.getMessage().equals("timeout")) {
-                            Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
-                        } else if (e.getMessage().equals("falseStatusCode")) {
-                            Toast.makeText(getApplicationContext(), "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
-                        }
-                        registerButton.setClickable(true);
-                        return;
-                    }
+                    postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
+//                    postParameter = UserMethodes.UsertoJSon(user);
+                    new ProgressTask().execute();
 
-                    Intent intent = new Intent (getApplicationContext(),MainActivity.class);
-                    startActivity(intent);
+
+
 
                 }
             }
@@ -120,7 +111,28 @@ public class RegistrationActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
-            //my stuff is here
+            try {
+                HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
+            } catch (HTTPExceptions e) {
+                if (e.getMessage().equals("timeout")) {
+                    Handler handler = new Handler(getApplicationContext().getMainLooper());
+                    handler.post( new Runnable(){
+                        public void run(){
+                            Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();                        }
+                    });
+                } else if (e.getMessage().equals("falseStatusCode")) {
+                    Handler handler = new Handler(getApplicationContext().getMainLooper());
+                    handler.post( new Runnable(){
+                        public void run(){
+                            Toast.makeText(getApplicationContext(), "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                registerButton.setClickable(true);
+                return null;
+            }
+            Intent intent = new Intent (getApplicationContext(),MainActivity.class);
+            startActivity(intent);
             return null;
         }
 
