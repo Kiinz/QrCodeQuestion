@@ -55,6 +55,7 @@ public class HTTPHelper {
 
     public static StringBuffer makePostRequest(String urlString, String postParameters) {
         URL url = null;
+        stringBuffer.setLength(0);
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
@@ -80,13 +81,15 @@ public class HTTPHelper {
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
                 //TODO Exception werfen
-                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+                Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show(); 
+                
             }
-
+            return stringBuffer;
         } catch (IOException e) {
             e.printStackTrace();
+            return stringBuffer;
         }
-        return stringBuffer;
+       
     }
 
     private static final char PARAMETER_DELIMITER = '&';

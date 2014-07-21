@@ -69,10 +69,19 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("active", "1");
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
-                    HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
                     
-                    Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
-                    startActivity(intent);
+                    
+                    try {
+						HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
+						
+						Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+	                    startActivity(intent);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						Toast.makeText(getApplicationContext(), "Bei Übertragung ist ein Fehler aufgetreten", Toast.LENGTH_LONG);
+					}
+                    
 
                 }
             }

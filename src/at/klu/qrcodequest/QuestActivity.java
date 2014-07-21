@@ -29,7 +29,6 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        
 	        list = (ListView)findViewById(R.id.listView1);
 	        list.setOnItemClickListener(this);
-	        System.out.println(HTTPHelper.makeGetRequest("http://192.168.136.84/nodes.html").toString());
 	        
 	        try {
 				quests = QuestsMethodes.getQuestsfromJSONString(); //Einlesen der Quest
@@ -43,17 +42,17 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        	values.add(quests.get(i).getName()); //speichert die Namen der Quest in die ArrayList
 	        }
 	        
-//	        values.add("HTL-Mössingerstraße");
-//	        values.add("FH-Kärnten");
+//	        values.add("HTL-Mï¿½ssingerstraï¿½e");
+//	        values.add("FH-Kï¿½rnten");
 //	        values.add("Hauptschule Neumarkt");
-//	        values.add("HTL-Mössingerstraße");
-//	        values.add("FH-Kärnten");
+//	        values.add("HTL-Mï¿½ssingerstraï¿½e");
+//	        values.add("FH-Kï¿½rnten");
 //	        values.add("Hauptschule Neumarkt");
-//	        values.add("HTL-Mössingerstraße");
-//	        values.add("FH-Kärnten");
+//	        values.add("HTL-Mï¿½ssingerstraï¿½e");
+//	        values.add("FH-Kï¿½rnten");
 //	        values.add("Hauptschule Neumarkt");
-//	        values.add("HTL-Mössingerstraße");
-//	        values.add("FH-Kärnten");
+//	        values.add("HTL-Mï¿½ssingerstraï¿½e");
+//	        values.add("FH-Kï¿½rnten");
 //	        values.add("Hauptschule Neumarkt");
 	        
 	        //ArrayAdapter<String>data = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,android.R.id.text1, values);
