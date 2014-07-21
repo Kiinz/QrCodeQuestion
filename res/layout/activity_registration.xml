@@ -68,6 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/nameInBestenliste"
+            android:button="@drawable/checkbox_background"
             android:id="@+id/checkBox"
             android:layout_below="@+id/textView4"
             android:layout_alignStart="@+id/textView4" android:layout_marginTop="28dp" android:checked="false"
