@@ -49,7 +49,7 @@ public class Question {
 
     public void getQuestionData(int id) {
         JSONObject obj;
-        String questionsString = HTTPHelper.makeGetRequest("http://192.168.136.81?id=" + id).toString();
+        String questionsString = HTTPHelper.makeGetRequest("http://192.168.136.81/show/" + id).toString();
         try {
             obj = new JSONObject(questionsString);
             active = obj.getInt("active");

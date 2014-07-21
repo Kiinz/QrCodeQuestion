@@ -20,14 +20,11 @@ import java.util.List;
 
 public class QuestionsActivity extends Activity {
 
-    private ArrayList<QuestionWithAnswers> questionWithAnswersList = new ArrayList<QuestionWithAnswers>();
-    private ArrayList<String> answerList = new ArrayList<String>();
-    private ArrayList<String> answerList2 = new ArrayList<String>();
+    private static ArrayList<QuestionWithAnswers> questionWithAnswersList = new ArrayList<QuestionWithAnswers>();
     private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
     private List<Integer> randomKeys;
-    private Integer[] numbers;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,47 +98,13 @@ public class QuestionsActivity extends Activity {
 
     public void getQuestionsWithAnswers() {
 
-        QuestionWithAnswers questionWithAnswers;
-
-        answerList.add("Ja");
-        answerList.add("Bla");
-        answerList.add("Yo");
-        answerList.add("asdf");
-        answerList.add("fgdh");
-        answerList.add("Yhzthto");
-        answerList.add("hjmjhm");
-        answerList.add("bvcvbv");
-        answerList.add("dsdff");
-
-        answerList2.add("asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdad");
-        answerList2.add("fdgh");
-        answerList2.add("vbbdf");
-        answerList2.add("sdffds");
-        answerList2.add("dfgs");
-        answerList2.add("sdgfg");
-        answerList2.add("gdfg");
-        answerList2.add("gfdgfd");
-        answerList2.add("xxxxxx");
-
-        String[] questionsString = getQuestions();
-
-        questionWithAnswers = new QuestionWithAnswers();
-        questionWithAnswers.setQuestion("Wie gehts?");
-
-        questionWithAnswers.setAnswerList(answerList);
-        //TODO Get Answers dynamically
-
-        QuestionWithAnswers qwa2 = new QuestionWithAnswers("Und sonst?", answerList2);
-
-        questionWithAnswersList.add(questionWithAnswers);
-        questionWithAnswersList.add(qwa2);
-
+        getQuestions();
         shuffleAnswers();
     }
 
     public void shuffleAnswers() {
         answerSparseArray = questionWithAnswersList.get(questionNumber).getAnswerSparseArray(); //TODO Buggy?
-        numbers = new Integer[answerSparseArray.size()];
+        Integer[] numbers = new Integer[answerSparseArray.size()];
         for (int i = 0; i < answerSparseArray.size(); i++) {
             numbers[i] = i;
         }
@@ -185,6 +148,11 @@ public class QuestionsActivity extends Activity {
 
                 Question question = new Question(active, seq, dtEval, name, descr, o1,o2,o3,o4,o5,o6,o7,o8,o9,o10);
                 questions.add(question);
+
+                ArrayList<String> answerList = new ArrayList<String>();
+                String[] answerStringList = {o1,o2,o3,o4,o5,o6,o7,o8,o9,o10};
+                answerList.addAll(Arrays.asList(answerStringList));
+                questionWithAnswersList.add(new QuestionWithAnswers(name, answerList));
             }
         } catch (JSONException e) {
             e.printStackTrace();
