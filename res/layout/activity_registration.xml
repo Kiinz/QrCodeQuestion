@@ -24,7 +24,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/nachname"
             android:id="@+id/textView3" android:layout_below="@+id/textView2" android:layout_alignStart="@+id/textView2"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp" android:paddingRight="10dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,9 +39,9 @@
             android:background="@drawable/textfield_style1"
             android:singleLine="true"
             android:inputType="textPersonName"
-            android:layout_marginTop="65dp" android:layout_marginRight="5dp"
-            android:layout_toRightOf="@+id/textView3"
-            android:layout_alignParentRight="true" android:layout_alignParentEnd="true"/>
+            android:layout_marginTop="60dp" android:layout_marginRight="5dp"
+            android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
+            android:layout_toRightOf="@+id/textView3"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,10 +49,10 @@
             android:background="@drawable/textfield_style1"
             android:singleLine="true"
             android:inputType="textPersonName"
-            android:layout_below="@+id/editText" android:layout_marginTop="35dp"
-            android:layout_alignLeft="@+id/editText"
-            android:layout_alignStart="@+id/editText" android:layout_alignRight="@+id/editText"
-            android:layout_alignEnd="@+id/editText"/>
+            android:layout_below="@+id/editText" android:layout_marginTop="24dp"
+            android:layout_alignRight="@+id/editText"
+            android:layout_alignEnd="@+id/editText"
+            android:layout_toRightOf="@+id/textView3"/>
     <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:background="@drawable/textfield_style1"
             android:singleLine="true"
             android:inputType="textNoSuggestions"
-            android:layout_below="@+id/editText2" android:layout_marginTop="35dp"
+            android:layout_below="@+id/editText2" android:layout_marginTop="26dp"
             android:layout_alignLeft="@+id/editText"
             android:layout_alignStart="@+id/editText" android:layout_alignRight="@+id/editText2"
             android:layout_alignEnd="@+id/editText2"/>
