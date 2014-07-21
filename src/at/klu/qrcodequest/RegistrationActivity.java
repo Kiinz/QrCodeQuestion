@@ -62,8 +62,7 @@ public class RegistrationActivity extends Activity {
                 } else { //Alle Eingaben valid
                     registerButton.setClickable(false);
 
-                    userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-                    userID = sha1(userID);
+                    userID = StartActivity.getUserID();
                     user = new User(1, vorname, nachname, spitzname, userID);
                     Map<String, String> userParameters = new HashMap<String, String>();
                     userParameters.put("userId", userID);
@@ -79,24 +78,6 @@ public class RegistrationActivity extends Activity {
                 }
             }
         });
-    }
-
-    private String sha1(String s) {
-        MessageDigest md = null;
-        try {
-            md = MessageDigest.getInstance("SHA-1");
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        assert md != null; //Programm bricht ab wenn md null
-        md.update(s.getBytes());
-        byte[] bytes = md.digest();
-        StringBuilder buffer = new StringBuilder();
-        for (byte aByte : bytes) {
-            String tmp = Integer.toString((aByte & 0xff) + 0x100, 16).substring(1);
-            buffer.append(tmp);
-        }
-        return buffer.toString();
     }
 
     private class ProgressTask extends AsyncTask<Void, Void, Void> {

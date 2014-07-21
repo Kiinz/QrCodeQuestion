@@ -12,16 +12,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class StartActivity extends Activity implements OnClickListener {
-	
-	private Button start;
-    private String userID;
+
+    private static String userID;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-		
-		start = (Button)findViewById(R.id.button1);
+
+        Button start = (Button) findViewById(R.id.button1);
 		start.setOnClickListener(this);
 		
 		userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
@@ -74,7 +73,7 @@ public class StartActivity extends Activity implements OnClickListener {
         return buffer.toString();
     }
 
-    public String getUserID() {
+    public static String getUserID() {
         return userID;
     }
 }
