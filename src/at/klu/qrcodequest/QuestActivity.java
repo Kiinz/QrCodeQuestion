@@ -29,7 +29,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        
 	        list = (ListView)findViewById(R.id.listView1);
 	        list.setOnItemClickListener(this);
-	       
+	        System.out.println(HTTPHelper.makeGetRequest("http://192.168.136.84/nodes.html").toString());
 	        
 	        try {
 				quests = QuestsMethodes.getQuestsfromJSONString(); //Einlesen der Quest

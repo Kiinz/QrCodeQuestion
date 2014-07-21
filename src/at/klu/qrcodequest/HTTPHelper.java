@@ -33,6 +33,7 @@ public class HTTPHelper {
 
     private static void readStream(InputStream in) {
         BufferedReader reader = null;
+        stringBuffer.setLength(0);
         try {
             reader = new BufferedReader(new InputStreamReader(in));
             String line;

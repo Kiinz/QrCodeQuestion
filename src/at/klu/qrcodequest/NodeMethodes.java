@@ -13,6 +13,7 @@ public static ArrayList<Node> getNodesfromJSONString() throws JSONException{
 		
     	ArrayList <Node> nodes = new ArrayList<Node>();
     	
+    	System.out.println(HTTPHelper.makeGetRequest("http://192.168.136.84/nodes.html").toString());
     	JSONObject obj = new JSONObject(HTTPHelper.makeGetRequest("http://192.168.136.84/nodes.html").toString());
     	JSONArray array = obj.getJSONArray("Nodes");
     	
