@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Map;
@@ -51,7 +52,13 @@ public class HTTPHelper {
         }
     }
 
-    public static StringBuffer makePostRequest(URL url, String postParameters) {
+    public static StringBuffer makePostRequest(String urlString, String postParameters) {
+        URL url = null;
+        try {
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
         try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);

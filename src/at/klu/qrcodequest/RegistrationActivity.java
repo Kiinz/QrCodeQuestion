@@ -21,7 +21,6 @@ public class RegistrationActivity extends Activity {
     private CheckBox checkBox;
     private String vorname, nachname, spitzname, userID;
     private Boolean useName;
-    private Map<String, String> parameterHashMap;
     private User user;
     public static Activity registrationActivity;
 
@@ -73,12 +72,8 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("active", "1");
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
+                    HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
 
-                    try {
-                        HTTPHelper.makePostRequest(new URL(" http://193.171.127.102:8080/Quest/user/save"), postParameter);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         });
