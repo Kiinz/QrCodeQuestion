@@ -1,5 +1,6 @@
 package at.klu.qrcodequest;
 
+import android.content.Context;
 import android.os.StrictMode;
 import android.widget.Toast;
 
@@ -50,7 +51,7 @@ public class HTTPHelper {
         }
     }
 
-    public static StringBuffer makePostRequest(String urlString, String postParameters) throws StatusCodeException {
+    public static StringBuffer makePostRequest(String urlString, String postParameters, Context context) throws HTTPExceptions {
         URL url = null;
         try {
             url = new URL(urlString);
@@ -77,11 +78,11 @@ public class HTTPHelper {
 
             int statusCode = urlConnection.getResponseCode();
             if (statusCode != HttpURLConnection.HTTP_OK) {
-                throw new StatusCodeException();
+                throw new HTTPExceptions("falseStatusCode");
             }
 
         } catch (SocketTimeoutException e) {
-            Toast.makeText(RegistrationActivity.registrationActivity, "Fehler: Anfrage dauerte zu lange, überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
+            throw new HTTPExceptions("timeout");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -115,7 +116,8 @@ public class HTTPHelper {
     }
 }
 
-class StatusCodeException extends Exception {
-    public StatusCodeException() {
+class HTTPExceptions extends Exception {
+    public HTTPExceptions(String reason) {
+        super(reason);
     }
 }

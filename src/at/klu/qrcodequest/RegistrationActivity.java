@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-import java.net.SocketTimeoutException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -73,10 +72,14 @@ public class RegistrationActivity extends Activity {
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
                     try {
-                        HTTPHelper.makePostRequest("http://195.171.127.102:8080/Quest/user/save", postParameter);
-
-                    } catch (StatusCodeException e) {
-                        Toast.makeText(getApplicationContext(), "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+                        HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter, getApplicationContext());
+                    } catch (HTTPExceptions e) {
+                        if (e.getMessage().equals("timeout")) {
+                            Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
+                        } else if (e.getMessage().equals("falseStatusCode")) {
+                            Toast.makeText(getApplicationContext(), "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+                        }
+                        registerButton.setClickable(true);
                         return;
                     }
 
