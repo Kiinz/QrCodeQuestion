@@ -2,7 +2,6 @@ package at.klu.qrcodequest;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
@@ -32,8 +31,7 @@ public class QuestionsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
 
-        getQuestions();
-        shuffleAnswers();
+        getQuestionsWithAnswers();
         generateNextQuestionWithAnswers();
 
 
@@ -47,8 +45,7 @@ public class QuestionsActivity extends Activity {
             shuffleAnswers();
             generateNextQuestionWithAnswers();
         } else {
-            Intent intent = new Intent (getApplicationContext(),MainActivity.class);
-            startActivity(intent);
+            //TODO Go to last View
         }
     }
 
@@ -88,8 +85,7 @@ public class QuestionsActivity extends Activity {
                         questionNumber++;
                         shuffleAnswers();
                     } else {
-                        Intent intent = new Intent (getApplicationContext(),MainActivity.class);
-                        startActivity(intent);
+                        //TODO Go to next View
                     }
                     generateNextQuestionWithAnswers();
                 }
@@ -97,6 +93,12 @@ public class QuestionsActivity extends Activity {
             bt.setOnClickListener(buttonListener);
         }
 
+    }
+
+    public void getQuestionsWithAnswers() {
+
+        getQuestions();
+        shuffleAnswers();
     }
 
     public void shuffleAnswers() {
@@ -155,4 +157,7 @@ public class QuestionsActivity extends Activity {
         }
     }
 
+    public Context getContext() {
+        return getApplicationContext();
+    }
 }
