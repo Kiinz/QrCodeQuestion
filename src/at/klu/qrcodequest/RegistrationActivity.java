@@ -27,7 +27,7 @@ public class RegistrationActivity extends Activity {
         registrationActivity = this;
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
-        final Button registerButton = (Button) findViewById(R.id.button);
+        Button registerButton = (Button) findViewById(R.id.button);
         vornameText = (EditText) findViewById(R.id.editText);
         nachnameText = (EditText) findViewById(R.id.editText2);
         spitznameText = (EditText) findViewById(R.id.editText3);
@@ -35,8 +35,6 @@ public class RegistrationActivity extends Activity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerButton.setClickable(false);
-
                 vorname = vornameText.getText().toString();
                 nachname = nachnameText.getText().toString();
                 spitzname = spitznameText.getText().toString();
@@ -71,7 +69,11 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("active", "1");
                     String postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    String postParameter = UserMethodes.UsertoJSon(user);
+<<<<<<< HEAD
+                    
+                    
                     try {
+<<<<<<< HEAD
                         HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter, getApplicationContext());
                     } catch (HTTPExceptions e) {
                         if (e.getMessage().equals("timeout")) {
@@ -84,7 +86,24 @@ public class RegistrationActivity extends Activity {
                     }
 
                     Intent intent = new Intent (getApplicationContext(),MainActivity.class);
+=======
+						HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
+						
+						Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+	                    startActivity(intent);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						Toast.makeText(getApplicationContext(), "Bei Übertragung ist ein Fehler aufgetreten", Toast.LENGTH_LONG);
+					}
+                    
+=======
+                    HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
+                    
+                    Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+>>>>>>> origin/master
                     startActivity(intent);
+>>>>>>> parent of 439e7e2... HTTPException
 
                 }
             }

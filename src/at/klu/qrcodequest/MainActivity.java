@@ -33,8 +33,8 @@ public class MainActivity extends Activity {
 					//Es wird eine neues Intent aufgerufen (QR-Code Reader)
 					Intent intent = new Intent(
 							"com.google.zxing.client.android.SCAN");
-					intent.putExtra("SCAN_MODE", "QR_CODE_MODE,PRODUCT_MODE");//für das Intent können zusätzliche Optionen gesetzt werden
-					startActivityForResult(intent, 0); //Starten der Activity, die ein Ergebnis (Result) zurückliefert
+					intent.putExtra("SCAN_MODE", "QR_CODE_MODE,PRODUCT_MODE");//es zusÃ¤tzliche Optionen gesetzt werden
+					startActivityForResult(intent, 0); //Starten der Activity, die ein Ergebnis (Result) zurÃ¼ckliefert
 				
 				} catch (Exception e) {
 					e.printStackTrace();
