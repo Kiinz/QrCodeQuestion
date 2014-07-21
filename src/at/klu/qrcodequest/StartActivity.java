@@ -13,8 +13,9 @@ import android.widget.Button;
 
 public class StartActivity extends Activity implements OnClickListener {
 	
-	Button start;
-	String userID;
+	private Button start;
+    private String userID;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -71,5 +72,9 @@ public class StartActivity extends Activity implements OnClickListener {
             buffer.append(tmp);
         }
         return buffer.toString();
+    }
+
+    public String getUserID() {
+        return userID;
     }
 }

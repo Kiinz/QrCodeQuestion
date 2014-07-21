@@ -40,8 +40,6 @@ public class RegistrationActivity extends Activity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                registerButton.setClickable(false);
-
                 vorname = vornameText.getText().toString();
                 nachname = nachnameText.getText().toString();
                 spitzname = spitznameText.getText().toString();
@@ -62,6 +60,7 @@ public class RegistrationActivity extends Activity {
                     Toast.makeText(getApplicationContext(), "Bitte geben Sie einen gültigen Namen ein!", Toast.LENGTH_LONG).show();
 
                 } else { //Alle Eingaben valid
+                    registerButton.setClickable(false);
 
                     userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
                     userID = sha1(userID);
@@ -75,11 +74,8 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("active", "1");
                     postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 //                    postParameter = UserMethodes.UsertoJSon(user);
+
                     new ProgressTask().execute();
-
-
-
-
                 }
             }
         });
