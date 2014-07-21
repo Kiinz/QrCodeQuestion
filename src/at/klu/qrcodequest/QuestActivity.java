@@ -32,7 +32,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	       
 	        
 	        try {
-				quests = QuestsMethodes.getQuestsfromJSONString();
+				quests = QuestsMethodes.getQuestsfromJSONString(); //Einlesen der Quest
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -40,7 +40,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        ArrayList<String> values =  new ArrayList<String>();
 	        
 	        for (int i = 0; i < quests.size(); i++){
-	        	values.add(quests.get(i).getName());
+	        	values.add(quests.get(i).getName()); //speichert die Namen der Quest in die ArrayList
 	        }
 	        
 //	        values.add("HTL-Mössingerstraße");
