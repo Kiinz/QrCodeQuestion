@@ -43,7 +43,6 @@ public class QuestionsActivity extends Activity {
 
             questionNumber--;
             shuffleAnswers();
-            System.out.println(" a d");
             generateNextQuestionWithAnswers();
         } else {
             //TODO Go to last View
@@ -113,8 +112,8 @@ public class QuestionsActivity extends Activity {
         Collections.shuffle(randomKeys); //Zufällige Keys, um die Antworten zu mischen
     }
 
-    public static String[] getQuestions() {
-        int active, seq, dtEval;
+    public static void getQuestions() {
+        int id, nodePk, active, seq, dtEval;
         String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
 
         String questionsString = HTTPHelper.makeGetRequest("http://192.168.136.81").toString();
@@ -130,6 +129,8 @@ public class QuestionsActivity extends Activity {
 
                 JSONObject questionJSON = array.getJSONObject(i);
 
+                id = questionJSON.getInt("id");
+                nodePk = questionJSON.getInt("nodePk");
                 active = questionJSON.getInt("active");
                 seq = questionJSON.getInt("sequence");
                 dtEval = questionJSON.getInt("dtEvaluation");
@@ -146,20 +147,14 @@ public class QuestionsActivity extends Activity {
                 o9 = questionJSON.getString("option9");
                 o10 = questionJSON.getString("option10");
 
-                Question question = new Question(active, seq, dtEval, name, descr, o1,o2,o3,o4,o5,o6,o7,o8,o9,o10);
+                Question question = new Question(id, nodePk, active, seq, dtEval, name, descr, o1,o2,o3,o4,o5,o6,o7,o8,o9,o10);
                 questions.add(question);
 
-                ArrayList<String> answerList = new ArrayList<String>();
-                String[] answerStringList = {o1,o2,o3,o4,o5,o6,o7,o8,o9,o10};
-                answerList.addAll(Arrays.asList(answerStringList));
-                questionWithAnswersList.add(new QuestionWithAnswers(name, answerList));
+//                questionWithAnswersList.add(question);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
-        return questions.toArray(new String[questions.size()]);
     }
 
     public Context getContext() {

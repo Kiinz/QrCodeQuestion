@@ -16,7 +16,7 @@ public class QuestionWithAnswers {
     public QuestionWithAnswers(String question, ArrayList<String> answerList) {
         this.question = question;
         this.answerList = answerList;
-        createSparseArray(answerList);
+        createSparseArray(answerList); //For shuffling with remembering the right answer
     }
 
     public SparseArray<String> getAnswerSparseArray() {
