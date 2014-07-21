@@ -100,5 +100,9 @@ public class UserMethodes {
     	}
     	return users;
     }
+
+//    public static boolean hasUserQuest(String questPk, String userPk){
+//    	boolean eintrag;
+//    }
 }
 
