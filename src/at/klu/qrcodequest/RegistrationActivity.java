@@ -1,6 +1,8 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -117,6 +119,32 @@ public class RegistrationActivity extends Activity {
         protected void onPostExecute(Void result) {
             bar.setVisibility(View.GONE);
         }
+    }
+    @Override
+	public void onBackPressed(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	
+    	builder.setTitle("Programm beenden");
+    	builder.setMessage("Wollen sie das Programm wirklich beenden?");
+    	
+    	builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				finish();
+				
+			}
+		});
+    	builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				
+				
+			}
+		});
+    	AlertDialog dialog = builder.create();
+    	dialog.show();
     }
 
 }
