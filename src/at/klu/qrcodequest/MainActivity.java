@@ -57,7 +57,10 @@ public class MainActivity extends Activity {
 				textField1.setText(result); //das Scan-Result wird ausgegeben (Daten von gelesen QR-Code)
 //				if(NodeMethodes.checkUserQuestNode == true){
 //					Toast.makeText(this.getApplicationContext(), "Sie haben diesen Quest bereits abgeschlossen", Toast.LENGTH_LONG).show();
-//				}
+//				}else{
+				Intent questions = new Intent (getApplicationContext(), QuestionsActivity.class);
+				startActivity(questions);
+//			}
 					
 			} else if (resultCode == RESULT_CANCELED) {
 			}
