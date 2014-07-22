@@ -50,10 +50,15 @@ public class MainActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		if (requestCode == 0) {		//RequestCode dient zu identifizierung der Activity, die das Ergebnis liefert
 
-			if (resultCode == RESULT_OK) {	
-				textField1.setText(intent.getStringExtra("SCAN_RESULT")); //das Scan-Result wird ausgegeben (Daten von gelesen QR-Code)
+			if (resultCode == RESULT_OK) {
+				String result;
+				result = intent.getStringExtra("SCAN_RESULT");
+				textField1.setText(result); //das Scan-Result wird ausgegeben (Daten von gelesen QR-Code)
+//				if(NodeMethodes.checkUserQuestNode == true){
+//					Toast.makeText(this.getApplicationContext(), "Sie haben diesen Quest bereits abgeschlossen", Toast.LENGTH_LONG).show();
+//				}
+					
 			} else if (resultCode == RESULT_CANCELED) {
-				
 			}
 		}
 	}
