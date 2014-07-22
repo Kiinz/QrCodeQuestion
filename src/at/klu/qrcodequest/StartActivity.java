@@ -18,6 +18,7 @@ public class StartActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
+		AppDown.register(this);
 
         Button start = (Button) findViewById(R.id.button1);
 		start.setOnClickListener(this);

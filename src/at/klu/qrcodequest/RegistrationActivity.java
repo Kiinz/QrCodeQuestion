@@ -31,6 +31,7 @@ public class RegistrationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         registrationActivity = this;
+        AppDown.register(this);
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         bar = (ProgressBar) findViewById(R.id.marker_progress);
@@ -131,7 +132,7 @@ public class RegistrationActivity extends Activity {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				finish();
+				AppDown.allDown();
 				
 			}
 		});
