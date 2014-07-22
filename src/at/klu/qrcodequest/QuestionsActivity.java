@@ -30,6 +30,7 @@ public class QuestionsActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_questions);
+        AppDown.register(this);
 
         getQuestionsWithAnswers();
         generateNextQuestionWithAnswers();

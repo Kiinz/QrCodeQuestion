@@ -67,6 +67,7 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bestlist);
+		AppDown.register(this);
 		
 		//Titel in die Tabelle einfï¿½gen
 //        TableLayout layout = (TableLayout) findViewById(R.id.table);
@@ -139,7 +140,7 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 public void setRows(ArrayList<Daten>daten){
     	
     	TableLayout layout = (TableLayout) findViewById(R.id.table);
-    	int length = daten.size(); //Länge der Array List abfragen
+    	int length = daten.size(); //Lï¿½nge der Array List abfragen
     	
     	
     	for (int x = 0; x < length; x++){
@@ -157,7 +158,7 @@ public void setRows(ArrayList<Daten>daten){
     		
 //    		Drawable hintergrund = getResources().getDrawable(R.drawable.bestenliste_style); //
     		
-    		//textViews erhalten einen Hintergrund mit schwarzem Rahmen für die Tabellenansicht
+    		//textViews erhalten einen Hintergrund mit schwarzem Rahmen fï¿½r die Tabellenansicht
     		text1.setBackgroundResource(R.drawable.bestenliste_row1);
     		text2.setBackgroundResource(R.drawable.bestenliste_style2);
     		text3.setBackgroundResource(R.drawable.bestenliste_style2);
@@ -185,14 +186,14 @@ public void setRows(ArrayList<Daten>daten){
     		text1.setText("" + benutzer);
     		
     		
-    		row.addView(text1);//einer Reihe wird ein textView hinzugfügt
+    		row.addView(text1);//einer Reihe wird ein textView hinzugfï¿½gt
     		row.addView(text2);
     		row.addView(text3);
     		row.addView(text4);
     		
 //    		int i = x+1;
     		
-    		layout.addView(row,x); //Reihe wird zum TableLayout hinzugefügt
+    		layout.addView(row,x); //Reihe wird zum TableLayout hinzugefï¿½gt
     		
     		
     	}

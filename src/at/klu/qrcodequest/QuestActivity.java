@@ -23,6 +23,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_quest);
+	        AppDown.register(this);
 	        
 	        list = (ListView)findViewById(R.id.listView1);
 	        list.setOnItemClickListener(this);
