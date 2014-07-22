@@ -2,6 +2,7 @@ package at.klu.qrcodequest;
 
 import java.util.ArrayList;
 
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,5 +38,22 @@ public static ArrayList<Node> getNodesfromJSONString() throws JSONException{
 	}
     	return nodes;
 }
+
+//public static boolean checkUserQuestNode (int userQuestPk, String nodePk){
+//	
+//	boolean status;
+//	
+//	String text = HTTPHelper.makeGetRequest("").toString();
+//	
+//	return status;
+//}
+
+//public static void setUserQuestNode(String notePk, String userQuestPK){
+//	
+//	HTTPHelper.makePostRequest("", postParameters);
+//	
+//}
 }
+
+
 
