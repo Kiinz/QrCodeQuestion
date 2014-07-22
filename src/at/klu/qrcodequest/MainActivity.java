@@ -58,8 +58,8 @@ public class MainActivity extends Activity {
 //				if(NodeMethodes.checkUserQuestNode == true){
 //					Toast.makeText(this.getApplicationContext(), "Sie haben diesen Quest bereits abgeschlossen", Toast.LENGTH_LONG).show();
 //				}else{
-				Intent questions = new Intent (getApplicationContext(), QuestionsActivity.class);
-				startActivity(questions);
+//				Intent questions = new Intent (getApplicationContext(), QuestionsActivity.class);
+//				startActivity(questions);
 //			}
 					
 			} else if (resultCode == RESULT_CANCELED) {

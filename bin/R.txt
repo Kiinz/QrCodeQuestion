@@ -599,6 +599,7 @@ int string weiter 0x7f0c0097
 int string wifi_changing_network 0x7f0c0081
 int string wifi_ssid_label 0x7f0c0082
 int string wifi_type_label 0x7f0c0083
+int string willkommen 0x7f0c0098
 int string zxing_url 0x7f0c0084
 int style AppBaseTheme 0x7f0d008b
 int style AppTheme 0x7f0d008c
