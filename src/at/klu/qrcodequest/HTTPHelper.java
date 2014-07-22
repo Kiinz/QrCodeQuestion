@@ -87,6 +87,7 @@ public class HTTPHelper {
             throw new HTTPExceptions("timeout");
         } catch (IOException e) {
             e.printStackTrace();
+            throw new HTTPExceptions("falseStatusCode");
         }
         return stringBuffer;
     }
