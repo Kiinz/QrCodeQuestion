@@ -11,20 +11,22 @@ import java.util.Map;
 
 public class HTTPHelper {
 
+    private static HttpURLConnection urlConnection;
     private static StringBuffer stringBuffer = new StringBuffer();
 
 
     public static StringBuffer makeGetRequest(String urlString) {
         try {
             URL url = new URL(urlString);
-            StrictMode.ThreadPolicy policy = new StrictMode.
-                    ThreadPolicy.Builder().permitAll().build();
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            readStream(con.getInputStream());
+            urlConnection = (HttpURLConnection) url.openConnection();
+            readStream(urlConnection.getInputStream());
             return stringBuffer;
-        } catch (Exception e) {
+        } catch (Exception e) { //TODO Exceptions
             e.printStackTrace();
+        } finally {
+            urlConnection.disconnect();
         }
         return null;
     }
@@ -62,34 +64,39 @@ public class HTTPHelper {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
 
-//            postParameters = "test=" + postParameters;
-            HttpURLConnection urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null); //Check if URL!=null and open Connection
+            urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null); //Check if URL!=null and open Connection
+            if (urlConnection != null) {
+                urlConnection.setDoOutput(true);
+                urlConnection.setRequestMethod("POST");
+                urlConnection.setConnectTimeout(10000);
+                urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
+                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
 
-            urlConnection.setDoOutput(true);
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setConnectTimeout(10000);
-            urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
-            urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-            urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
+                PrintWriter out = new PrintWriter(urlConnection.getOutputStream()); //Post parameters
+                out.print(postParameters);
+                out.close();
 
-            PrintWriter out = new PrintWriter(urlConnection.getOutputStream()); //Post parameters
-            out.print(postParameters);
-            out.close();
+                int statusCode = urlConnection.getResponseCode();
+                if (statusCode != HttpURLConnection.HTTP_OK) {  //!=200
+                    throw new HTTPExceptions("falseStatusCode");
+                }
 
-            int statusCode = urlConnection.getResponseCode();
-            if (statusCode != HttpURLConnection.HTTP_OK) {  //!=200
-                throw new HTTPExceptions("falseStatusCode");
+                readStream(urlConnection.getInputStream()); //Antwort auslesen
             }
-
-            readStream(urlConnection.getInputStream()); //Antwort auslesen
 
         } catch (SocketTimeoutException e) {
             throw new HTTPExceptions("timeout");
         } catch (IOException e) {
             e.printStackTrace();
             throw new HTTPExceptions("falseStatusCode");
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
         }
         return stringBuffer;
+
     }
 
     private static final char PARAMETER_DELIMITER = '&';
