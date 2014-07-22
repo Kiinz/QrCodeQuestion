@@ -1,6 +1,8 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import org.json.JSONException;
 
 import java.util.ArrayList;
@@ -87,6 +90,33 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 			
 //			Toast.makeText(getApplicationContext(), "" + position + " " + itemValue, Toast.LENGTH_LONG).show();
 		}
+		
+		@Override
+		public void onBackPressed(){
+	    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	    	
+	    	builder.setTitle("Programm beenden");
+	    	builder.setMessage("Wollen sie das Programm wirklich beenden?");
+	    	
+	    	builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					AppDown.allDown();
+					
+				}
+			});
+	    	builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					
+					
+				}
+			});
+	    	AlertDialog dialog = builder.create();
+	    	dialog.show();
+	    }
 		
 	}
 
