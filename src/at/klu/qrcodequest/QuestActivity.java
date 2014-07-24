@@ -32,7 +32,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        list.setOnItemClickListener(this);
 	        
 	        try {
-				quests = QuestsMethodes.getQuestsfromJSONString(); //Einlesen der Quest
+				quests = QuestsMethodes.getQuests(); //Einlesen der Quest
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

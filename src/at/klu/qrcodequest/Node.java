@@ -30,6 +30,10 @@ public class Node {
 		this.description = description;
 		this.location = location;
 	}
+	
+	public Node(int id){
+		this.id = id;
+	}
 
 	public Node(int id, int questPk, int active, int sequence,
 			int dtRegistration, String registrationTarget1,

@@ -1,9 +1,11 @@
 package at.klu.qrcodequest;
 
 import java.util.ArrayList;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 public class QuestsMethodes {
 
@@ -34,4 +36,47 @@ public class QuestsMethodes {
 	}
     	return quests;
 }
+	
+	public static ArrayList<Quest> getQuests() throws JSONException{
+		
+		ArrayList<Quest> quests = new ArrayList<Quest>();
+		
+		String json = "{Quests:" + HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest.json").toString() + "}";
+		System.out.println("" + json);
+		
+		
+		JSONObject obj = new JSONObject(json);
+		JSONArray array = obj.getJSONArray("Quests");
+		
+		for (int i = 0; i < array.length(); i++){
+			JSONObject quest = array.getJSONObject(i);
+			String name = quest.getString("name");
+			Quest quest1 = new Quest(name);
+			quests.add(quest1);
+			
+		}
+		System.out.println("" + json);
+		return quests;
+	}
+public static ArrayList<Node> getNodes(int questPk) throws JSONException{
+		
+		ArrayList<Node> nodes = new ArrayList<Node>();
+		
+		String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json").toString();
+		System.out.println("" + json);
+		
+		JSONObject obj = new JSONObject(json);
+		JSONArray array = obj.getJSONArray("nodes");
+		
+		for (int i = 0; i < array.length(); i++){
+			JSONObject node = array.getJSONObject(i);
+			int id = node.getInt("id");
+			
+			Node node1 = new Node(id);
+			nodes.add(node1);
+			
+			
+		}
+		return nodes;
+	}
 }
