@@ -76,7 +76,7 @@ public class HTTPHelper {
                 PrintWriter out = new PrintWriter(urlConnection.getOutputStream()); //Post parameters
                 out.print(postParameters);
                 out.close();
-
+//
                 int statusCode = urlConnection.getResponseCode();
                 if (statusCode != HttpURLConnection.HTTP_OK) {  //!=200
                     throw new HTTPExceptions("falseStatusCode");
@@ -89,7 +89,7 @@ public class HTTPHelper {
             throw new HTTPExceptions("timeout");
         } catch (IOException e) {
             e.printStackTrace();
-            throw new HTTPExceptions("falseStatusCode");
+//            throw new HTTPExceptions("falseStatusCode");
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
