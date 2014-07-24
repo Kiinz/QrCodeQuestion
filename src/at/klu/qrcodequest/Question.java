@@ -9,23 +9,27 @@ import java.util.Arrays;
  * Created by Messna on 17.07.2014.
  */
 public class Question {
-    private int id, nodePk, active, sequence, dtEvaluation;
+    private int nodePk, sequence;
+    private Boolean active;
     private String name, description, option1, option2, option3, option4, option5, option6, option7, option8, option9, option10;
     private SparseArray<String> answerSparseArray;
 
 
-    public Question(int id, int nodePk, int active, int seq, int dtEval, String name, String descr, String o1, String o2, String o3, String o4, String o5, String o6, String o7, String o8, String o9, String o10) {
-        this.id = id;
+    public String getQuestionName() {
+        return name;
+    }
+
+    public Question(int nodePk, Boolean active, int seq, String name, String descr, String o1, String o2, String o3, String o4, String o5, String o6, String o7, String o8, String o9, String o10) {
         this.nodePk = nodePk;
         this.active = active;
         this.sequence = seq;
-        this.dtEvaluation = dtEval;
         this.name = name;
         this.description = descr;
         this.option1 = o1;
         this.option2 = o2;
         this.option3 = o3;
         this.option4 = o4;
+
         this.option5 = o5;
         this.option6 = o6;
         this.option7 = o7;
@@ -38,6 +42,27 @@ public class Question {
 
     }
 
+    @Override
+    public String toString() {
+        return "Question{" +
+                "nodePk=" + nodePk +
+                ", active=" + active +
+                ", sequence=" + sequence +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", option1='" + option1 + '\'' +
+                ", option2='" + option2 + '\'' +
+                ", option3='" + option3 + '\'' +
+                ", option4='" + option4 + '\'' +
+                ", option5='" + option5 + '\'' +
+                ", option6='" + option6 + '\'' +
+                ", option7='" + option7 + '\'' +
+                ", option8='" + option8 + '\'' +
+                ", option9='" + option9 + '\'' +
+                ", option10='" + option10 + '\'' +
+                '}';
+    }
+
     public SparseArray<String> getAnswerSparseArray() {
         return answerSparseArray;
     }
@@ -46,7 +71,7 @@ public class Question {
         answerSparseArray = new SparseArray<String>(); //More efficient than Hashmap
         int i = 0;
         for (String answer : answersString) {
-            if (answer.equals("")) { //Don't add empty answers
+            if (answer.equals("null")) { //Don't add empty answers
                 continue;
             }
             answerSparseArray.append(i, answer);

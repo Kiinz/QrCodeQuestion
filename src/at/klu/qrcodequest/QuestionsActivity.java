@@ -1,15 +1,15 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
-import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -20,7 +20,8 @@ import java.util.List;
 
 public class QuestionsActivity extends Activity {
 
-    private static ArrayList<QuestionWithAnswers> questionWithAnswersList = new ArrayList<QuestionWithAnswers>();
+    private ProgressBar bar;
+    private static ArrayList <Question> questions;
     private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
@@ -32,8 +33,8 @@ public class QuestionsActivity extends Activity {
         setContentView(R.layout.activity_questions);
         AppDown.register(this);
 
-        getQuestionsWithAnswers();
-        generateNextQuestionWithAnswers();
+        new getQuestionTask().execute();
+
 
 
     }
@@ -58,7 +59,7 @@ public class QuestionsActivity extends Activity {
         Button bt;
         View.OnClickListener buttonListener;
 
-        questionView.setText(questionWithAnswersList.get(questionNumber).getQuestion());
+        questionView.setText(questions.get(questionNumber).getQuestionName());
 
         for (int i : randomKeys) {
             String answer = answerSparseArray.get(i);
@@ -82,7 +83,7 @@ public class QuestionsActivity extends Activity {
                         rightAnswerChosen.add(questionNumber, false);
                     }
 
-                    if (questionNumber < questionWithAnswersList.size()-1) {
+                    if (questionNumber < questions.size()-1) {
                         questionNumber++;
                         shuffleAnswers();
                     } else {
@@ -96,14 +97,9 @@ public class QuestionsActivity extends Activity {
 
     }
 
-    public void getQuestionsWithAnswers() {
-
-        getQuestions();
-        shuffleAnswers();
-    }
 
     public void shuffleAnswers() {
-        answerSparseArray = questionWithAnswersList.get(questionNumber).getAnswerSparseArray(); //TODO Buggy?
+        answerSparseArray = questions.get(questionNumber).getAnswerSparseArray(); //TODO Buggy?
         Integer[] numbers = new Integer[answerSparseArray.size()];
         for (int i = 0; i < answerSparseArray.size(); i++) {
             numbers[i] = i;
@@ -113,28 +109,31 @@ public class QuestionsActivity extends Activity {
         Collections.shuffle(randomKeys); //Zufällige Keys, um die Antworten zu mischen
     }
 
-    public static void getQuestions() {
-        int id, nodePk, active, seq, dtEval;
-        String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
+    private class getQuestionTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute(){
+            bar = (ProgressBar) findViewById(R.id.marker_progress);
+            bar.setVisibility(View.VISIBLE);
+        }
 
-        String questionsString = HTTPHelper.makeGetRequest("http://192.168.136.81").toString();
+        @Override
+        protected Void doInBackground(Void... arg0) {
 
-        ArrayList <Question> questions = new ArrayList<Question>();
+            int nodePk, seq;
+            boolean active;
+            String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
 
-        JSONObject obj;
-        try {
-            obj = new JSONObject(questionsString);
-            JSONArray array = obj.getJSONArray("Questions");
+            String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/26.json").toString();
 
-            for (int i = 0; i < array.length(); i++){
+            questions = new ArrayList<Question>();
 
-                JSONObject questionJSON = array.getJSONObject(i);
+            JSONObject questionJSON;
+            try {
+                questionJSON = new JSONObject(questionsString);
 
-                id = questionJSON.getInt("id");
-                nodePk = questionJSON.getInt("nodePk");
-                active = questionJSON.getInt("active");
+                nodePk = 2;
+                active = questionJSON.getBoolean("active");
                 seq = questionJSON.getInt("sequence");
-                dtEval = questionJSON.getInt("dtEvaluation");
                 name = questionJSON.getString("name");
                 descr = questionJSON.getString("description");
                 o1 = questionJSON.getString("option1");
@@ -148,17 +147,21 @@ public class QuestionsActivity extends Activity {
                 o9 = questionJSON.getString("option9");
                 o10 = questionJSON.getString("option10");
 
-                Question question = new Question(id, nodePk, active, seq, dtEval, name, descr, o1,o2,o3,o4,o5,o6,o7,o8,o9,o10);
+                Question question = new Question(nodePk, active, seq, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
                 questions.add(question);
 
-//                questionWithAnswersList.add(question);
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public Context getContext() {
-        return getApplicationContext();
+            shuffleAnswers();
+            generateNextQuestionWithAnswers();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            bar.setVisibility(View.GONE);
+        }
     }
 }

@@ -121,6 +121,7 @@ public class RegistrationActivity extends Activity {
             bar.setVisibility(View.GONE);
         }
     }
+
     @Override
 	public void onBackPressed(){
     	AlertDialog.Builder builder = new AlertDialog.Builder(this);

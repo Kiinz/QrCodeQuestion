@@ -90,6 +90,7 @@ public class HTTPHelper {
         } catch (IOException e) {
             e.printStackTrace();
 //            throw new HTTPExceptions("falseStatusCode");
+            //TODO Activate Again!
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
