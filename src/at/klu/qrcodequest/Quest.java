@@ -23,6 +23,9 @@ public class Quest {
 		this.name = name;
 		this.description = description;
 	}
+	public Quest(String name){
+		this.name = name;
+	}
 
 	public int getId() {
 		return id;
