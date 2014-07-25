@@ -16,14 +16,24 @@ public class HTTPHelper {
 
 
     public static StringBuffer makeGetRequest(String urlString) {
+
+        URL url = null;
         try {
-            URL url = new URL(urlString);
+            url = new URL(urlString);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
-            urlConnection = (HttpURLConnection) url.openConnection();
-            readStream(urlConnection.getInputStream());
-            return stringBuffer;
-        } catch (Exception e) { //TODO Exceptions
+            if (url != null) {
+                urlConnection = (HttpURLConnection) url.openConnection();
+                readStream(urlConnection.getInputStream());
+                return stringBuffer;
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             urlConnection.disconnect();

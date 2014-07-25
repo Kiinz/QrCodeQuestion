@@ -162,8 +162,6 @@ public class QuestionsActivity extends Activity {
                 e.printStackTrace();
             }
 
-            shuffleAnswers();
-            generateNextQuestionWithAnswers();
             return null;
         }
 
@@ -171,6 +169,9 @@ public class QuestionsActivity extends Activity {
         protected void onPostExecute(Void result) {
             bar.setVisibility(View.GONE);
             loadQuestionsTextView.setVisibility(View.GONE);
+
+            shuffleAnswers();
+            generateNextQuestionWithAnswers();
         }
     }
 }
