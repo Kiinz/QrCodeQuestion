@@ -62,8 +62,8 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 		
 		ArrayList<Node> nodes = new ArrayList<Node>();
 		
-		String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json").toString();
-		System.out.println("" + json);
+		String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json").toString() +"]}";
+//		System.out.println("" + json);
 		
 		JSONObject obj = new JSONObject(json);
 		JSONArray array = obj.getJSONArray("nodes");
@@ -76,8 +76,8 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 			Node node1 = new Node(id);
 			
 			
-			String jsonn = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + id + ".json").toString();
-			System.out.println("" + jsonn);
+			String jsonn = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + id + ".json").toString() +"]}";
+//			System.out.println("" + jsonn);
 			
 			JSONObject obj2 = new JSONObject(jsonn);
 			

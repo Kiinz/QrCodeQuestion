@@ -43,20 +43,6 @@ public class QuestActivity extends Activity implements OnItemClickListener {
                 values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
             }
 	        
-//	        values.add("HTL-M�ssingerstra�e");
-//	        values.add("FH-K�rnten");
-//	        values.add("Hauptschule Neumarkt");
-//	        values.add("HTL-M�ssingerstra�e");
-//	        values.add("FH-K�rnten");
-//	        values.add("Hauptschule Neumarkt");
-//	        values.add("HTL-M�ssingerstra�e");
-//	        values.add("FH-K�rnten");
-//	        values.add("Hauptschule Neumarkt");
-//	        values.add("HTL-M�ssingerstra�e");
-//	        values.add("FH-K�rnten");
-//	        values.add("Hauptschule Neumarkt");
-	        
-	        //ArrayAdapter<String>data = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1,android.R.id.text1, values);
 	        
 	        adapter = new QuestCustomAdapter(getApplicationContext(),R.layout.row, values);
 	        list.setAdapter(adapter);
@@ -81,12 +67,14 @@ public class QuestActivity extends Activity implements OnItemClickListener {
             String itemValue = (String) list.getItemAtPosition(position);
 	
 			
-			if(quests.get(position).getDtRegistration() == 2){
+//			if(quests.get(position).getDtRegistration() == 2){
+				
 				
 				Intent qrreader = new Intent (getApplicationContext(), MainActivity.class);
+				qrreader.putExtra("questPk", 21);
 				startActivity(qrreader);
 				
-			}
+//			}
 			
 //			Toast.makeText(getApplicationContext(), "" + position + " " + itemValue, Toast.LENGTH_LONG).show();
 		}
