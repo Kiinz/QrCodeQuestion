@@ -25,7 +25,7 @@ public class QuestionsActivity extends Activity {
     private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
-    private int nodePk;
+    private int nodePk, questPk;
     private List<Integer> randomKeys;
 
     @Override
@@ -34,8 +34,9 @@ public class QuestionsActivity extends Activity {
         setContentView(R.layout.activity_questions);
         AppDown.register(this);
 
-//        Bundle bundle = getIntent().getExtras();
-//        nodePk = bundle.getInt("nodePk");
+        Bundle bundle = getIntent().getExtras();
+        nodePk = bundle.getInt("nodePk");
+        questPk = bundle.getInt("questPk");
         new getQuestionTask().execute();
 
 
@@ -52,6 +53,7 @@ public class QuestionsActivity extends Activity {
         } else {
             Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
             nodeIntent.putExtra("finished", false);
+            nodeIntent.putExtra("questPk", questPk);
             startActivity(nodeIntent);
         }
     }
@@ -94,6 +96,7 @@ public class QuestionsActivity extends Activity {
                     } else {
                         Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
                         nodeIntent.putExtra("finished", true);
+                        nodeIntent.putExtra("questPk", questPk);
                         startActivity(nodeIntent);
                     }
                     generateNextQuestionWithAnswers();
