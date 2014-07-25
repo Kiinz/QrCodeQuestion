@@ -145,7 +145,7 @@ public class QuestionsActivity extends Activity {
 
             for (int questionID : questionIDs) {
                 String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json").toString() + "]}";
-
+                System.out.println(questionID);
                 questions = new ArrayList<Question>();
 
                 JSONObject questionJSON;

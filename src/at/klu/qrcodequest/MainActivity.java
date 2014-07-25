@@ -90,9 +90,6 @@ public class MainActivity extends Activity {
 
 
                 for (int i = 0; i < nodes.size(); i++) {
-
-                    System.out.println("asdfasdfassfasddfasdfasddfasfafsdf");
-
                     if (nodes.get(i).getRegistrationTarget1().equals(result)) {
                         nodePk = nodes.get(i).getId();
                         System.out.println("" + nodePk);
