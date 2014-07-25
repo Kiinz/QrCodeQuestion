@@ -72,7 +72,24 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 			JSONObject node = array.getJSONObject(i);
 			int id = node.getInt("id");
 			
+			
 			Node node1 = new Node(id);
+			
+			
+			String jsonn = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + id + ".json").toString();
+			System.out.println("" + jsonn);
+			
+			JSONObject obj2 = new JSONObject(jsonn);
+			
+			node1.setDescription(obj2.getString("description"));
+			node1.setName(obj2.getString("name"));
+			node1.setRegistrationTarget1(obj2.getString("registrationTarget1"));
+			node1.setRegistrationTarget2(obj2.getString("registrationTarget2"));
+			node1.setLocation(obj2.getString("location"));
+			node1.setActive(obj2.getBoolean("active"));
+			node1.setSequence(obj2.getInt("sequence"));
+			node1.setDtRegistration(obj2.getInt("dtRegistration"));
+			
 			nodes.add(node1);
 			
 			

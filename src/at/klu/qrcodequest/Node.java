@@ -4,7 +4,7 @@ public class Node {
 	
 	private int id;
 	private int questPk;
-	private int active;
+	private boolean active;
 	private int sequence;
 	private int dtRegistration;
 	private String registrationTarget1;
@@ -16,7 +16,7 @@ public class Node {
 	
 	
 	
-	public Node(int questPk, int active, int sequence, int dtRegistration,
+	public Node(int questPk, boolean active, int sequence, int dtRegistration,
 			String registrationTarget1, String registrationTarget2,
 			String name, String description, String location) {
 		super();
@@ -35,7 +35,7 @@ public class Node {
 		this.id = id;
 	}
 
-	public Node(int id, int questPk, int active, int sequence,
+	public Node(int id, int questPk, boolean active, int sequence,
 			int dtRegistration, String registrationTarget1,
 			String registrationTarget2, String name, String description,
 			String location) {
@@ -93,10 +93,10 @@ public class Node {
 	public void setQuestPk(int questPk) {
 		this.questPk = questPk;
 	}
-	public int getActive() {
+	public boolean getActive() {
 		return active;
 	}
-	public void setActive(int active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
 	public int getSequence() {
