@@ -26,6 +26,7 @@ public class QuestionsActivity extends Activity {
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
     private int nodePk, questPk;
+    private int[] questionIDs;
     private List<Integer> randomKeys;
 
     @Override
@@ -37,7 +38,7 @@ public class QuestionsActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         nodePk = bundle.getInt("nodePk");
         questPk = bundle.getInt("questPk");
-        System.out.println(Arrays.toString(bundle.getIntArray("questionIDs")));
+        questionIDs = bundle.getIntArray("questionIDs");
         new getQuestionTask().execute();
 
 
@@ -142,35 +143,38 @@ public class QuestionsActivity extends Activity {
             boolean active;
             String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
 
-            String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/26.json").toString() + "]}";
+            for (int questionID : questionIDs) {
+                String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json").toString() + "]}";
 
-            questions = new ArrayList<Question>();
+                questions = new ArrayList<Question>();
 
-            JSONObject questionJSON;
-            try {
-                questionJSON = new JSONObject(questionsString);
+                JSONObject questionJSON;
+                try {
+                    questionJSON = new JSONObject(questionsString);
 
-                nodePk = 2;
-                active = questionJSON.getBoolean("active");
-                name = questionJSON.getString("name");
-                descr = questionJSON.getString("description");
-                o1 = questionJSON.getString("option1");
-                o2 = questionJSON.getString("option2");
-                o3 = questionJSON.getString("option3");
-                o4 = questionJSON.getString("option4");
-                o5 = questionJSON.getString("option5");
-                o6 = questionJSON.getString("option6");
-                o7 = questionJSON.getString("option7");
-                o8 = questionJSON.getString("option8");
-                o9 = questionJSON.getString("option9");
-                o10 = questionJSON.getString("option10");
+                    nodePk = 2;
+                    active = questionJSON.getBoolean("active");
+                    name = questionJSON.getString("name");
+                    descr = questionJSON.getString("description");
+                    o1 = questionJSON.getString("option1");
+                    o2 = questionJSON.getString("option2");
+                    o3 = questionJSON.getString("option3");
+                    o4 = questionJSON.getString("option4");
+                    o5 = questionJSON.getString("option5");
+                    o6 = questionJSON.getString("option6");
+                    o7 = questionJSON.getString("option7");
+                    o8 = questionJSON.getString("option8");
+                    o9 = questionJSON.getString("option9");
+                    o10 = questionJSON.getString("option10");
 
-                Question question = new Question(nodePk, active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
-                questions.add(question);
+                    Question question = new Question(nodePk, active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
+                    questions.add(question);
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+
 
             return null;
         }
