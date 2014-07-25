@@ -102,7 +102,7 @@ public class MainActivity extends Activity {
 
                         questions.putExtra("nodePk", nodePk);
                         questions.putExtra("questPk", questPk);
-                        questions.putExtra("questionIDs", nodes.get(nodePk).getQuestionIDs());
+                        questions.putExtra("questionIDs", nodes.get(i).getQuestionIDs());
 
                         startActivity(questions);
                     }

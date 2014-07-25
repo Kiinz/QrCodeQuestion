@@ -2,6 +2,7 @@ package at.klu.qrcodequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Node {
 	
@@ -148,14 +149,14 @@ public class Node {
         return questionIDs;
     }
 
-    public void setQuestionIDs(JSONArray questionIDsJSON) {
+    public void setQuestionIDs(JSONArray questionIDsJSON) throws JSONException {
         questionIDs = new int[questionIDsJSON.length()];
         for (int i = 0; i < questionIDsJSON.length(); i++) {
-            try {
-                questionIDs[i] = questionIDsJSON.getInt(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        	
+        	JSONObject obj = questionIDsJSON.getJSONObject(i);
+            
+            questionIDs[i] = obj.getInt("id");
+            
         }
     }
 }
