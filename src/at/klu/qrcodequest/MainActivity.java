@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
 		textField1 = (EditText) findViewById(R.id.editText1);
 		Bundle bundle = getIntent().getExtras();
 		questPk = bundle.getInt("questPk");
+		
 		Toast.makeText(getApplicationContext(), "" + questPk, Toast.LENGTH_LONG).show();
 		
 
@@ -103,6 +104,7 @@ public class MainActivity extends Activity {
 					Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 						
 							questions.putExtra("nodePk", nodePk);
+							questions.putExtra("questPk", questPk);
 							
 							startActivity(questions);		
 						}
