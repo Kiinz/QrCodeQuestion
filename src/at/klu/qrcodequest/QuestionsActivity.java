@@ -96,6 +96,7 @@ public class QuestionsActivity extends Activity {
                     } else {
                         Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
                         nodeIntent.putExtra("finished", true);
+                        System.out.println("" + questPk);
                         nodeIntent.putExtra("questPk", questPk);
                         startActivity(nodeIntent);
                     }

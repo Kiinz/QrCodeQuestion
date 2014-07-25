@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
 	Button btscan;
 	EditText textField1;
 	String result;
-	int questPk;
+	int questPk = 0;
 	int nodePk = 0;
 
 	@Override
