@@ -37,6 +37,7 @@ public class QuestionsActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         nodePk = bundle.getInt("nodePk");
         questPk = bundle.getInt("questPk");
+        System.out.println(Arrays.toString(bundle.getIntArray("questionIDs")));
         new getQuestionTask().execute();
 
 
@@ -96,7 +97,6 @@ public class QuestionsActivity extends Activity {
                     } else {
                         Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
                         nodeIntent.putExtra("finished", true);
-                        System.out.println("" + questPk);
                         nodeIntent.putExtra("questPk", questPk);
                         startActivity(nodeIntent);
                     }

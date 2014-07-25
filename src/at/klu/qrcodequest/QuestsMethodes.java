@@ -67,6 +67,7 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 		
 		JSONObject obj = new JSONObject(json);
 		JSONArray array = obj.getJSONArray("nodes");
+
 		
 		for (int i = 0; i < array.length(); i++){
 			JSONObject node = array.getJSONObject(i);
@@ -89,6 +90,7 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 			node1.setActive(obj2.getBoolean("active"));
 			node1.setSequence(obj2.getInt("sequence"));
 			node1.setDtRegistration(obj2.getInt("dtRegistration"));
+            node1.setQuestionIDs(obj2.getJSONArray("questions"));
 			
 			nodes.add(node1);
 			
