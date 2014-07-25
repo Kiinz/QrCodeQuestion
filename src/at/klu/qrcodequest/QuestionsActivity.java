@@ -20,7 +20,6 @@ import java.util.List;
 
 public class QuestionsActivity extends Activity {
 
-    private ProgressBar bar;
     private static ArrayList <Question> questions;
     private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
@@ -110,10 +109,16 @@ public class QuestionsActivity extends Activity {
     }
 
     private class getQuestionTask extends AsyncTask<Void, Void, Void> {
+        private ProgressBar bar;
+        private TextView loadQuestionsTextView;
+
         @Override
         protected void onPreExecute(){
             bar = (ProgressBar) findViewById(R.id.marker_progress);
+            loadQuestionsTextView = (TextView) findViewById(R.id.loadQuestionsText);
             bar.setVisibility(View.VISIBLE);
+            loadQuestionsTextView.setVisibility(View.VISIBLE);
+
         }
 
         @Override
@@ -162,6 +167,7 @@ public class QuestionsActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
             bar.setVisibility(View.GONE);
+            loadQuestionsTextView.setVisibility(View.GONE);
         }
     }
 }

@@ -13,7 +13,7 @@
     <string name="quests">Quests</string>
     <string name="bestenliste">Bestenliste</string>
     <string name="node">NODE</string>
-    <string name="question">Question</string>
+    <string name="question">QUESTION</string>
     <string name="registrieren">Registrieren</string>
     <string name="vorname">Vorname:</string>
     <string name="nachname">Nachname:</string>
@@ -22,5 +22,6 @@
     <string name="title_activity_start">StartActivity</string>
     <string name="weiter">Weiter</string>
     <string name="willkommen">Willkommen</string>
+    <string name="LadeFragen">Lade Fragen…</string>
 
 </resources>
