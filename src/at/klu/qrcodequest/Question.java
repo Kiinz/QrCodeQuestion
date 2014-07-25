@@ -9,7 +9,7 @@ import java.util.Arrays;
  * Created by Messna on 17.07.2014.
  */
 public class Question {
-    private int nodePk, sequence;
+    private int nodePk;
     private Boolean active;
     private String name, description, option1, option2, option3, option4, option5, option6, option7, option8, option9, option10;
     private SparseArray<String> answerSparseArray;
@@ -19,10 +19,9 @@ public class Question {
         return name;
     }
 
-    public Question(int nodePk, Boolean active, int seq, String name, String descr, String o1, String o2, String o3, String o4, String o5, String o6, String o7, String o8, String o9, String o10) {
+    public Question(int nodePk, Boolean active, String name, String descr, String o1, String o2, String o3, String o4, String o5, String o6, String o7, String o8, String o9, String o10) {
         this.nodePk = nodePk;
         this.active = active;
-        this.sequence = seq;
         this.name = name;
         this.description = descr;
         this.option1 = o1;
@@ -42,27 +41,6 @@ public class Question {
 
     }
 
-    @Override
-    public String toString() {
-        return "Question{" +
-                "nodePk=" + nodePk +
-                ", active=" + active +
-                ", sequence=" + sequence +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", option1='" + option1 + '\'' +
-                ", option2='" + option2 + '\'' +
-                ", option3='" + option3 + '\'' +
-                ", option4='" + option4 + '\'' +
-                ", option5='" + option5 + '\'' +
-                ", option6='" + option6 + '\'' +
-                ", option7='" + option7 + '\'' +
-                ", option8='" + option8 + '\'' +
-                ", option9='" + option9 + '\'' +
-                ", option10='" + option10 + '\'' +
-                '}';
-    }
-
     public SparseArray<String> getAnswerSparseArray() {
         return answerSparseArray;
     }
@@ -74,7 +52,7 @@ public class Question {
             if (answer.equals("null")) { //Don't add empty answers
                 continue;
             }
-            answerSparseArray.append(i, answer);
+            answerSparseArray.append(i, answer); //Remember index
             i++;
         }
     }

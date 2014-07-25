@@ -25,6 +25,7 @@ public class QuestionsActivity extends Activity {
     private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
+    private int nodePk;
     private List<Integer> randomKeys;
 
     @Override
@@ -33,6 +34,8 @@ public class QuestionsActivity extends Activity {
         setContentView(R.layout.activity_questions);
         AppDown.register(this);
 
+//        Bundle bundle = getIntent().getExtras();
+//        nodePk = bundle.getInt("nodePk");
         new getQuestionTask().execute();
 
 
@@ -47,9 +50,9 @@ public class QuestionsActivity extends Activity {
             shuffleAnswers();
             generateNextQuestionWithAnswers();
         } else {
-            //TODO Go to last View
             Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
-	        startActivity(nodeIntent);
+            nodeIntent.putExtra("finished", false);
+            startActivity(nodeIntent);
         }
     }
 
@@ -89,7 +92,9 @@ public class QuestionsActivity extends Activity {
                         questionNumber++;
                         shuffleAnswers();
                     } else {
-                        //TODO Go to next View
+                        Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
+                        nodeIntent.putExtra("finished", true);
+                        startActivity(nodeIntent);
                     }
                     generateNextQuestionWithAnswers();
                 }
@@ -101,13 +106,15 @@ public class QuestionsActivity extends Activity {
 
 
     public void shuffleAnswers() {
-        answerSparseArray = questions.get(questionNumber).getAnswerSparseArray(); //TODO Buggy?
-        Integer[] numbers = new Integer[answerSparseArray.size()];
+        answerSparseArray = questions.get(questionNumber).getAnswerSparseArray();
+//        Integer[] numbers = new Integer[answerSparseArray.size()];
+        randomKeys = new ArrayList<Integer>(answerSparseArray.size()+5);
         for (int i = 0; i < answerSparseArray.size(); i++) {
-            numbers[i] = i;
+//            numbers[i] = i;
+            randomKeys.add(i);
         }
 
-        randomKeys = Arrays.asList(numbers);
+//        randomKeys = Arrays.asList(numbers);
         Collections.shuffle(randomKeys); //Zufällige Keys, um die Antworten zu mischen
     }
 
@@ -127,11 +134,11 @@ public class QuestionsActivity extends Activity {
         @Override
         protected Void doInBackground(Void... arg0) {
 
-            int nodePk, seq;
+            int nodePk;
             boolean active;
             String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
 
-            String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/26.json").toString();
+            String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/26.json").toString() + "]}";
 
             questions = new ArrayList<Question>();
 
@@ -141,7 +148,6 @@ public class QuestionsActivity extends Activity {
 
                 nodePk = 2;
                 active = questionJSON.getBoolean("active");
-                seq = questionJSON.getInt("sequence");
                 name = questionJSON.getString("name");
                 descr = questionJSON.getString("description");
                 o1 = questionJSON.getString("option1");
@@ -155,7 +161,7 @@ public class QuestionsActivity extends Activity {
                 o9 = questionJSON.getString("option9");
                 o10 = questionJSON.getString("option10");
 
-                Question question = new Question(nodePk, active, seq, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
+                Question question = new Question(nodePk, active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
                 questions.add(question);
 
             } catch (JSONException e) {
