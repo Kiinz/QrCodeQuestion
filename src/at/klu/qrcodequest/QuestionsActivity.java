@@ -1,6 +1,7 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.SparseArray;
@@ -47,6 +48,8 @@ public class QuestionsActivity extends Activity {
             generateNextQuestionWithAnswers();
         } else {
             //TODO Go to last View
+            Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
+	        startActivity(nodeIntent);
         }
     }
 

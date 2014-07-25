@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		AppDown.register(this);;
+		AppDown.register(this);
 
 		btscan = (Button) findViewById(R.id.weiter);
 		textField1 = (EditText) findViewById(R.id.editText1);
