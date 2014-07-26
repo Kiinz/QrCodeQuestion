@@ -16,7 +16,6 @@ import android.widget.Toast;
 public class MainActivity extends Activity {
 
     Button btscan;
-    EditText textField1;
     String result;
     int questPk = 0;
     int nodePk = 0;
@@ -28,7 +27,6 @@ public class MainActivity extends Activity {
         AppDown.register(this);
 
         btscan = (Button) findViewById(R.id.weiter);
-        textField1 = (EditText) findViewById(R.id.editText1);
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
 
@@ -69,7 +67,7 @@ public class MainActivity extends Activity {
 
                 result = intent.getStringExtra("SCAN_RESULT");
                 System.out.println("" + result);
-                textField1.setText(result); //das Scan-Result wird ausgegeben (Daten von gelesen QR-Code)
+
 //				if(NodeMethodes.checkUserQuestNode == true){
 //					Toast.makeText(this.getApplicationContext(), "Sie haben diesen Quest bereits abgeschlossen", Toast.LENGTH_LONG).show();
 //				}else{

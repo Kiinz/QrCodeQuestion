@@ -142,11 +142,10 @@ public class QuestionsActivity extends Activity {
             int nodePk;
             boolean active;
             String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
+            questions = new ArrayList<Question>();
 
             for (int questionID : questionIDs) {
                 String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json").toString() + "]}";
-                System.out.println(questionID);
-                questions = new ArrayList<Question>();
 
                 JSONObject questionJSON;
                 try {
@@ -183,7 +182,6 @@ public class QuestionsActivity extends Activity {
         protected void onPostExecute(Void result) {
             bar.setVisibility(View.GONE);
             loadQuestionsTextView.setVisibility(View.GONE);
-
             shuffleAnswers();
             generateNextQuestionWithAnswers();
         }
