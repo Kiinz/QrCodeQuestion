@@ -57,7 +57,7 @@ public class RegistrationActivity extends Activity {
                     if (spitzname.matches("^.{0,3}$")) {
                         Toast.makeText(getApplicationContext(), "Bitte geben Sie einen Spitznamen ein!", Toast.LENGTH_LONG).show();
                     } else if (!spitzname.matches("^[A-Za-zöäüÜÄÖ]{0,}$")) {
-                        Toast.makeText(getApplicationContext(), "Bitte verwenden sie keine Sonderzeichen im Namen", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Im Spitznamen sind nur folgende Sonderzeichen erlaubt: ,._-:()", Toast.LENGTH_LONG).show();
                     }
                 } else if ((!vorname.matches("^[A-Za-zöäüÜÄÖ]{3,15}$") || !nachname.matches("^[A-Za-zöäüÜÄÖ]{3,15}$")) && useName) {
                     Toast.makeText(getApplicationContext(), "Bitte geben Sie einen gültigen Namen ein!", Toast.LENGTH_LONG).show();
