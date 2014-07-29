@@ -30,7 +30,6 @@ public class MainActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
 
-        Toast.makeText(getApplicationContext(), "" + questPk, Toast.LENGTH_LONG).show();
 
 
         //in some trigger function e.g. button press within your code you should add:
