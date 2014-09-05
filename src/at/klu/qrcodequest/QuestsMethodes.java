@@ -51,7 +51,8 @@ public class QuestsMethodes {
 		for (int i = 0; i < array.length(); i++){
 			JSONObject quest = array.getJSONObject(i);
 			String name = quest.getString("name");
-			Quest quest1 = new Quest(name);
+			int id = quest.getInt("id");
+			Quest quest1 = new Quest(id, name);
 			quests.add(quest1);
 			
 		}
@@ -62,7 +63,8 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 		
 		ArrayList<Node> nodes = new ArrayList<Node>();
 		
-		String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json").toString() +"]}";
+		String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json").toString();
+		
 //		System.out.println("" + json);
 		
 		JSONObject obj = new JSONObject(json);
@@ -75,21 +77,21 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 			
 			
 			Node node1 = new Node(id);
+			node1.setDescription(node.getString("description"));
+			node1.setName(node.getString("name"));
+//			node1.setRegistrationTarget1(node.getString("registrationTarget1"));
+//			node1.setRegistrationTarget2(node.getString("registrationTarget2"));
+			node1.setLocation(node.getString("location"));
+//			node1.setActive(node.getBoolean("active"));
+			node1.setSequence(node.getInt("sequence"));
+			node1.setDtRegistration(node.getInt("dtRegistration"));
 			
-			
-			String jsonn = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + id + ".json").toString() +"]}";
-//			System.out.println("" + jsonn);
+			String jsonn = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + id + ".json").toString();
+			System.out.println("" + jsonn);
 			
 			JSONObject obj2 = new JSONObject(jsonn);
 			
-			node1.setDescription(obj2.getString("description"));
-			node1.setName(obj2.getString("name"));
-			node1.setRegistrationTarget1(obj2.getString("registrationTarget1"));
-			node1.setRegistrationTarget2(obj2.getString("registrationTarget2"));
-			node1.setLocation(obj2.getString("location"));
-			node1.setActive(obj2.getBoolean("active"));
-			node1.setSequence(obj2.getInt("sequence"));
-			node1.setDtRegistration(obj2.getInt("dtRegistration"));
+			
             node1.setQuestionIDs(obj2.getJSONArray("questions"));
 			
 			nodes.add(node1);

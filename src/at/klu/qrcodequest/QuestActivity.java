@@ -71,7 +71,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 				
 				
 				Intent qrreader = new Intent (getApplicationContext(), MainActivity.class);
-				qrreader.putExtra("questPk", 21);
+				qrreader.putExtra("questPk", quests.get(position).getId());
 				startActivity(qrreader);
 				
 //			}

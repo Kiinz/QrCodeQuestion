@@ -63,6 +63,7 @@ public class MainActivity extends Activity {
         btscan = (Button) findViewById(R.id.weiter);
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
+        System.out.println("" + questPk);
 
         //Thread für die Abfrage der Nodes
         Thread thread = new Thread (){
@@ -72,6 +73,8 @@ public class MainActivity extends Activity {
 
 	                try {
 	                    nodes = QuestsMethodes.getNodes(questPk);
+	                    System.out.println("" + nodes);
+	                    
 	                } catch (JSONException e) {
 	                    // TODO Auto-generated catch block
 	                    e.printStackTrace();
