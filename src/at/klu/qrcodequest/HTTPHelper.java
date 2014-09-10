@@ -88,6 +88,7 @@ public class HTTPHelper {
                 out.close();
 //
                 int statusCode = urlConnection.getResponseCode();
+                System.out.println(urlConnection.getInputStream());
                 if (statusCode != HttpURLConnection.HTTP_OK) {  //!=200
                     throw new HTTPExceptions("falseStatusCode");
                 }
