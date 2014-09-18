@@ -4,10 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
@@ -26,29 +29,53 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_quest);
+	        
 	        AppDown.register(this);
 	        
 	        list = (ListView)findViewById(R.id.listView1);
 	        list.setOnItemClickListener(this);
 	        
-	        try {
-				quests = QuestsMethodes.getQuests(); //Einlesen der Quest
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        ArrayList<String> values =  new ArrayList<String>();
-
-            for (Quest quest : quests) {
-                values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
-            }
-	        
-	        
-	        adapter = new QuestCustomAdapter(getApplicationContext(),R.layout.row, values);
-	        list.setAdapter(adapter);
-	        
-	        Intent intent = adapter.getIntent();
+	        new QuestTask().execute();
+	     
 	       
+	    }
+
+	    private class QuestTask extends AsyncTask<Void, Void, Void> {
+	        @Override
+	        protected void onPreExecute(){
+	            
+	        }
+
+	        @Override
+	        protected Void doInBackground(Void... arg0) {
+	        	
+	        	try {
+					quests = QuestsMethodes.getQuests(); //Einlesen der Quest
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        	
+				return null;
+	           
+	            }
+	           
+
+	        @Override
+	        protected void onPostExecute(Void result) {
+	        	
+	        	ArrayList<String> values =  new ArrayList<String>();
+
+	            for (Quest quest : quests) {
+	                values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
+	            }
+		        
+		        
+		        adapter = new QuestCustomAdapter(getApplicationContext(),R.layout.row, values);
+		        list.setAdapter(adapter);
+		        
+		        Intent intent = adapter.getIntent();
+	        }
 	    }
 
 

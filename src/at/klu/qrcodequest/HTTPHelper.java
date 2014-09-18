@@ -29,7 +29,20 @@ public class HTTPHelper {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
             if (url != null) {
+            	System.out.println(url);
                 urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setInstanceFollowRedirects(false);
+                urlConnection.setDoOutput(false);
+                
+                int responseCode = urlConnection.getResponseCode(); //can call this instead of con.connect()
+                if (responseCode >= 400 && responseCode <= 499) {
+                    try {
+						throw new Exception("Bad authentication status: " + responseCode);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} //provide a more meaningful exception message
+                }
                 readStream(urlConnection.getInputStream());
                 return stringBuffer;
             }
