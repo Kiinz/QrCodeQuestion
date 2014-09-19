@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -14,8 +15,21 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 
 
@@ -29,6 +43,8 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.activity_quest);
+	        
+	        
 	        
 	        AppDown.register(this);
 	        
@@ -48,6 +64,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 
 	        @Override
 	        protected Void doInBackground(Void... arg0) {
+	        	
 	        	
 	        	try {
 					quests = QuestsMethodes.getQuests(); //Einlesen der Quest
@@ -132,6 +149,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	    	AlertDialog dialog = builder.create();
 	    	dialog.show();
 	    }
+		
 		
 	}
 

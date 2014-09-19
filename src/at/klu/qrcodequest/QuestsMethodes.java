@@ -41,7 +41,7 @@ public class QuestsMethodes {
 		
 		ArrayList<Quest> quests = new ArrayList<Quest>();
 		
-		String json = "{Quests:" + HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest.json").toString() + "}";
+		String json = "{Quests:" + HTTPHelper.GET("http://193.171.127.102:8080/Quest/quest.json") + "}";
 		System.out.println("" + json);
 		
 		

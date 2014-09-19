@@ -2,11 +2,18 @@ package at.klu.qrcodequest;
 
 import android.content.Context;
 import android.os.StrictMode;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.*;
 import java.net.*;
 import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 
 
 public class HTTPHelper {
@@ -18,6 +25,7 @@ public class HTTPHelper {
     public static StringBuffer makeGetRequest(String urlString) {
 
         URL url = null;
+        
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
@@ -54,6 +62,45 @@ public class HTTPHelper {
         return null;
     }
 
+    public static String GET(String url){
+        InputStream inputStream = null;
+        String result = "";
+        try {
+ 
+            // create HttpClient
+            HttpClient httpclient = new DefaultHttpClient();
+ 
+            // make GET request to the given URL
+            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+ 
+            // receive response as inputStream
+            inputStream = httpResponse.getEntity().getContent();
+ 
+            // convert inputstream to string
+            if(inputStream != null)
+                result = convertInputStreamToString(inputStream);
+            else
+                result = "Did not work!";
+ 
+        } catch (Exception e) {
+            
+        }
+ 
+        return result;
+    }
+ 
+    // convert inputstream to String
+    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
+        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+        String line = "";
+        String result = "";
+        while((line = bufferedReader.readLine()) != null)
+            result += line;
+ 
+        inputStream.close();
+        return result;
+ 
+    }
     private static void readStream(InputStream in) {
         BufferedReader reader = null;
         stringBuffer.setLength(0);
@@ -84,8 +131,6 @@ public class HTTPHelper {
             e.printStackTrace();
         }
         try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
 
             urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null); //Check if URL!=null and open Connection
             if (urlConnection != null) {
