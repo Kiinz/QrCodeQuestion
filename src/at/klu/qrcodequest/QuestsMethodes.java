@@ -79,8 +79,8 @@ public static ArrayList<Node> getNodes(int questPk) throws JSONException{
 			Node node1 = new Node(id);
 			node1.setDescription(node.getString("description"));
 			node1.setName(node.getString("name"));
-//			node1.setRegistrationTarget1(node.getString("registrationTarget1"));
-//			node1.setRegistrationTarget2(node.getString("registrationTarget2"));
+			node1.setRegistrationTarget1(node.getString("registrationTarget1"));
+			node1.setRegistrationTarget2(node.getString("registrationTarget2"));
 			node1.setLocation(node.getString("location"));
 //			node1.setActive(node.getBoolean("active"));
 			node1.setSequence(node.getInt("sequence"));

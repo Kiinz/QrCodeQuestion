@@ -42,7 +42,7 @@ public void enableGPS(){
 		
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
     	
-    	builder.setTitle("Einstellungen �ndern");
+    	builder.setTitle("Einstellungen ändern");
     	builder.setMessage("GPS ist nicht eingeschaltet. Wollen sie die Einstellungen ändern?");
     	
     	builder.setPositiveButton("Einstellungen", new DialogInterface.OnClickListener() {
