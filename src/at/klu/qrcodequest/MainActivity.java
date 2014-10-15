@@ -229,6 +229,10 @@ public class MainActivity extends Activity {
 			options.fillColor(Color.parseColor("#99FF0000"));
 			this.map.addCircle(options);
 		}
-
 		
+		@Override
+		public void onBackPressed(){
+			Intent intent = new Intent (this, QuestActivity.class);
+			startActivity(intent);
+		}	
 }
