@@ -32,4 +32,10 @@
         android:textSize="20sp"
         android:textStyle="bold|italic" />
 
+    <ProgressBar android:indeterminate="true"
+                 android:layout_width="50dp" android:layout_height="50dp"
+                 android:id="@+id/marker_progress" style="?android:attr/progressBarStyle"
+                 android:layout_centerVertical="true"
+                 android:layout_centerHorizontal="true" android:visibility="invisible"/>
+
 </RelativeLayout>
