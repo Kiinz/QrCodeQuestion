@@ -66,33 +66,6 @@ public class HTTPHelper {
         return null;
     }
 
-//    public static String GET(String url){
-//        InputStream inputStream = null;
-//        String result = "";
-//        try {
-//
-//            // create HttpClient
-//            HttpClient httpclient = new DefaultHttpClient();
-//
-//            // make GET request to the given URL
-//            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
-//
-//            // receive response as inputStream
-//            inputStream = httpResponse.getEntity().getContent();
-//
-//            // convert inputstream to string
-//            if(inputStream != null)
-//                result = convertInputStreamToString(inputStream);
-//            else
-//                result = "Did not work!";
-//
-//        } catch (Exception e) {
-//
-//        }
-//
-//        return result;
-//    }
-
     public static String GET(String urlString) throws HTTPExceptions{
 
         OkHttpClient httpClient = new OkHttpClient();
