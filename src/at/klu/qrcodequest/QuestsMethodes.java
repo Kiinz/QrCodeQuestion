@@ -40,9 +40,14 @@ public class QuestsMethodes {
 	public static ArrayList<Quest> getQuests() throws JSONException{
 		
 		ArrayList<Quest> quests = new ArrayList<Quest>();
-		
-		String json = "{Quests:" + HTTPHelper.GET("http://193.171.127.102:8080/Quest/quest.json") + "}";
-		System.out.println("" + json);
+
+        String json = null;
+        try {
+            json = "{Quests:" + HTTPHelper.GET("http://193.171.127.102:8080/Quest/quest.json") + "}";
+        } catch (HTTPExceptions httpExceptions) {
+            httpExceptions.printStackTrace();
+        }
+        System.out.println("" + json);
 		
 		
 		JSONObject obj = new JSONObject(json);

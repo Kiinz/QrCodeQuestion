@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 public class QuestActivity extends Activity implements OnItemClickListener {
 
 	ListView list;
+    ProgressBar bar;
 	QuestCustomAdapter adapter;
 	ArrayList<Quest> quests = new ArrayList<Quest>();
 	
@@ -47,7 +49,8 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 	        
 	        
 	        AppDown.register(this);
-	        
+
+            bar = (ProgressBar) findViewById(R.id.marker_progress);
 	        list = (ListView)findViewById(R.id.listView1);
 	        list.setOnItemClickListener(this);
 	        
@@ -58,25 +61,17 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 
 	    private class QuestTask extends AsyncTask<Void, Void, Void> {
 	        @Override
-	        protected void onPreExecute(){
-	            
-	        }
+	        protected void onPreExecute(){ bar.setVisibility(View.VISIBLE); }
 
 	        @Override
 	        protected Void doInBackground(Void... arg0) {
-	        	
-	        	
 	        	try {
 					quests = QuestsMethodes.getQuests(); //Einlesen der Quest
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-	        	
 				return null;
-	           
 	            }
-	           
 
 	        @Override
 	        protected void onPostExecute(Void result) {
@@ -90,7 +85,9 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 		        
 		        adapter = new QuestCustomAdapter(getApplicationContext(),R.layout.row, values);
 		        list.setAdapter(adapter);
-		        
+
+                bar.setVisibility(View.INVISIBLE);
+
 		        Intent intent = adapter.getIntent();
 	        }
 	    }

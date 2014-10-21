@@ -9,6 +9,9 @@ import java.io.*;
 import java.net.*;
 import java.util.Map;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -41,6 +44,7 @@ public class HTTPHelper {
                 urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setInstanceFollowRedirects(false);
                 urlConnection.setDoOutput(false);
+
                 
                 int responseCode = urlConnection.getResponseCode(); //can call this instead of con.connect()
                 if (responseCode >= 400 && responseCode <= 499) {
@@ -62,33 +66,57 @@ public class HTTPHelper {
         return null;
     }
 
-    public static String GET(String url){
-        InputStream inputStream = null;
-        String result = "";
+//    public static String GET(String url){
+//        InputStream inputStream = null;
+//        String result = "";
+//        try {
+//
+//            // create HttpClient
+//            HttpClient httpclient = new DefaultHttpClient();
+//
+//            // make GET request to the given URL
+//            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
+//
+//            // receive response as inputStream
+//            inputStream = httpResponse.getEntity().getContent();
+//
+//            // convert inputstream to string
+//            if(inputStream != null)
+//                result = convertInputStreamToString(inputStream);
+//            else
+//                result = "Did not work!";
+//
+//        } catch (Exception e) {
+//
+//        }
+//
+//        return result;
+//    }
+
+    public static String GET(String urlString) throws HTTPExceptions{
+
+        OkHttpClient httpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(urlString)
+                .build();
         try {
- 
-            // create HttpClient
-            HttpClient httpclient = new DefaultHttpClient();
- 
-            // make GET request to the given URL
-            HttpResponse httpResponse = httpclient.execute(new HttpGet(url));
- 
-            // receive response as inputStream
-            inputStream = httpResponse.getEntity().getContent();
- 
-            // convert inputstream to string
-            if(inputStream != null)
-                result = convertInputStreamToString(inputStream);
-            else
-                result = "Did not work!";
- 
-        } catch (Exception e) {
-            
+            Response response = httpClient.newCall(request).execute();
+            if (!response.isSuccessful()) {
+                try {
+//                    throw new Exception("Bad authentication status: " + response.code());
+                    throw new HTTPExceptions("falseStatusCode");
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } //provide a more meaningful exception message
+            }
+            return response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
- 
-        return result;
+        return null;
     }
- 
+
     // convert inputstream to String
     private static String convertInputStreamToString(InputStream inputStream) throws IOException{
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
