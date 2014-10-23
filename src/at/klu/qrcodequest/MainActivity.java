@@ -1,30 +1,24 @@
 package at.klu.qrcodequest;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import android.os.AsyncTask;
-import org.json.JSONException;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.CircleOptions;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import org.json.JSONException;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -131,20 +125,6 @@ public class MainActivity extends Activity {
         map.addMarker(marker);
     }
 
-    public void setCameraPosition(double latitude, double longitude) {
-        CameraPosition position = new CameraPosition.Builder().target(new LatLng(latitude, longitude)).zoom(15).build();
-        map.animateCamera(CameraUpdateFactory.newCameraPosition(position));
-    }
-
-    public void makeCircle(double latitude, double longitude) {
-        CircleOptions options = new CircleOptions();
-        options.center(new LatLng(latitude, longitude));
-        options.radius(10);
-        options.strokeColor(Color.parseColor("#00000000"));
-        options.fillColor(Color.parseColor("#99FF0000"));
-        this.map.addCircle(options);
-    }
-
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, QuestActivity.class);
@@ -164,21 +144,6 @@ public class MainActivity extends Activity {
 
             } catch (JSONException e) {
                 e.printStackTrace();
-//                } catch (HTTPExceptions httpExceptions) {
-//                    if (httpExceptions.getMessage().equals("timeout")) {
-//                        Handler handler = new Handler(getApplicationContext().getMainLooper());
-//                        handler.post( new Runnable(){
-//                            public void run(){
-//                                Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();                        }
-//                        });
-//                    } else if (httpExceptions.getMessage().equals("falseStatusCode")) {
-//                        Handler handler = new Handler(getApplicationContext().getMainLooper());
-//                        handler.post( new Runnable(){
-//                            public void run(){
-//                                Toast.makeText(getApplicationContext(), "Fehler: Nodes konnten nicht abgerufen werden. Serverfehler.", Toast.LENGTH_LONG).show();
-//                            }
-//                        });
-//                    }
             } catch (IOException e) {
                 // TODO Exception
                 e.printStackTrace();
