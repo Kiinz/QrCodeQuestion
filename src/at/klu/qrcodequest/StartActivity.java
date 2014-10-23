@@ -18,6 +18,7 @@ public class StartActivity extends Activity implements OnClickListener {
 
     private static String userID, errorString = "";
     private Intent intent;
+    private Button start;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +29,10 @@ public class StartActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.activity_start);
 		AppDown.register(this);
 
-        Button start = (Button) findViewById(R.id.button1);
+        start = (Button) findViewById(R.id.button1);
+        start.setOnClickListener(this);
+        start.setClickable(false);
         TextView willkommen = (TextView) findViewById(R.id.textViewWillkommen);
-		start.setOnClickListener(this);
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/TYPOGRAPH PRO Light.ttf");
         willkommen.setTypeface(typeface);
 
@@ -78,10 +80,12 @@ public class StartActivity extends Activity implements OnClickListener {
 
                 //Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
+                start.setClickable(true);
             } catch (IOException e) {
                 if (e.getMessage().equals("falseStatusCode")) {
                     //Wenn Seite nicht gefunden muss der User noch angelegt werden
                     intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                    start.setClickable(true);
                 } else {
                     errorString="networkError";
                 }
