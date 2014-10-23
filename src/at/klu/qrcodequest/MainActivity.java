@@ -74,7 +74,6 @@ public class MainActivity extends Activity {
 	                    System.out.println("" + nodes);
 	                    
 	                } catch (JSONException e) {
-	                    // TODO Auto-generated catch block
 	                    e.printStackTrace();
 	                } catch (IOException e) {
                         // TODO Exception

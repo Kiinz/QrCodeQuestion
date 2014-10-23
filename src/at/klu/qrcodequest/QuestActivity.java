@@ -57,8 +57,8 @@ public class QuestActivity extends Activity implements OnItemClickListener {
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                System.out.println(e.getMessage());
                 if (e.getMessage().equals("falseStatusCode")) {
+                    //Im Backgroundtask können keine UI-Methoden aufgerufen werden
                     errorString = "falseStatusCode";
                 } else {
                     errorString="networkError";
