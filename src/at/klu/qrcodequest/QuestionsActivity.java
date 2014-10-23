@@ -14,6 +14,7 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -144,7 +145,13 @@ public class QuestionsActivity extends Activity {
             questions = new ArrayList<Question>();
 
             for (int questionID : questionIDs) {
-                String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json").toString() + "]}";
+                String questionsString = null;
+                try {
+                    questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json") + "]}";
+                } catch (IOException e) {
+                    // TODO Exception
+                    e.printStackTrace();
+                }
 
                 JSONObject questionJSON;
                 try {

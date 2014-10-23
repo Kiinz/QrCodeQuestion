@@ -32,74 +32,74 @@ public class UserMethodes {
       return null;
   }
     
-    public static User fromJSontoUser() throws JSONException{
-
-        input = HTTPHelper.makeGetRequest("http://192.168.136.80/test.html");
-
-        JSONObject obj = new JSONObject(input.toString());
-    	
-    	User user = new User();
-    	
-    	user.setLastname(obj.getString("lastname"));
-    	user.setFirstname(obj.getString("firstname"));
-    	user.setActive(Integer.parseInt(obj.getString("active")));
-    	user.setId(Integer.parseInt(obj.getString("id")));
-    	user.setNickname(obj.getString("nickname"));
-    	user.setUserId(obj.getString("userId"));
-    	
-    	return user;
-    	
-    }
-    
-    public static String fromUserstoJSONArray(ArrayList <User> personen) throws JSONException{
-    	JSONObject allusers = new JSONObject();
-    	JSONArray array = new JSONArray();
-
-        for (User aPersonen : personen) {
-
-            JSONObject obj = new JSONObject();
-            obj.put("firstname", aPersonen.getFirstname()); // Set the first name/pair
-            obj.put("lastname", aPersonen.getLastname());
-            obj.put("nickname", aPersonen.getNickname());
-            obj.put("id", aPersonen.getId());
-            obj.put("active", aPersonen.getActive());
-            obj.put("userId", aPersonen.getUserId());
-
-            array.put(obj);
-        }
-    	allusers.put("Users", array);
-
-        return allusers.toString();
-}
-
-    public static ArrayList<User> getUsersfromJSONString() throws JSONException{
-    	
-    	input = HTTPHelper.makeGetRequest("http://192.168.136.80/test.html");
-    	
-    	ArrayList <User> users = new ArrayList<User>();
-    	
-    	JSONObject obj = new JSONObject(input.toString());
-    	
-    	JSONArray array = obj.getJSONArray("Users");
-    	
-    	for (int i = 0; i < array.length(); i++){
-    		
-    		JSONObject user = array.getJSONObject(i);
-    		
-    		String firstname = user.getString("firstname");
-    		String lastname = user.getString("lastname");
-    		String nickname = user.getString("nickname");
-    		String userId = user.getString("userId");
-    		int active = Integer.parseInt(user.getString("active"));
-    		int id = Integer.parseInt(user.getString("id"));
-    		
-    		User user1 = new User(active,firstname,lastname,nickname,userId);
-    		users.add(user1);
-    		
-    		
-    	}
-    	return users;
-    }
+//    public static User fromJSontoUser() throws JSONException{
+//
+//        input = HTTPHelper.makeGetRequest("http://192.168.136.80/test.html");
+//
+//        JSONObject obj = new JSONObject(input.toString());
+//
+//    	User user = new User();
+//
+//    	user.setLastname(obj.getString("lastname"));
+//    	user.setFirstname(obj.getString("firstname"));
+//    	user.setActive(Integer.parseInt(obj.getString("active")));
+//    	user.setId(Integer.parseInt(obj.getString("id")));
+//    	user.setNickname(obj.getString("nickname"));
+//    	user.setUserId(obj.getString("userId"));
+//
+//    	return user;
+//
+//    }
+//
+//    public static String fromUserstoJSONArray(ArrayList <User> personen) throws JSONException{
+//    	JSONObject allusers = new JSONObject();
+//    	JSONArray array = new JSONArray();
+//
+//        for (User aPersonen : personen) {
+//
+//            JSONObject obj = new JSONObject();
+//            obj.put("firstname", aPersonen.getFirstname()); // Set the first name/pair
+//            obj.put("lastname", aPersonen.getLastname());
+//            obj.put("nickname", aPersonen.getNickname());
+//            obj.put("id", aPersonen.getId());
+//            obj.put("active", aPersonen.getActive());
+//            obj.put("userId", aPersonen.getUserId());
+//
+//            array.put(obj);
+//        }
+//    	allusers.put("Users", array);
+//
+//        return allusers.toString();
+//}
+//
+//    public static ArrayList<User> getUsersfromJSONString() throws JSONException{
+//
+//    	input = HTTPHelper.makeGetRequest("http://192.168.136.80/test.html");
+//
+//    	ArrayList <User> users = new ArrayList<User>();
+//
+//    	JSONObject obj = new JSONObject(input.toString());
+//
+//    	JSONArray array = obj.getJSONArray("Users");
+//
+//    	for (int i = 0; i < array.length(); i++){
+//
+//    		JSONObject user = array.getJSONObject(i);
+//
+//    		String firstname = user.getString("firstname");
+//    		String lastname = user.getString("lastname");
+//    		String nickname = user.getString("nickname");
+//    		String userId = user.getString("userId");
+//    		int active = Integer.parseInt(user.getString("active"));
+//    		int id = Integer.parseInt(user.getString("id"));
+//
+//    		User user1 = new User(active,firstname,lastname,nickname,userId);
+//    		users.add(user1);
+//
+//
+//    	}
+//    	return users;
+//    }
 
 //    public static boolean hasUserQuest(String questPk, String userPk){
 //    	boolean eintrag;
