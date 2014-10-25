@@ -15,9 +15,9 @@ public class AppDown {
 	}
 	
 	public static void allDown(){
-        for (Activity activity : activities) {
-            activity.finish();
-        }
+		for (int i = 0; i < activities.size(); i++){
+			activities.get(i).finish();
+		}
 	}
 
 }
