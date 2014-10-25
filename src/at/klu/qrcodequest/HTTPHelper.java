@@ -1,22 +1,16 @@
 package at.klu.qrcodequest;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
-import android.os.StrictMode;
-import android.util.Log;
-import android.widget.Toast;
+import android.content.DialogInterface;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
 import java.io.*;
 import java.net.*;
 import java.util.Map;
-
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
 
 public class HTTPHelper {
@@ -25,83 +19,21 @@ public class HTTPHelper {
     private static StringBuffer stringBuffer = new StringBuffer();
 
 
-    public static StringBuffer makeGetRequest(String urlString) {
-
-        URL url = null;
-        
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-
-
-        try {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-            if (url != null) {
-            	System.out.println(url);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setInstanceFollowRedirects(false);
-                urlConnection.setDoOutput(false);
-
-                
-                int responseCode = urlConnection.getResponseCode(); //can call this instead of con.connect()
-                if (responseCode >= 400 && responseCode <= 499) {
-                    try {
-						throw new Exception("Bad authentication status: " + responseCode);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} //provide a more meaningful exception message
-                }
-                readStream(urlConnection.getInputStream());
-                return stringBuffer;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            urlConnection.disconnect();
-        }
-        return null;
-    }
-
-    public static String GET(String urlString) throws HTTPExceptions{
+    public static String makeGetRequest(String urlString) throws IOException {
 
         OkHttpClient httpClient = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(urlString)
                 .build();
-        try {
-            Response response = httpClient.newCall(request).execute();
-            if (!response.isSuccessful()) {
-                try {
-//                    throw new Exception("Bad authentication status: " + response.code());
-                    throw new HTTPExceptions("falseStatusCode");
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } //provide a more meaningful exception message
-            }
-            return response.body().string();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Response response = httpClient.newCall(request).execute();
+        if (!response.isSuccessful()) {
+            throw new IOException("falseStatusCode");
         }
-        return null;
+        return response.body().string();
+
     }
 
-    // convert inputstream to String
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
- 
-        inputStream.close();
-        return result;
- 
-    }
+    //Convert InputStream to StringBuffer
     private static void readStream(InputStream in) {
         BufferedReader reader = null;
         stringBuffer.setLength(0);
@@ -157,9 +89,8 @@ public class HTTPHelper {
         } catch (SocketTimeoutException e) {
             throw new HTTPExceptions("timeout");
         } catch (IOException e) {
-            e.printStackTrace();
-//            throw new HTTPExceptions("falseStatusCode");
-            //TODO Activate Again!
+            //Network Error
+            throw new HTTPExceptions("networkError");
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -193,6 +124,48 @@ public class HTTPHelper {
             }
         }
         return parametersAsQueryString.toString();
+    }
+
+    public static void HTTPExceptionHandler(String errorString, final Activity activity) {
+        if (errorString.equals("networkError")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("Fehler: Keine Verbindung");
+            builder.setMessage("Bitte stellen Sie sicher, dass eine Verbindung zum Internet besteht!");
+            builder.setPositiveButton("Erneut versuchen", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    activity.recreate();
+                }
+            });
+            builder.setNegativeButton("Beenden", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AppDown.allDown();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        } else if (errorString.equals("falseStatusCode")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("Fehler: Datei nicht gefunden");
+            builder.setMessage("Der Server hat ein Problem festgestellt. Bitte versuchen Sie es später erneut!");
+            builder.setPositiveButton("Erneut versuchen", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    activity.recreate();
+                }
+            });
+            builder.setNegativeButton("Beenden", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    AppDown.allDown();
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 }
 

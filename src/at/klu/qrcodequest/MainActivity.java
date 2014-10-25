@@ -1,5 +1,6 @@
 package at.klu.qrcodequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONException;
@@ -12,11 +13,9 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.plus.model.people.Person.PlacesLived;
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +23,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -72,22 +70,25 @@ public class MainActivity extends Activity {
 					nodes = new ArrayList<Node>();
 
 	                try {
-	                    nodes = QuestsMethodes.getNodes(questPk);
+	                    nodes = QuestMethods.getNodes(questPk);
 	                    System.out.println("" + nodes);
 	                    
 	                } catch (JSONException e) {
 	                    // TODO Auto-generated catch block
 	                    e.printStackTrace();
-	                }
-	                
-	                for (int i = 0; i < nodes.size(); i++){
+	                } catch (IOException e) {
+                        // TODO Exception
+                        e.printStackTrace();
+                    }
+
+                    for (int i = 0; i < nodes.size(); i++){
 	                	if(nodes.get(i).getLocation() != null){
 	                		String s = nodes.get(i).getLocation();
 	                		System.out.println("" + s);
 	                		if (s.charAt(0) == '@'){
 	                			String locationString = s.substring(1);
 	                			
-	                			String [] location = new String [2];
+	                			String [] location;
 	                			
 	                			location = locationString.split(", ");
 	                		
@@ -143,7 +144,7 @@ public class MainActivity extends Activity {
 
     }
 
-    //In the same activity you�ll need the following to retrieve the results:
+    //In the same activity you'll need the following to retrieve the results:
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == 0) {        //RequestCode dient zu identifizierung der Activity, die das Ergebnis liefert
 
@@ -152,28 +153,35 @@ public class MainActivity extends Activity {
                 result = intent.getStringExtra("SCAN_RESULT");
                 System.out.println("" + result);
 
-//				if(NodeMethodes.checkUserQuestNode == true){
-//					Toast.makeText(this.getApplicationContext(), "Sie haben diesen Quest bereits abgeschlossen", Toast.LENGTH_LONG).show();
-//				}else{
-//				Intent questions = new Intent (getApplicationContext(), QuestionsActivity.class);
-//				startActivity(questions);
                 ArrayList<Node> nodes = new ArrayList<Node>();
 
                 try {
-                    nodes = QuestsMethodes.getNodes(questPk);
+                    nodes = QuestMethods.getNodes(questPk);
                 } catch (JSONException e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
+//                } catch (HTTPExceptions httpExceptions) {
+//                    if (httpExceptions.getMessage().equals("timeout")) {
+//                        Handler handler = new Handler(getApplicationContext().getMainLooper());
+//                        handler.post( new Runnable(){
+//                            public void run(){
+//                                Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();                        }
+//                        });
+//                    } else if (httpExceptions.getMessage().equals("falseStatusCode")) {
+//                        Handler handler = new Handler(getApplicationContext().getMainLooper());
+//                        handler.post( new Runnable(){
+//                            public void run(){
+//                                Toast.makeText(getApplicationContext(), "Fehler: Nodes konnten nicht abgerufen werden. Serverfehler.", Toast.LENGTH_LONG).show();
+//                            }
+//                        });
+//                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    //TODO Exception
                 }
-//                System.out.println("" + nodes.get(0));
-//                System.out.println("" + nodes.get(1));
-//                System.out.println("" + nodes.get(2));
-//                System.out.println("" + nodes.get(3));
 
-
-                for (int i = 0; i < nodes.size(); i++) {
-                    if (nodes.get(i).getRegistrationTarget1().equals(result)) {
-                        nodePk = nodes.get(i).getId();
+                for (Node node : nodes) {
+                    if (node.getRegistrationTarget1().equals(result)) {
+                        nodePk = node.getId();
                         System.out.println("" + nodePk);
 
 
@@ -181,14 +189,11 @@ public class MainActivity extends Activity {
 
                         questions.putExtra("nodePk", nodePk);
                         questions.putExtra("questPk", questPk);
-                        questions.putExtra("questionIDs", nodes.get(i).getQuestionIDs());
+                        questions.putExtra("questionIDs", node.getQuestionIDs());
 
                         startActivity(questions);
                     }
                 }
-//			}
-
-            } else if (resultCode == RESULT_CANCELED) {
             }
         }
     }
@@ -197,13 +202,13 @@ public class MainActivity extends Activity {
 		public void abfrage(){
 			EnableGPSorWLAN enable = new EnableGPSorWLAN(this);
 			
-			if(enable.isGPSenabled() == false && enable.WIFIenabled == true){
+			if(!enable.isGPSenabled() && enable.WIFIenabled){
 				enable.enableGPS();	
 			}
-			if(enable.isWIFIEnabled()== false && enable.isGPSenabled() == true){
+			if(!enable.isWIFIEnabled() && enable.isGPSenabled()){
 				enable.enableNetwork();
 			}
-			if(enable.isWIFIEnabled()== false && enable.isGPSenabled() == false){
+			if(!enable.isWIFIEnabled() && !enable.isGPSenabled()){
 				enable.enableAll();
 			}
 		}

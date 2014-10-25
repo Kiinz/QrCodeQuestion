@@ -10,8 +10,6 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +21,6 @@ public class RegistrationActivity extends Activity {
     private CheckBox checkBox;
     private String vorname, nachname, spitzname, userID, postParameter;
     private Boolean useName;
-    private User user;
     public static Activity registrationActivity;
 
     @Override
@@ -66,7 +63,6 @@ public class RegistrationActivity extends Activity {
                     registerButton.setClickable(false);
 
                     userID = StartActivity.getUserID();
-                    user = new User(1, vorname, nachname, spitzname, userID);
                     Map<String, String> userParameters = new HashMap<String, String>();
                     userParameters.put("userId", userID);
                     userParameters.put("firstname", vorname);
@@ -75,7 +71,6 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("dtOwner", "2");
                     userParameters.put("active", "1");
                     postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
-//                    postParameter = UserMethodes.UsertoJSon(user);
 
                     new ProgressTask().execute();
                 }
@@ -93,21 +88,19 @@ public class RegistrationActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             try {
                 HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
-            } catch (HTTPExceptions e) {
-                if (e.getMessage().equals("timeout")) {
-                    Handler handler = new Handler(getApplicationContext().getMainLooper());
-                    handler.post( new Runnable(){
-                        public void run(){
-                            Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();                        }
-                    });
-                } else if (e.getMessage().equals("falseStatusCode")) {
-                    Handler handler = new Handler(getApplicationContext().getMainLooper());
-                    handler.post( new Runnable(){
-                        public void run(){
+            } catch (final HTTPExceptions e) {
+                Handler handler = new Handler(getApplicationContext().getMainLooper());
+                handler.post( new Runnable(){
+                    public void run(){
+                        if (e.getMessage().equals("timeout")) {
+                            Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
+                        } else if (e.getMessage().equals("falseStatusCode")) {
                             Toast.makeText(getApplicationContext(), "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
+                        } else if (e.getMessage().equals("networkError")) {
+                            Toast.makeText(getApplicationContext(), "Fehler: Keine Internetverbindung.", Toast.LENGTH_LONG).show();
                         }
-                    });
-                }
+                    }
+                });
                 registerButton.setClickable(true);
                 return null;
             }
@@ -120,33 +113,6 @@ public class RegistrationActivity extends Activity {
         protected void onPostExecute(Void result) {
             bar.setVisibility(View.GONE);
         }
-    }
-
-    @Override
-	public void onBackPressed(){
-    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    	
-    	builder.setTitle("Programm beenden");
-    	builder.setMessage("Wollen sie das Programm wirklich beenden?");
-    	
-    	builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				AppDown.allDown();
-				
-			}
-		});
-    	builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				
-				
-			}
-		});
-    	AlertDialog dialog = builder.create();
-    	dialog.show();
     }
 
 }
