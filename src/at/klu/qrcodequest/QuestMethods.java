@@ -23,7 +23,7 @@ public class QuestMethods {
 		JSONObject obj = new JSONObject(json);
 		JSONArray array = obj.getJSONArray("Quests");
 		
-		for (int i = 0; i < array.length(); i++) {
+		for (int i = 0; i < array.length(); i++){
 			JSONObject quest = array.getJSONObject(i);
 			String name = quest.getString("name");
 			int id = quest.getInt("id");
