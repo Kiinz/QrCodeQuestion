@@ -2,7 +2,6 @@ package at.klu.qrcodequest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;

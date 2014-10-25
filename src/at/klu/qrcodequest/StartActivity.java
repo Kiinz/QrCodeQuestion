@@ -3,21 +3,27 @@ package at.klu.qrcodequest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class StartActivity extends Activity implements OnClickListener {
 
-    private static String userID;
+    private static String userID, errorString = "";
+    private Intent intent;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+
+        new StartTask().execute();
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
 		AppDown.register(this);
@@ -28,18 +34,13 @@ public class StartActivity extends Activity implements OnClickListener {
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/TYPOGRAPH PRO Light.ttf");
         willkommen.setTypeface(typeface);
 
-		
-		userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
-        userID = sha1(userID);
 	}
 
 
 	@Override
 	public void onClick(View v) {
 		
-//		if(userID.equals())
-		Intent registration = new Intent(getApplicationContext(), RegistrationActivity.class);
-		startActivity(registration);
+		startActivity(intent);
 		
 	}
 	
@@ -63,5 +64,34 @@ public class StartActivity extends Activity implements OnClickListener {
 
     public static String getUserID() {
         return userID;
+    }
+
+    private class StartTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+            userID = sha1(userID);
+
+            try {
+                HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/show/" + userID);
+
+                //Wenn User existiert keine Registrierung
+                intent = new Intent(getApplicationContext(), QuestActivity.class);
+            } catch (IOException e) {
+                if (e.getMessage().equals("falseStatusCode")) {
+                    //Wenn Seite nicht gefunden muss der User noch angelegt werden
+                    intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                } else {
+                    errorString="networkError";
+                }
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            HTTPHelper.HTTPExceptionHandler(errorString, StartActivity.this);
+        }
     }
 }

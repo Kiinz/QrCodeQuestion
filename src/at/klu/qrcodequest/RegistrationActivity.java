@@ -1,8 +1,6 @@
 package at.klu.qrcodequest;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -72,13 +70,13 @@ public class RegistrationActivity extends Activity {
                     userParameters.put("active", "1");
                     postParameter = HTTPHelper.createQueryStringForParameters(userParameters);
 
-                    new ProgressTask().execute();
+                    new RegistrationTask().execute();
                 }
             }
         });
     }
 
-    private class ProgressTask extends AsyncTask<Void, Void, Void> {
+    private class RegistrationTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute(){
             bar.setVisibility(View.VISIBLE);
