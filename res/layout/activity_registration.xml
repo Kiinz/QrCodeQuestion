@@ -2,7 +2,8 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/hintergrund1">
 
     <TextView
             android:layout_width="wrap_content"
@@ -18,19 +19,26 @@
             android:text="@string/vorname"
             android:id="@+id/textView2"
             android:layout_marginLeft="10dp" android:layout_marginTop="60dp"/>
+    
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/nachname"
-            android:id="@+id/textView3" android:layout_below="@+id/textView2" android:layout_alignStart="@+id/textView2"
-            android:layout_marginTop="30dp" android:paddingRight="10dp"/>
+            android:id="@+id/textView3" 
+            android:layout_below="@+id/textView2" 
+            android:layout_alignStart="@+id/textView2"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_marginTop="30dp" 
+            android:layout_marginRight="10dp"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/spitzname"
-            android:id="@+id/textView4" android:layout_below="@+id/textView3" android:layout_alignStart="@+id/textView3"
+            android:id="@+id/textView4" android:layout_below="@+id/textView3" 
+            android:layout_alignStart="@+id/textView3"
+            android:layout_alignLeft="@+id/textView3"
             android:layout_marginTop="30dp"/>
     <EditText
             android:layout_width="wrap_content"
@@ -71,7 +79,9 @@
             android:button="@drawable/checkbox_background"
             android:id="@+id/checkBox"
             android:layout_below="@+id/textView4"
-            android:layout_alignStart="@+id/textView4" android:layout_marginTop="28dp" android:checked="false"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_alignLeft="@+id/textView4" 
+            android:layout_marginTop="28dp" android:checked="false"
             android:textSize="22sp"/>
     <Button
             android:layout_width="wrap_content"

@@ -9,7 +9,7 @@
     tools:context="at.klu.quest.MainActivity" >
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/best"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"

@@ -82,7 +82,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
                 values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
             }
 
-            adapter = new ExpandableListAdapter(getApplicationContext(), values, null);
+            adapter = new ExpandableListAdapter(getApplicationContext(), values, null, quests);
             list.setAdapter(adapter);
 
             bar.setVisibility(View.INVISIBLE);

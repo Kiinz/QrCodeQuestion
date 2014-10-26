@@ -21,11 +21,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	private Intent intent;
 	private List<String> listParents;
 	private HashMap<String, List<String>> listChildren;
+	private List<Quest> quests;
 	
-	public ExpandableListAdapter(Context context, List<String> listParents , HashMap<String, List<String>> listChildren) {
+	public ExpandableListAdapter(Context context, List<String> listParents , HashMap<String, List<String>> listChildren, ArrayList<Quest> quests) {
 		this.context = context;
 		this.listChildren = listChildren;
 		this.listParents = listParents;
+		this.quests = quests;
 	}
 	
 	@Override
@@ -98,22 +100,36 @@ UserHolder2 holder;
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.list_child, parent, false);
 			holder = new UserHolder2();
-			holder.anmelden = (Button)convertView.findViewById(R.id.button1);
-			holder.bestenliste = (Button)convertView.findViewById(R.id.button2);
+			holder.anmelden = (Button)convertView.findViewById(R.id.sign);
+			holder.bestenliste = (Button)convertView.findViewById(R.id.best);
 			convertView.setTag(holder);
 		}else{
 			holder = (UserHolder2) convertView.getTag();
 		}
-		String tquest = listParents.get(groupPosition);
+		final int id = (int)getGroupId(groupPosition);
+		String tquest = listParents.get(id);
 		
 		holder.anmelden.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				
-				intent = new Intent(context,BestlistActivity.class);
+				intent = new Intent(context,MainActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
+				intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
 				context.startActivity(intent);
+			}
+		});
+		
+		holder.bestenliste.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+				intent = new Intent(context, BestlistActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+				context.startActivity(intent);
+				
 			}
 		});
 	
