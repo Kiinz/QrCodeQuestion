@@ -11,8 +11,11 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ExpandableListView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -21,9 +24,9 @@ import java.util.ArrayList;
 
 public class QuestActivity extends Activity implements OnItemClickListener {
 
-    ListView list;
+    ExpandableListView list;
     ProgressBar bar;
-    QuestCustomAdapter adapter;
+    ExpandableListAdapter adapter;
     ArrayList<Quest> quests = new ArrayList<Quest>();
     private String errorString = "";
 
@@ -36,8 +39,8 @@ public class QuestActivity extends Activity implements OnItemClickListener {
         AppDown.register(this);
 
         bar = (ProgressBar) findViewById(R.id.marker_progress);
-        list = (ListView) findViewById(R.id.listView1);
-        list.setOnItemClickListener(this);
+        list = (ExpandableListView) findViewById(R.id.listView1);
+//        list.setOnItemClickListener(this);
 
         new QuestTask().execute();
 
@@ -79,7 +82,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
                 values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
             }
 
-            adapter = new QuestCustomAdapter(getApplicationContext(), R.layout.row, values);
+            adapter = new ExpandableListAdapter(getApplicationContext(), values, null);
             list.setAdapter(adapter);
 
             bar.setVisibility(View.INVISIBLE);

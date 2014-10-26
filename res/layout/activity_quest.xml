@@ -9,15 +9,17 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="at.klu.qrcodequest.QuestActivity" >
 
-    <ListView
+    <ExpandableListView
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
+        android:childDivider="@color/transparent"
+        android:groupIndicator="@color/transparent"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/textView1" >
 
-    </ListView>
+    </ExpandableListView>
 
     <TextView
         android:id="@+id/textView1"
