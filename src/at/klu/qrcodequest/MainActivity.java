@@ -164,7 +164,6 @@ public class MainActivity extends Activity {
 
                         Handler handler = new Handler(context.getMainLooper());
                         handler.post(new Runnable() {
-
                             @Override
                             public void run() {
                                 placeMarker(latitude, longitude, nodes.get(position).getName());

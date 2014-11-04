@@ -3,9 +3,7 @@ package at.klu.qrcodequest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
+import com.squareup.okhttp.*;
 
 import java.io.*;
 import java.net.*;
@@ -13,10 +11,6 @@ import java.util.Map;
 
 
 public class HTTPHelper {
-
-    private static HttpURLConnection urlConnection;
-    private static StringBuffer stringBuffer = new StringBuffer();
-
 
     public static String makeGetRequest(String urlString) throws IOException {
 
@@ -32,71 +26,16 @@ public class HTTPHelper {
 
     }
 
-    //Convert InputStream to StringBuffer
-    private static void readStream(InputStream in) {
-        BufferedReader reader = null;
-        stringBuffer.setLength(0);
-        try {
-            reader = new BufferedReader(new InputStreamReader(in));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                stringBuffer.append(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public static StringBuffer makePostRequest(String urlString, String postParameters) throws HTTPExceptions {
-        URL url = null;
-        try {
-            url = new URL(urlString);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        try {
-
-            urlConnection = (HttpURLConnection) (url != null ? url.openConnection() : null); //Check if URL!=null and open Connection
-            if (urlConnection != null) {
-                urlConnection.setDoOutput(true);
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setConnectTimeout(10000);
-                urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
-                urlConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-                urlConnection.setFixedLengthStreamingMode(postParameters.getBytes().length);
-
-                PrintWriter out = new PrintWriter(urlConnection.getOutputStream()); //Post parameters
-                out.print(postParameters);
-                out.close();
-//
-                int statusCode = urlConnection.getResponseCode();
-                if (statusCode != HttpURLConnection.HTTP_OK) {  //!=200
-                    throw new HTTPExceptions("falseStatusCode");
-                }
-
-                readStream(urlConnection.getInputStream()); //Antwort auslesen
-            }
-
-        } catch (SocketTimeoutException e) {
-            throw new HTTPExceptions("timeout");
-        } catch (IOException e) {
-            //Network Error
-            throw new HTTPExceptions("networkError");
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-        }
-        return stringBuffer;
-
+    public static StringBuffer makePostRequest(String urlString, String postParameters) throws IOException {
+        MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+        OkHttpClient httpClient = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(mediaType, postParameters);
+        Request request = new Request.Builder()
+                .url(urlString)
+                .post(requestBody)
+                .build();
+        Response response = httpClient.newCall(request).execute();
+        return new StringBuffer(response.body().string());
     }
 
     private static final char PARAMETER_DELIMITER = '&';
@@ -168,8 +107,3 @@ public class HTTPHelper {
     }
 }
 
-class HTTPExceptions extends Exception {
-    public HTTPExceptions(String reason) {
-        super(reason);
-    }
-}

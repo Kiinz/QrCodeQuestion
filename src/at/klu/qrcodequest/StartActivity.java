@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -19,17 +21,20 @@ public class StartActivity extends Activity implements OnClickListener {
     private static String userID, errorString = "";
     private Intent intent;
     private Button start;
+    private static User user;
 
-	@Override
+
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
-
-        new StartTask().execute();
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
 		AppDown.register(this);
 
         start = (Button) findViewById(R.id.button1);
+
+        new StartTask().execute();
+
         start.setOnClickListener(this);
         start.setClickable(false);
         TextView willkommen = (TextView) findViewById(R.id.textViewWillkommen);
@@ -76,19 +81,31 @@ public class StartActivity extends Activity implements OnClickListener {
             userID = sha1(userID);
 
             try {
-                HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/show/" + userID);
+                String userJSONString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/show/" + userID + ".json");
 
-                //Wenn User existiert keine Registrierung
+                // User existiert -> Wird in Klasse gespeichert
+                JSONObject userJSON = new JSONObject(userJSONString);
+                int id = userJSON.getInt("userPk");
+                String firstname = userJSON.getString("firstname");
+                String lastname = userJSON.getString("lastname");
+                String nickname = userJSON.getString("nickname");
+                String userId = userJSON.getString("userId");
+                int active = userJSON.getInt("active");
+                user = new User(id,active,firstname,lastname,nickname,userId);
+
+                // Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
                 start.setClickable(true);
             } catch (IOException e) {
                 if (e.getMessage().equals("falseStatusCode")) {
-                    //Wenn Seite nicht gefunden muss der User noch angelegt werden
+                    // Wenn Seite nicht gefunden muss der User noch angelegt werden
                     intent = new Intent(getApplicationContext(), RegistrationActivity.class);
                     start.setClickable(true);
                 } else {
                     errorString="networkError";
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
             return null;
         }
@@ -97,5 +114,12 @@ public class StartActivity extends Activity implements OnClickListener {
         protected void onPostExecute(Void result) {
             HTTPHelper.HTTPExceptionHandler(errorString, StartActivity.this);
         }
+    }
+
+    public static User getUser() {
+        return user;
+    }
+    public static void setUser(User user) {
+        StartActivity.user = user;
     }
 }

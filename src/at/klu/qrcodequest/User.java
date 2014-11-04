@@ -10,12 +10,13 @@ public class User {
 	private String userId;
 	
 	public User (){
-		
+
 	}
 	
-	public User(int active, String firstname, String lastname,
+	public User(int id, int active, String firstname, String lastname,
 			String nickname, String userId) {
 		super();
+        this.id = id;
 		this.active = active;
 		this.firstname = firstname;
 		this.lastname = lastname;

@@ -1,3 +1,4 @@
+/*
 package at.klu.qrcodequest;
 
 import org.json.JSONArray;
@@ -103,3 +104,4 @@ public class UserMethods {
     }
 }
 
+*/

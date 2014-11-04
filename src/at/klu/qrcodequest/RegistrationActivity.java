@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,6 +18,7 @@ public class RegistrationActivity extends Activity {
     Button registerButton;
     private CheckBox checkBox;
     private String vorname, nachname, spitzname, userID, postParameter;
+    private int id;
     private Boolean useName;
     public static Activity registrationActivity;
 
@@ -84,9 +85,23 @@ public class RegistrationActivity extends Activity {
 
         @Override
         protected Void doInBackground(Void... arg0) {
+            StringBuffer stringBuffer;
             try {
-                HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter);
-            } catch (final HTTPExceptions e) {
+                stringBuffer = new StringBuffer(HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter));
+
+                // Temporäre Suche nach ID
+                String[] lines = stringBuffer.toString().split("\\n");
+                for(String s: lines){
+                    if (s.contains("<form action=\"/Quest/user/delete/")) { // String wird gesucht
+                        String[] splitted = s.split("[\"/]"); // Split bei / oder "
+                        for (String s1 : splitted) {
+                            if (s1.matches("\\d+")) { // Mindestens eine Ziffer
+                                id = Integer.parseInt(s1);
+                            }
+                        }
+                    }
+                }
+/*            } catch (final HTTPExceptions e) {
                 Handler handler = new Handler(getApplicationContext().getMainLooper());
                 handler.post( new Runnable(){
                     public void run(){
@@ -100,16 +115,24 @@ public class RegistrationActivity extends Activity {
                     }
                 });
                 registerButton.setClickable(true);
-                return null;
+                return null;*/
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
-            startActivity(intent);
+
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
+
+            // User wird in StartActivity gespeichert
+            // TODO Sauberer?
+            StartActivity.setUser(new User(id, 1, vorname, nachname, spitzname, userID));
+
             bar.setVisibility(View.GONE);
+            Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+            startActivity(intent);
         }
     }
 
