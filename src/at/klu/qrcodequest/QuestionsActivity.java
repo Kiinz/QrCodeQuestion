@@ -27,6 +27,7 @@ public class QuestionsActivity extends Activity {
     private int questionNumber = 0;
     private int nodePk, questPk;
     private int[] questionIDs;
+    private String errorString;
     private List<Integer> randomKeys;
 
     @Override
@@ -47,8 +48,8 @@ public class QuestionsActivity extends Activity {
 
     @Override
     public void onBackPressed() {
-        if (questionNumber > 0) {
 
+        if (questionNumber > 0) {
             questionNumber--;
             shuffleAnswers();
             generateNextQuestionWithAnswers();
@@ -145,17 +146,10 @@ public class QuestionsActivity extends Activity {
             questions = new ArrayList<Question>();
 
             for (int questionID : questionIDs) {
-                String questionsString = null;
                 try {
-                    questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json") + "]}";
-                } catch (IOException e) {
-                    // TODO Exception
-                    e.printStackTrace();
-                }
+                    String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json") + "]}";
 
-                JSONObject questionJSON;
-                try {
-                    questionJSON = new JSONObject(questionsString);
+                    JSONObject questionJSON = new JSONObject(questionsString);
 
                     nodePk = 2;
                     active = questionJSON.getBoolean("active");
@@ -174,7 +168,13 @@ public class QuestionsActivity extends Activity {
 
                     Question question = new Question(nodePk, active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
                     questions.add(question);
-
+                } catch (IOException e) {
+                    if (e.getMessage().equals("falseStatusCode")) {
+                        errorString = "falseStatusCode";
+                    } else {
+                        errorString="networkError";
+                    }
+                    return null;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -186,6 +186,8 @@ public class QuestionsActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void result) {
+            HTTPHelper.HTTPExceptionHandler(errorString, QuestionsActivity.this);
+
             bar.setVisibility(View.GONE);
             loadQuestionsTextView.setVisibility(View.GONE);
             shuffleAnswers();

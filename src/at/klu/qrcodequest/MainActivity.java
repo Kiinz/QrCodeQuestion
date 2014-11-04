@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     int nodePk = 0;
     ArrayList<Node> nodes;
     Context context;
+    private String errorString = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,13 +141,16 @@ public class MainActivity extends Activity {
 
             try {
                 nodes = QuestMethods.getNodes(questPk);
-                System.out.println("" + nodes);
 
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
-                // TODO Exception
-                e.printStackTrace();
+                if (e.getMessage().equals("falseStatusCode")) {
+                    errorString = "falseStatusCode";
+                } else {
+                    errorString="networkError";
+                }
+                return null;
             }
 
             for (int i = 0; i < nodes.size(); i++) {
@@ -173,6 +177,11 @@ public class MainActivity extends Activity {
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            HTTPHelper.HTTPExceptionHandler(errorString, MainActivity.this);
         }
     }
 }
