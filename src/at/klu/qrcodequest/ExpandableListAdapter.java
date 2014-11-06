@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import at.klu.qrcodequest.QuestCustomAdapter.UserHolder;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -23,9 +22,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	private HashMap<String, List<String>> listChildren;
 	private List<Quest> quests;
 	
-	public ExpandableListAdapter(Context context, List<String> listParents , HashMap<String, List<String>> listChildren, ArrayList<Quest> quests) {
+	public ExpandableListAdapter(Context context, List<String> listParents, ArrayList<Quest> quests) {
 		this.context = context;
-		this.listChildren = listChildren;
+		this.listChildren = null;
 		this.listParents = listParents;
 		this.quests = quests;
 	}

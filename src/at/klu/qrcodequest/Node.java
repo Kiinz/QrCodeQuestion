@@ -40,21 +40,11 @@ public class Node {
 		this.id = id;
 	}
 
-	public Node(int id, int questPk, boolean active, int sequence,
-			int dtRegistration, String registrationTarget1,
-			String registrationTarget2, String name, String description,
-			String location) {
+	public Node(int id, int questPk, boolean active, int sequence, int dtRegistration, String registrationTarget1,
+				String registrationTarget2, String name, String description, String location) {
 		super();
 		this.id = id;
-		this.questPk = questPk;
-		this.active = active;
-		this.sequence = sequence;
-		this.dtRegistration = dtRegistration;
-		this.registrationTarget1 = registrationTarget1;
-		this.registrationTarget2 = registrationTarget2;
-		this.name = name;
-		this.description = description;
-		this.location = location;
+		new Node(questPk, active, sequence, dtRegistration, registrationTarget1, registrationTarget2, name, description, location);
 	}
 
 	public Node() {

@@ -23,12 +23,11 @@ import java.util.ArrayList;
 public class MainActivity extends Activity {
 
     private GoogleMap map;
-    Button btscan;
-    String result;
-    int questPk = 0;
-    int nodePk = 0;
-    ArrayList<Node> nodes;
-    Context context;
+    private String result;
+    private int questPk = 0;
+    private int nodePk = 0;
+    private ArrayList<Node> nodes;
+    private Context context;
     private String errorString = "";
 
     @Override
@@ -51,7 +50,7 @@ public class MainActivity extends Activity {
 
         }
 
-        btscan = (Button) findViewById(R.id.weiter);
+        Button btscan = (Button) findViewById(R.id.weiter);
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
         System.out.println("" + questPk);
@@ -110,15 +109,15 @@ public class MainActivity extends Activity {
         if (!enable.isGPSenabled() && enable.WIFIenabled) {
             enable.enableGPS();
         }
-        if (!enable.isWIFIEnabled() && enable.isGPSenabled()) {
+        if (enable.isWIFIDisabled() && enable.isGPSenabled()) {
             enable.enableNetwork();
         }
-        if (!enable.isWIFIEnabled() && !enable.isGPSenabled()) {
+        if (enable.isWIFIDisabled() && !enable.isGPSenabled()) {
             enable.enableAll();
         }
     }
 
-    public void placeMarker(double latitude, double longitude, String title) {
+    void placeMarker(double latitude, double longitude, String title) {
 
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude));
         marker.title(title);
@@ -132,7 +131,7 @@ public class MainActivity extends Activity {
         startActivity(intent);
     }
 
-    protected class MainNodeTask extends AsyncTask<Void, Void, Void> {
+    private class MainNodeTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {

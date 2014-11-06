@@ -13,7 +13,7 @@ public class QuestMethods {
 
     public static ArrayList<Quest> getQuests() throws JSONException, IOException {
 		
-		ArrayList<Quest> quests = new ArrayList<Quest>();
+		ArrayList<Quest> quests = new ArrayList<>();
 
         String json;
         json = "{Quests:" + HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest.json") + "}";
@@ -37,7 +37,7 @@ public class QuestMethods {
 
     public static ArrayList<Node> getNodes(int questPk) throws JSONException, IOException {
 
-        ArrayList<Node> nodes = new ArrayList<Node>();
+        ArrayList<Node> nodes = new ArrayList<>();
 
         String json;
         json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json");

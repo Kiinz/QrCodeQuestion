@@ -1,12 +1,5 @@
 package at.klu.qrcodequest;
 
-import java.util.ArrayList;
-
-import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class NodeMethodes {
 	
 //public static ArrayList<Node> getNodesfromJSONString() throws JSONException{

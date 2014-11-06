@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 
-public class AppDown {
+class AppDown {
 	
-	private static  ArrayList<Activity> activities = new ArrayList<Activity>();
+	private static final ArrayList<Activity> activities = new ArrayList<>();
 	
 	public static void register(Activity activity){
 		

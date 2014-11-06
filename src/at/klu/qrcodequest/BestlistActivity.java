@@ -3,11 +3,7 @@ package at.klu.qrcodequest;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TableLayout;
@@ -17,7 +13,7 @@ import android.widget.TextView;
 
 public class BestlistActivity extends Activity {
 
-ArrayList<Daten>daten = new ArrayList<Daten>();
+ArrayList<Daten>daten = new ArrayList<>();
 	
 	
 	Daten data1 = new Daten ("Alexander","Kainz","Kiinz44",12);

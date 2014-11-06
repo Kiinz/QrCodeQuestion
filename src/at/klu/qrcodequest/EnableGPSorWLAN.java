@@ -1,5 +1,6 @@
 package at.klu.qrcodequest;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -10,15 +11,16 @@ import android.net.wifi.WifiManager;
 import android.os.IBinder;
 import android.widget.Toast;
 
+@SuppressLint("Registered")
 public class EnableGPSorWLAN extends Service{
 	
-	Context context;
-	LocationManager locationManager;
-	WifiManager wifiManager;
+	private Context context;
+	private LocationManager locationManager;
+	private WifiManager wifiManager;
 	
-	boolean GPSenabled = false;
+	private boolean GPSenabled = false;
 	boolean WIFIenabled = false;
-	String selected;
+	private String selected;
 
 public EnableGPSorWLAN(Context context) {
 		super();
@@ -32,10 +34,10 @@ public boolean isGPSenabled(){
 	return GPSenabled;
 }
 
-public boolean isWIFIEnabled(){
+public boolean isWIFIDisabled(){
 	wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 	WIFIenabled = wifiManager.isWifiEnabled();
-	return WIFIenabled;
+	return !WIFIenabled;
 }
 
 public void enableGPS(){

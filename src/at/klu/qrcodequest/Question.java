@@ -2,12 +2,6 @@ package at.klu.qrcodequest;
 
 import android.util.SparseArray;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-/**
- * Created by Messna on 17.07.2014.
- */
 public class Question {
     private int nodePk;
     private Boolean active;
@@ -46,7 +40,7 @@ public class Question {
     }
 
     public void createSparseArray(String[] answersString){
-        answerSparseArray = new SparseArray<String>(); //More efficient than Hashmap
+        answerSparseArray = new SparseArray<>(); //More efficient than Hashmap
         int i = 0;
         for (String answer : answersString) {
             if (answer.equals("null")) { //Don't add empty answers

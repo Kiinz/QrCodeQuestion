@@ -62,7 +62,7 @@ public class RegistrationActivity extends Activity {
                     registerButton.setClickable(false);
 
                     userID = StartActivity.getUserID();
-                    Map<String, String> userParameters = new HashMap<String, String>();
+                    Map<String, String> userParameters = new HashMap<>();
                     userParameters.put("userId", userID);
                     userParameters.put("firstname", vorname);
                     userParameters.put("lastname", nachname);

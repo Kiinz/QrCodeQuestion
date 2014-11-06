@@ -26,7 +26,7 @@ public class HTTPHelper {
 
     }
 
-    public static StringBuffer makePostRequest(String urlString, String postParameters) throws IOException {
+    public static StringBuffer makePostRequest(@SuppressWarnings("SameParameterValue") String urlString, String postParameters) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
         OkHttpClient httpClient = new OkHttpClient();
         RequestBody requestBody = RequestBody.create(mediaType, postParameters);
@@ -69,41 +69,31 @@ public class HTTPHelper {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle("Fehler: Keine Verbindung");
             builder.setMessage("Bitte stellen Sie sicher, dass eine Verbindung zum Internet besteht!");
-            builder.setPositiveButton("Erneut versuchen", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    activity.recreate();
-                }
-            });
-            builder.setNegativeButton("Beenden", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    AppDown.allDown();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            createDialog(builder, activity);
         } else if (errorString.equals("falseStatusCode")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle("Fehler: Datei nicht gefunden");
             builder.setMessage("Der Server hat ein Problem festgestellt. Bitte versuchen Sie es später erneut!");
-            builder.setPositiveButton("Erneut versuchen", new DialogInterface.OnClickListener() {
-
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    activity.recreate();
-                }
-            });
-            builder.setNegativeButton("Beenden", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    AppDown.allDown();
-                }
-            });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            createDialog(builder, activity);
         }
+    }
+
+    static void createDialog(AlertDialog.Builder builder, final Activity activity) {
+        builder.setPositiveButton("Erneut versuchen", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                activity.recreate();
+            }
+        });
+        builder.setNegativeButton("Beenden", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AppDown.allDown();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
 
