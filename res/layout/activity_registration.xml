@@ -18,7 +18,9 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/vorname"
             android:id="@+id/textView2"
-            android:layout_marginLeft="10dp" android:layout_marginTop="60dp"/>
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="60dp"/>
     
     <TextView
             android:layout_width="wrap_content"
@@ -29,7 +31,8 @@
             android:layout_below="@+id/textView2" 
             android:layout_alignStart="@+id/textView2"
             android:layout_alignLeft="@+id/textView2"
-            android:layout_marginTop="30dp" 
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"/>
     <TextView
             android:layout_width="wrap_content"
@@ -47,8 +50,11 @@
             android:background="@drawable/textfield_style1"
             android:singleLine="true"
             android:inputType="textPersonName"
-            android:layout_marginTop="60dp" android:layout_marginRight="5dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
             android:layout_alignParentRight="true" android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@+id/textView3"
             android:layout_toRightOf="@+id/textView3"/>
     <EditText
             android:layout_width="wrap_content"
@@ -60,6 +66,7 @@
             android:layout_below="@+id/editText" android:layout_marginTop="24dp"
             android:layout_alignRight="@+id/editText"
             android:layout_alignEnd="@+id/editText"
+            android:layout_toEndOf="@+id/textView3"
             android:layout_toRightOf="@+id/textView3"/>
     <EditText
             android:layout_width="wrap_content"
