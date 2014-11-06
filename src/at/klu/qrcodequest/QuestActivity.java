@@ -23,7 +23,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
     ExpandableListView list;
     ProgressBar bar;
     ExpandableListAdapter adapter;
-    ArrayList<Quest> quests = new ArrayList<Quest>();
+    ArrayList<Quest> quests = new ArrayList<>();
     private String errorString = "";
 
     @Override
@@ -72,7 +72,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 
             HTTPHelper.HTTPExceptionHandler(errorString, QuestActivity.this);
 
-            ArrayList<String> values = new ArrayList<String>();
+            ArrayList<String> values = new ArrayList<>();
 
             for (Quest quest : quests) {
                 values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList

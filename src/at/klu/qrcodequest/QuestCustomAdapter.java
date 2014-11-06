@@ -18,7 +18,7 @@ public class QuestCustomAdapter extends ArrayAdapter<String>{
 	Intent intent;
 	Context context;
 	int layoutResourceId;
-	ArrayList<String> quests = new ArrayList<String>();
+	ArrayList<String> quests = new ArrayList<>();
 	
 	public QuestCustomAdapter(Context context, int layoutResourceId, ArrayList<String> quests) {
 		super(context, layoutResourceId, quests);
