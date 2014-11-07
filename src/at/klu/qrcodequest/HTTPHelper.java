@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import com.squareup.okhttp.*;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.*;
@@ -36,6 +37,19 @@ public class HTTPHelper {
                 .build();
         Response response = httpClient.newCall(request).execute();
         return new StringBuffer(response.body().string());
+    }
+
+    public static String makeJSONPost(String urlString, String postParameters) throws IOException {
+        MediaType mediaType = MediaType.parse("application/json");
+        OkHttpClient httpClient = new OkHttpClient();
+        RequestBody requestBody = RequestBody.create(mediaType, postParameters);
+        Request request = new Request.Builder()
+                .url(urlString)
+                .addHeader("Accept", "application/json")
+                .post(requestBody)
+                .build();
+        Response response = httpClient.newCall(request).execute();
+        return response.body().string();
     }
 
     private static final char PARAMETER_DELIMITER = '&';

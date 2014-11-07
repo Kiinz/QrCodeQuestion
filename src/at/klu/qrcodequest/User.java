@@ -1,12 +1,14 @@
 package at.klu.qrcodequest;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class User {
 	
 	private int id;
-	private String firstname;
-	private String lastname;
-	private String nickname;
-	private String userId;
+	private int dtOwner = 1;
+	private String firstname, lastname, nickname, userId;
+	private boolean active = true;
 	
 	public User (){
 
@@ -61,7 +63,19 @@ public class User {
 				+ nickname + ", userId=" + userId + "]";
 	}
 	
-	
-	
+	public String getJSONString() {
+		JSONObject jsonObject = new JSONObject();
+		try {
+			jsonObject.put("active", true);
+			jsonObject.put("dtOwner", 1);
+			jsonObject.put("firstname", this.firstname);
+			jsonObject.put("lastname", this.lastname);
+			jsonObject.put("nickname", this.nickname);
+			jsonObject.put("userId", this.userId);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		return jsonObject.toString();
+	}
 
 }

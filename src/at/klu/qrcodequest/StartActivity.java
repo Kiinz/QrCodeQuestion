@@ -84,6 +84,12 @@ public class StartActivity extends Activity implements OnClickListener {
             try {
                 String userJSONString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/get?userId=" + userID);
 
+                if (userJSONString.equals("[]")) { // TODO Mit Exception?
+                    intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                    start.setClickable(true);
+                    return null;
+                }
+
                 // User existiert -> Wird in Klasse gespeichert
                 JSONArray userJSONArray = new JSONArray(userJSONString);
                 JSONObject userJSON = new JSONObject(userJSONArray.getString(0));
