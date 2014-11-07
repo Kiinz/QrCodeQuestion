@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public class BestlistActivity extends Activity {
 
-ArrayList<Daten>daten = new ArrayList<>();
+ArrayList<Daten>daten = new ArrayList<Daten>();
 	
 	
 	Daten data1 = new Daten ("Alexander","Kainz","Kiinz44",12);

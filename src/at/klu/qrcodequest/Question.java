@@ -40,7 +40,7 @@ public class Question {
     }
 
     public void createSparseArray(String[] answersString){
-        answerSparseArray = new SparseArray<>(); //More efficient than Hashmap
+        answerSparseArray = new SparseArray<String>(); //More efficient than Hashmap
         int i = 0;
         for (String answer : answersString) {
             if (answer.equals("null")) { //Don't add empty answers

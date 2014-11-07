@@ -6,7 +6,7 @@ import android.app.Activity;
 
 class AppDown {
 	
-	private static final ArrayList<Activity> activities = new ArrayList<>();
+	private static final ArrayList<Activity> activities = new ArrayList<Activity>();
 	
 	public static void register(Activity activity){
 		

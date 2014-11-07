@@ -28,10 +28,11 @@ public class Quest {
 	}
 	
 
-	public Quest(int id, String name) {
+	public Quest(int id, String name, int dtRegistration) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.dtRegistration = dtRegistration;
 	}
 	public int getId() {
 		return id;

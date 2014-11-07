@@ -18,12 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 
-public class QuestActivity extends Activity implements OnItemClickListener {
+public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 
     ExpandableListView list;
     ProgressBar bar;
     ExpandableListAdapter adapter;
-    ArrayList<Quest> quests = new ArrayList<>();
+    ArrayList<Quest> quests = new ArrayList<Quest>();
     private String errorString = "";
 
     @Override
@@ -72,7 +72,7 @@ public class QuestActivity extends Activity implements OnItemClickListener {
 
             HTTPHelper.HTTPExceptionHandler(errorString, QuestActivity.this);
 
-            ArrayList<String> values = new ArrayList<>();
+            ArrayList<String> values = new ArrayList<String>();
 
             for (Quest quest : quests) {
                 values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
@@ -94,23 +94,23 @@ public class QuestActivity extends Activity implements OnItemClickListener {
     }
 
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-        String itemValue = (String) list.getItemAtPosition(position);
-
-
+//    @Override
+//    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//        String itemValue = (String) list.getItemAtPosition(position);
+//
+//
 //			if(quests.get(position).getDtRegistration() == 2){
-
-
-        Intent qrreader = new Intent(getApplicationContext(), MainActivity.class);
-        qrreader.putExtra("questPk", quests.get(position).getId());
-        startActivity(qrreader);
-
+//
+//
+//        Intent qrreader = new Intent(getApplicationContext(), MainActivity.class);
+//        qrreader.putExtra("questPk", quests.get(position).getId());
+//        startActivity(qrreader);
+//
 //			}
 
 //			Toast.makeText(getApplicationContext(), "" + position + " " + itemValue, Toast.LENGTH_LONG).show();
-    }
+//    }
 
     @Override
     public void onBackPressed() {

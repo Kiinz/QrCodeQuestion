@@ -88,7 +88,7 @@ public class MainActivity extends Activity {
                         nodePk = node.getId();
                         System.out.println("" + nodePk);
 
-
+                        
                         Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
                         questions.putExtra("nodePk", nodePk);
@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            nodes = new ArrayList<>();
+            nodes = new ArrayList<Node>();
 
             try {
                 nodes = QuestMethods.getNodes(questPk);

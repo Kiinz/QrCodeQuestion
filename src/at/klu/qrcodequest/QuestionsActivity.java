@@ -22,8 +22,8 @@ import java.util.List;
 public class QuestionsActivity extends Activity {
 
     private static ArrayList <Question> questions;
-    private ArrayList<Boolean> rightAnswerChosen = new ArrayList<>();
-    private SparseArray<String> answerSparseArray = new SparseArray<>();
+    private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
+    private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
     private int nodePk, questPk;
     private int[] questionIDs;
@@ -114,7 +114,7 @@ public class QuestionsActivity extends Activity {
     public void shuffleAnswers() {
         answerSparseArray = questions.get(questionNumber).getAnswerSparseArray();
 //        Integer[] numbers = new Integer[answerSparseArray.size()];
-        randomKeys = new ArrayList<>(answerSparseArray.size()+5);
+        randomKeys = new ArrayList<Integer>(answerSparseArray.size()+5);
         for (int i = 0; i < answerSparseArray.size(); i++) {
 //            numbers[i] = i;
             randomKeys.add(i);
@@ -143,7 +143,7 @@ public class QuestionsActivity extends Activity {
             int nodePk;
             boolean active;
             String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
-            questions = new ArrayList<>();
+            questions = new ArrayList<Question>();
 
             for (int questionID : questionIDs) {
                 try {
@@ -186,7 +186,7 @@ public class QuestionsActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void result) {
-            HTTPHelper.HTTPExceptionHandler(errorString, QuestionsActivity.this);
+//            HTTPHelper.HTTPExceptionHandler(errorString, QuestionsActivity.this);
 
             bar.setVisibility(View.GONE);
             loadQuestionsTextView.setVisibility(View.GONE);

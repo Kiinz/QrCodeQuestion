@@ -105,10 +105,13 @@ UserHolder2 holder;
 			@Override
 			public void onClick(View v) {
 				
-				intent = new Intent(context,MainActivity.class);
-				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
-				intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
-				context.startActivity(intent);
+				if(quests.get((int)getGroupId(id)).getDtRegistration() == 2){
+					intent = new Intent(context,MainActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
+					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
+					context.startActivity(intent);
+				}
+				
 			}
 		});
 		
