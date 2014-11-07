@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,17 +82,18 @@ public class StartActivity extends Activity implements OnClickListener {
             userID = sha1(userID);
 
             try {
-                String userJSONString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/show/" + userID + ".json");
+                String userJSONString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/get?userId=" + userID);
 
                 // User existiert -> Wird in Klasse gespeichert
-                JSONObject userJSON = new JSONObject(userJSONString);
-                int id = userJSON.getInt("userPk");
+                JSONArray userJSONArray = new JSONArray(userJSONString);
+                JSONObject userJSON = new JSONObject(userJSONArray.getString(0));
+                
+                int id = userJSON.getInt("id");
                 String firstname = userJSON.getString("firstname");
                 String lastname = userJSON.getString("lastname");
                 String nickname = userJSON.getString("nickname");
-                String userId = userJSON.getString("userId");
-                int active = userJSON.getInt("active");
-                user = new User(id,active,firstname,lastname,nickname,userId);
+                user = new User(id,firstname,lastname,nickname, userID);
+                System.out.println(user.toString());
 
                 // Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);

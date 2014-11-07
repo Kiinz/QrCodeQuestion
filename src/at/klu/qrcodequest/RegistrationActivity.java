@@ -128,7 +128,7 @@ public class RegistrationActivity extends Activity {
 
             // User wird in StartActivity gespeichert
             // TODO Sauberer?
-            StartActivity.setUser(new User(id, 1, vorname, nachname, spitzname, userID));
+            StartActivity.setUser(new User(id, vorname, nachname, spitzname, userID));
 
             bar.setVisibility(View.GONE);
             Intent intent = new Intent (getApplicationContext(),QuestActivity.class);

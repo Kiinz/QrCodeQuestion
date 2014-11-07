@@ -3,7 +3,6 @@ package at.klu.qrcodequest;
 public class User {
 	
 	private int id;
-	private int active;
 	private String firstname;
 	private String lastname;
 	private String nickname;
@@ -13,11 +12,10 @@ public class User {
 
 	}
 	
-	public User(int id, int active, String firstname, String lastname,
+	public User(int id, String firstname, String lastname,
 			String nickname, String userId) {
 		super();
         this.id = id;
-		this.active = active;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.nickname = nickname;
@@ -30,12 +28,6 @@ public class User {
 	}
 	public void setId(int id) {
 		this.id = id;
-	}
-	public int getActive() {
-		return active;
-	}
-	public void setActive(int active) {
-		this.active = active;
 	}
 	public String getFirstname() {
 		return firstname;
@@ -64,7 +56,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", active=" + active + ", firstname="
+		return "User [id=" + id + ", firstname="
 				+ firstname + ", lastname=" + lastname + ", nickname="
 				+ nickname + ", userId=" + userId + "]";
 	}
