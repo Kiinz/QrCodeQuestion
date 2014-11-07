@@ -6,10 +6,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegistrationActivity extends Activity {
 
@@ -62,6 +62,7 @@ public class RegistrationActivity extends Activity {
                     registerButton.setClickable(false);
 
                     userID = StartActivity.getUserID();
+                    // User wird in StartActivity gespeichert
                     StartActivity.setUser(new User(id, vorname, nachname, spitzname, userID));
 
 
@@ -72,6 +73,7 @@ public class RegistrationActivity extends Activity {
     }
 
     private class RegistrationTask extends AsyncTask<Void, Void, Void> {
+        Boolean existing = false;
         @Override
         protected void onPreExecute(){
             bar.setVisibility(View.VISIBLE);
@@ -81,13 +83,14 @@ public class RegistrationActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             try {
                 if (!HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/exists?nickname=" + spitzname).equals("[]")) {
-                    Toast.makeText(getApplicationContext(), "User existiert bereits", Toast.LENGTH_LONG).show();
+                    System.out.println("User existiert bereits");
+                    existing = true;
+                    return null;
                 }
 
-//                new StringBuffer(HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/user/save", postParameter));
-
                 String JSONOutput = HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/user/save.json", StartActivity.getUser().getJSONString());
-                
+                JSONObject jsonObjectOutput = new JSONObject(JSONOutput);
+                StartActivity.getUser().setId(jsonObjectOutput.getInt("id")); // Zurückbekomme ID wird gespeichert
 
 /*            } catch (final HTTPExceptions e) {
                 Handler handler = new Handler(getApplicationContext().getMainLooper());
@@ -106,6 +109,8 @@ public class RegistrationActivity extends Activity {
                 return null;*/
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
             return null;
@@ -114,13 +119,14 @@ public class RegistrationActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
 
-            // User wird in StartActivity gespeichert
-            // TODO Sauberer?
-//            StartActivity.setUser(new User(id, vorname, nachname, spitzname, userID));
-
             bar.setVisibility(View.GONE);
-            Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
-            startActivity(intent);
+            if (!existing) { // Wenn der Nickname bereits verwendet wird in der Activity bleiben
+                Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+                startActivity(intent);
+            }
+            Toast.makeText(getApplicationContext(), "Dieser Spitzname ist leider bereits vergeben.", Toast.LENGTH_LONG).show();
+            registerButton.setClickable(true);
+
         }
     }
 

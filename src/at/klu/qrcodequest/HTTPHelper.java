@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import com.squareup.okhttp.*;
-import org.json.JSONObject;
 
 import java.io.*;
 import java.net.*;
