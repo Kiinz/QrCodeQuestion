@@ -106,17 +106,25 @@ UserHolder2 holder;
 			public void onClick(View v) {
 				
 				if(quests.get((int)getGroupId(id)).getDtRegistration() == 2){
+					//QR-Code
 					intent = new Intent(context,MainActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
 					context.startActivity(intent);
+				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 3){
+					intent = new Intent(context,NFCActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
+					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
+					context.startActivity(intent);
+				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
+					//GPS
 				}
 				
 			}
 		});
 		
 		holder.bestenliste.setOnClickListener(new OnClickListener() {
-			
+		
 			@Override
 			public void onClick(View v) {
 				
