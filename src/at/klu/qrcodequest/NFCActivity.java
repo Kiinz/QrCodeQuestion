@@ -141,7 +141,7 @@ public class NFCActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+		AppDown.register(this);
 		nfcAdapter.enableForegroundDispatch(this, mPendingIntent, intentFilter, mNFCTechLists);
 	}
 

@@ -11,7 +11,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
+
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -39,6 +41,24 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 //        list.setOnItemClickListener(this);
 
         new QuestTask().execute();
+        
+        list.setOnGroupExpandListener(new OnGroupExpandListener(){
+
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				// TODO Auto-generated method stub
+				
+				for(int i = 0; i < quests.size(); i++){
+					if(list.isGroupExpanded(i)){
+						if(i != groupPosition){
+							list.collapseGroup(i);
+						}
+						
+					}
+				}
+			}
+        	
+        });
 
 
     }
@@ -77,7 +97,7 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
             for (Quest quest : quests) {
                 values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
             }
-
+            
             adapter = new ExpandableListAdapter(getApplicationContext(), values, quests);
             list.setAdapter(adapter);
 
