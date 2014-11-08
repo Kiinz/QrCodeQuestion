@@ -47,7 +47,6 @@ public class MainActivity extends Activity {
         } else {
             map.setMyLocationEnabled(true);
             abfrage();
-
         }
 
         Button btscan = (Button) findViewById(R.id.weiter);

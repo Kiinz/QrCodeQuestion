@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import org.json.JSONException;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -44,12 +47,27 @@ public class NFCActivity extends Activity {
 	private ArrayList<Node> nodes;
 	private String errorString="";
 	
+	private GoogleMap map;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nfc);
 		
+		AppDown.register(this);
+		
+		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        
+      //Abfragen ob die Map erstellt werden konnte
+        if (map == null) {
+            Toast.makeText(getApplicationContext(), "Die Karte konnte nicht erstellt werden", Toast.LENGTH_LONG).show();
+        } else {
+            map.setMyLocationEnabled(true);
+            abfrage();
+        }
+        
 		Bundle bundle = getIntent().getExtras();
 		questPk = bundle.getInt("questPk");
 		
@@ -291,6 +309,20 @@ public class NFCActivity extends Activity {
     public void onBackPressed() {
         Intent intent = new Intent(this, QuestActivity.class);
         startActivity(intent);
+    }
+	
+	public void abfrage() {
+        EnableGPSorWLAN enable = new EnableGPSorWLAN(this);
+
+        if (!enable.isGPSenabled() && enable.WIFIenabled) {
+            enable.enableGPS();
+        }
+        if (enable.isWIFIDisabled() && enable.isGPSenabled()) {
+            enable.enableNetwork();
+        }
+        if (enable.isWIFIDisabled() && !enable.isGPSenabled()) {
+            enable.enableAll();
+        }
     }
 
 }
