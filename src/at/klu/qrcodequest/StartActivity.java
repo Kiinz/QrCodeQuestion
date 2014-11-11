@@ -16,6 +16,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 public class StartActivity extends Activity implements OnClickListener {
 
@@ -28,7 +29,7 @@ public class StartActivity extends Activity implements OnClickListener {
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 
-		super.onCreate(savedInstanceState);
+        super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
 		AppDown.register(this);
 
@@ -84,10 +85,8 @@ public class StartActivity extends Activity implements OnClickListener {
             try {
                 String userJSONString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/get?userId=" + userID);
 
-                if (userJSONString.equals("[]")) { // TODO Mit Exception?
-                    intent = new Intent(getApplicationContext(), RegistrationActivity.class);
-                    start.setClickable(true);
-                    return null;
+                if (userJSONString.equals("[]")) {
+                    throw new Exception("UserNotExisting");
                 }
 
                 // User existiert -> Wird in Klasse gespeichert
@@ -105,15 +104,14 @@ public class StartActivity extends Activity implements OnClickListener {
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
                 start.setClickable(true);
             } catch (IOException e) {
-                if (e.getMessage().equals("falseStatusCode")) {
-                    // Wenn Seite nicht gefunden muss der User noch angelegt werden
-                    intent = new Intent(getApplicationContext(), RegistrationActivity.class);
-                    start.setClickable(true);
-                } else {
-                    errorString="networkError";
-                }
+                errorString="networkError";
             } catch (JSONException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                if (e.getMessage().equals("UserNotExisting")) {
+                    intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                    start.setClickable(true);
+                }
             }
             return null;
         }
