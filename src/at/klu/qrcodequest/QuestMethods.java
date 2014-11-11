@@ -104,4 +104,55 @@ public class QuestMethods {
     	
     	return scores;
     }
+    
+    public static void setUserQuest(int userId, int questId) throws JSONException, IOException{
+    	
+    	JSONObject user = new JSONObject();
+    	
+    	user.put("id", userId );
+    	
+    	JSONObject quest = new JSONObject();
+    	
+    	quest.put("id", questId);
+    	
+    	JSONObject userquest = new JSONObject();
+    	
+    	userquest.put("dtState", 1);
+    	
+    	userquest.put("user", user);
+    	userquest.put("quest", quest);
+    	
+    	HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/userQuest/save.json", userquest.toString());
+    	
+//    	System.out.println("" + userquest);
+    }
+    
+    public static boolean getUserQuest(int userId, int questId) throws IOException{
+    	
+    	String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/userQuest/get?userPk=" + userId + "&questPk=" + questId);
+    	
+    	if(json.equals("[]")){
+    		return false;
+    	}else{
+    		return true;
+    	}
+    }
+    
+    public static void setUserQuestNode(int userquestId, int nodeId) throws JSONException, IOException{
+    	
+    	JSONObject userquest = new JSONObject();
+    	
+    	userquest.put("id", userquest);
+    	
+    	JSONObject node = new JSONObject();
+    	
+    	node.put("id", nodeId);
+    	
+    	JSONObject userquestnode = new JSONObject();
+    	
+    	userquestnode.put("userQuest", userquest);
+    	userquestnode.put("node", node);
+    	
+    	HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/userQuestNode/save.json", userquestnode.toString());
+    }
 }
