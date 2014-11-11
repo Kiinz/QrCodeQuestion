@@ -8,8 +8,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/registrieren" android:textSize="25sp"
-            android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+            android:text="@string/registrieren"
+            android:textSize="25sp"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"/>
     <TextView
             android:layout_width="wrap_content"
@@ -38,7 +41,8 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/spitzname"
-            android:id="@+id/textView4" android:layout_below="@+id/textView3" 
+            android:id="@+id/textView4"
+            android:layout_below="@+id/textView3"
             android:layout_alignStart="@+id/textView3"
             android:layout_alignLeft="@+id/textView3"
             android:layout_marginTop="30dp"/>
