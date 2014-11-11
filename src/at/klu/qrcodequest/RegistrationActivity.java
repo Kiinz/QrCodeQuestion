@@ -83,7 +83,6 @@ public class RegistrationActivity extends Activity {
         protected Void doInBackground(Void... arg0) {
             try {
                 if (!HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/exists?nickname=" + spitzname).equals("[]")) {
-                    System.out.println("User existiert bereits");
                     existing = true;
                     return null;
                 }
@@ -107,9 +106,7 @@ public class RegistrationActivity extends Activity {
                 });
                 registerButton.setClickable(true);
                 return null;*/
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+            } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
 
@@ -123,9 +120,10 @@ public class RegistrationActivity extends Activity {
             if (!existing) { // Wenn der Nickname bereits verwendet wird in der Activity bleiben
                 Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
                 startActivity(intent);
+            } else {
+                Toast.makeText(getApplicationContext(), "Dieser Spitzname ist leider bereits vergeben.", Toast.LENGTH_LONG).show();
+                registerButton.setClickable(true);
             }
-            Toast.makeText(getApplicationContext(), "Dieser Spitzname ist leider bereits vergeben.", Toast.LENGTH_LONG).show();
-            registerButton.setClickable(true);
 
         }
     }
