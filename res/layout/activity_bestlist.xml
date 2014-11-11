@@ -37,4 +37,11 @@
         android:textSize="20sp"
         android:paddingBottom="10sp" />
 
+    <ProgressBar
+        android:id="@+id/progressBar1" style="?android:attr/progressBarStyle"
+        android:layout_width="50dp" android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible" />
+
 </RelativeLayout>

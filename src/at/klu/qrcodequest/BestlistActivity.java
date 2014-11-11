@@ -1,11 +1,19 @@
 package at.klu.qrcodequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+
 import android.app.Activity;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -13,57 +21,32 @@ import android.widget.TextView;
 
 public class BestlistActivity extends Activity {
 
-ArrayList<Daten>daten = new ArrayList<Daten>();
-	
-	
-	Daten data1 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data2 = new Daten ("Messner","Dominik","Messi",100);
-	Daten data3 = new Daten ("Hans","Koch","Kochl",32);
-	Daten data4 = new Daten ("Franz","Swatolav","Franzi1",45);
-	Daten data5 = new Daten ("Ignaz","Maier","Igi",66);
-	Daten data6 = new Daten ("Ignaz","Maier","Igi",66);
-	Daten data7 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data8 = new Daten ("Messner","Dominik","Messi",100);
-	Daten data9 = new Daten ("Hans","Koch","Kochl",32);
-	Daten data10 = new Daten ("Franz","Swatolav","Franzi1",45);
-	Daten data11 = new Daten ("Ignaz","Maier","Igi",66);
-	Daten data12 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data13 = new Daten ("Messner","Dominik","Messi",100);
-	Daten data14 = new Daten ("Hans","Koch","Kochl",32);
-	Daten data15 = new Daten ("Franz","Swatolav","Franzi1",45);
-	Daten data16 = new Daten ("Ignaz","Maier","Igi",66);
-	Daten data17 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data18 = new Daten ("Messner","Dominik","Messi",100);
-	Daten data19 = new Daten ("Hans","Koch","Kochl",32);
-	Daten data20 = new Daten ("Franz","Swatolav","Franzi1",45);
-	Daten data21 = new Daten ("Ignaz","Maier","Igi",66);
-	Daten data22 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data23 = new Daten ("Messner","Dominik","Messi",100);
-	Daten data24 = new Daten ("Hans","Koch","Kochl",32);
-	Daten data25 = new Daten ("Franz","Swatolav","Franzi1",45);
-	Daten data26 = new Daten ("Ignaz","Maier","Igi",66);
-	Daten data27 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data28 = new Daten ("Messner","Dominik","Messi",100);
-	Daten data29 = new Daten ("Hans","Koch","Kochl",32);
-	Daten data30 = new Daten ("Franz","Swatolav","Franzi1",45);
-	Daten data31 = new Daten ("Ignaz","Maier","Igi",66);
-	Daten data32 = new Daten ("Alexander","Kainz","Kiinz44",12);
-	Daten data33 = new Daten ("Messner","Dominik","Messi",100);
-	Daten data34 = new Daten ("Hans","Koch","Kochl",32);
-	Daten data35 = new Daten ("Franz","Swatolav","Franzi1",45);
+ArrayList<Score>scores = new ArrayList<Score>();
+int questPk = 0;
 
-	
-	TextView text1;
-	TextView text2;
-	TextView text3;
-	TextView text4;
-	TextView title;
+Context context;
+
+TextView text1;
+TextView text2;
+TextView text3;
+TextView text4;
+TextView title;
+
+ProgressBar bar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_bestlist);
 		AppDown.register(this);
+		
+		context = this;
+		
+		bar = (ProgressBar) findViewById(R.id.progressBar1);
+		
+		Bundle bundle = getIntent().getExtras();
+		questPk = bundle.getInt("questPk");
+		
 		
 		//Titel in die Tabelle einf�gen
 //        TableLayout layout = (TableLayout) findViewById(R.id.table);
@@ -76,67 +59,16 @@ ArrayList<Daten>daten = new ArrayList<Daten>();
 //		title.setGravity(Gravity.CENTER_HORIZONTAL);
 //		layout.addView(title);
 		
+		new bestlistTask().execute();
 		
-        daten.add(data1);
-        daten.add(data2);
-        daten.add(data3);
-        daten.add(data4);
-        daten.add(data5);
-        daten.add(data6);
-        daten.add(data7);
-        daten.add(data8);
-        daten.add(data9);
-        daten.add(data10);
-        daten.add(data11);
-        daten.add(data12);
-        daten.add(data13);
-        daten.add(data14);
-        daten.add(data15);
-        daten.add(data16);
-        daten.add(data17);
-        daten.add(data18);
-        daten.add(data19);
-        daten.add(data20);
-        daten.add(data21);
-        daten.add(data22);
-        daten.add(data23);
-        daten.add(data24);
-        daten.add(data25);
-        daten.add(data26);
-        daten.add(data27);
-        daten.add(data28);
-        daten.add(data29);
-        daten.add(data30);
-        daten.add(data31);
-        daten.add(data32);
-        daten.add(data33);
-        daten.add(data34);
-        daten.add(data35);
-        
-        
-        setRows(daten); 
-	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.bestlist, menu);
-		return true;
+		
 	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-        return id == R.id.action_settings || super.onOptionsItemSelected(item);
-    }
 	
-public void setRows(ArrayList<Daten>daten){
+public void setRows(ArrayList<Score>scores){
     	
     	TableLayout layout = (TableLayout) findViewById(R.id.table);
-    	int length = daten.size(); //L�nge der Array List abfragen
+    	int length = scores.size(); //Länge der Array List abfragen
     	
     	
     	for (int x = 0; x < length; x++){
@@ -171,30 +103,75 @@ public void setRows(ArrayList<Daten>daten){
 //    		text3.setBackgroundColor(Color.parseColor("#FF0000"));
 //    		text4.setBackgroundColor(Color.parseColor("#FF0000"));
     		
-    		String vorname = daten.get(x).getVorname();
-    		String nachname = daten.get(x).getNachname();
-    		int punkte = daten.get(x).getPunkte();
-    		String benutzer = daten.get(x).getBenutzername();
+    		String firstname = scores.get(x).getFirstname();
+    		String lastname = scores.get(x).getLastname();
+    		int score = scores.get(x).getScore();
+    		String nickname = scores.get(x).getNickname();
     		
-    		text3.setText(vorname);
-    		text2.setText(nachname);
-    		text4.setText("" + punkte);
-    		text1.setText("" + benutzer);
+    		text3.setText(firstname);
+    		text2.setText(lastname);
+    		text4.setText("" + score);
+    		text1.setText(nickname);
     		
     		
-    		row.addView(text1);//einer Reihe wird ein textView hinzugf�gt
+    		row.addView(text1);//einer Reihe wird ein textView hinzugfügt
     		row.addView(text2);
     		row.addView(text3);
     		row.addView(text4);
     		
 //    		int i = x+1;
     		
-    		layout.addView(row,x); //Reihe wird zum TableLayout hinzugef�gt
+    		layout.addView(row,x); //Reihe wird zum TableLayout hinzugefügt
     		
     		
     	}
     	
     }
+
+public class bestlistTask extends AsyncTask<Void, Void, Void>{
+
 	
+	@Override
+	protected void onPreExecute() {
+		// TODO Auto-generated method stub
+		super.onPreExecute();
+		
+		bar.setVisibility(View.VISIBLE);
+	}
+
+	@Override
+	protected Void doInBackground(Void... params) {
+		// TODO Auto-generated method stub
+		
+		try {
+			scores = QuestMethods.getScore(questPk);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//		Handler handler = new Handler(context.getMainLooper());
+//        handler.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                setRows(scores); 
+//            }
+//        });
+        
+		return null;
+	}
+
+	@Override
+	protected void onPostExecute(Void result) {
+		// TODO Auto-generated method stub
+		super.onPostExecute(result);
+		
+		bar.setVisibility(View.INVISIBLE);
+		setRows(scores); 
+	}
+}
 	
 }

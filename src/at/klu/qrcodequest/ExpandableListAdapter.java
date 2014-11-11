@@ -132,6 +132,7 @@ UserHolder2 holder;
 				
 				intent = new Intent(context, BestlistActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); 
+				intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
 				context.startActivity(intent);
 				
 			}

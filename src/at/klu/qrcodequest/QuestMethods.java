@@ -75,9 +75,33 @@ public class QuestMethods {
             node1.setQuestionIDs(obj2.getJSONArray("questions"));
 
             nodes.add(node1);
-
-
         }
         return nodes;
+    }
+    
+    public static ArrayList<Score> getScore(int questPk) throws IOException, JSONException{
+    	
+    	ArrayList<Score> scores = new ArrayList<Score>();
+    	
+    	String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/userQuest/scores?questPk=" + questPk);
+    	
+    	JSONArray array = new JSONArray(json);
+    	
+    	for (int i = 0; i < array.length(); i++){
+    		JSONObject scoreObj = array.getJSONObject(i);
+    		JSONObject userObj = scoreObj.getJSONObject("user");
+    		
+    		int score = scoreObj.getInt("score");
+    		String firstname = userObj.getString("firstname");
+    		String lastname = userObj.getString("lastname");
+    		String nickname = userObj.getString("nickname");
+    		
+    		
+    		Score score1 = new Score(firstname, lastname, nickname, score);
+    		
+    		scores.add(score1);
+    	}
+    	
+    	return scores;
     }
 }
