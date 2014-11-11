@@ -71,7 +71,7 @@ public void enableGPS(){
 public void enableNetwork(){
 	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	
-	builder.setTitle("Einstellungen �ndern");
+	builder.setTitle("Einstellungen ändern");
 	builder.setMessage("Mit WLAN kann eine besser Genauigkeit erreicht werden. Wollen Sie WLAN nun einschalten?");
 	
 	builder.setPositiveButton("Einstellungen", new DialogInterface.OnClickListener() {
