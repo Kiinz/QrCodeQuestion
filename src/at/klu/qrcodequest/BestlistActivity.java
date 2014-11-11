@@ -2,6 +2,12 @@ package at.klu.qrcodequest;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 import org.json.JSONException;
 
@@ -22,6 +28,9 @@ import android.widget.TextView;
 public class BestlistActivity extends Activity {
 
 ArrayList<Score>scores = new ArrayList<Score>();
+ArrayList<Score>bldata = new ArrayList<Score>();
+
+HashMap<String, Score> hMap = new HashMap<String, Score>();
 int questPk = 0;
 
 Context context;
@@ -60,8 +69,6 @@ ProgressBar bar;
 //		layout.addView(title);
 		
 		new bestlistTask().execute();
-		
-
 		
 	}
 	
@@ -145,6 +152,34 @@ public class bestlistTask extends AsyncTask<Void, Void, Void>{
 		
 		try {
 			scores = QuestMethods.getScore(questPk);
+			
+			for (int i = 0; i < scores.size(); i++){
+
+				if(hMap.containsKey(scores.get(i).getNickname())){
+					String nickname = scores.get(i).getNickname();
+					String lastname = hMap.get(scores.get(i).getNickname()).getLastname();
+					String firstname = hMap.get(scores.get(i).getNickname()).getFirstname();
+					int score = hMap.get(scores.get(i).getNickname()).getScore() + scores.get(i).getScore();
+					hMap.put(scores.get(i).getNickname(), new Score (firstname, lastname, nickname , score));
+				}
+				else{
+					hMap.put(scores.get(i).getNickname(), scores.get(i));
+				}
+			}
+			
+			Iterator entries = hMap.entrySet().iterator();
+			
+			while (entries.hasNext()){
+				Entry tEntry = (Entry) entries.next();
+				Score score = (Score) tEntry.getValue();
+				bldata.add(score);
+				
+			}
+			
+			Collections.sort(bldata, new ScoreComparator());
+			
+			
+			System.out.println("" + hMap.toString());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,8 +205,18 @@ public class bestlistTask extends AsyncTask<Void, Void, Void>{
 		super.onPostExecute(result);
 		
 		bar.setVisibility(View.INVISIBLE);
-		setRows(scores); 
+		setRows(bldata); 
 	}
 }
+	
+}
+
+class ScoreComparator implements Comparator<Score>{
+
+	@Override
+	public int compare(Score lhs, Score rhs) {
+		
+		return rhs.getScore()-lhs.getScore();
+	}
 	
 }
