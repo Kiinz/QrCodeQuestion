@@ -110,11 +110,13 @@ UserHolder2 holder;
 					intent = new Intent(context,MainActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
+					intent.putExtra("dtRegistration", quests.get((int)getGroupId(id)).getDtRegistration());
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 3){
 					intent = new Intent(context,NFCActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
+					intent.putExtra("dtRegistration", quests.get((int)getGroupId(id)).getDtRegistration());
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
 					//GPS

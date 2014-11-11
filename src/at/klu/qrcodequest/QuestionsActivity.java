@@ -25,7 +25,7 @@ public class QuestionsActivity extends Activity {
     private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
-    private int nodePk, questPk;
+    private int nodePk, questPk, dtRegistration;
     private int[] questionIDs;
     private String errorString;
     private List<Integer> randomKeys;
@@ -39,6 +39,7 @@ public class QuestionsActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         nodePk = bundle.getInt("nodePk");
         questPk = bundle.getInt("questPk");
+        dtRegistration = bundle.getInt("dtRegistration");
         questionIDs = bundle.getIntArray("questionIDs");
         new getQuestionTask().execute();
 
@@ -97,10 +98,18 @@ public class QuestionsActivity extends Activity {
                         questionNumber++;
                         shuffleAnswers();
                     } else {
-                        Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
-                        nodeIntent.putExtra("finished", true);
-                        nodeIntent.putExtra("questPk", questPk);
-                        startActivity(nodeIntent);
+                    	if(dtRegistration == 2){
+                    		Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
+                            nodeIntent.putExtra("finished", true);
+                            nodeIntent.putExtra("questPk", questPk);
+                            startActivity(nodeIntent);
+                    	}else if(dtRegistration == 3){
+                    		Intent nodeIntent = new Intent (getApplicationContext(), NFCActivity.class);
+                            nodeIntent.putExtra("finished", true);
+                            nodeIntent.putExtra("questPk", questPk);
+                            startActivity(nodeIntent);
+                    	}
+                        
                     }
                     generateNextQuestionWithAnswers();
                 }

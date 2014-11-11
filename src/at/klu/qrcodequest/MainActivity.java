@@ -27,6 +27,7 @@ public class MainActivity extends Activity {
     private int questPk = 0;
     private int nodePk = 0;
     private ArrayList<Node> nodes;
+    private int dtRegistration;
     private Context context;
     private String errorString = "";
 
@@ -52,7 +53,9 @@ public class MainActivity extends Activity {
         Button btscan = (Button) findViewById(R.id.weiter);
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
-        System.out.println("" + questPk);
+        dtRegistration = bundle.getInt("dtRegistration");
+        
+//        System.out.println("" + questPk);
 
         //Thread für die Abfrage der Nodes
         new MainNodeTask().execute();
@@ -92,6 +95,7 @@ public class MainActivity extends Activity {
 
                         questions.putExtra("nodePk", nodePk);
                         questions.putExtra("questPk", questPk);
+                        questions.putExtra("dtRegistration", dtRegistration);
                         questions.putExtra("questionIDs", node.getQuestionIDs());
 
                         startActivity(questions);

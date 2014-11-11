@@ -44,6 +44,7 @@ public class NFCActivity extends Activity {
 	
 	private int questPk = 0;
 	private int nodePk = 0;
+	private int dtRegistration = 0;
 	private ArrayList<Node> nodes;
 	private String errorString="";
 	
@@ -70,6 +71,7 @@ public class NFCActivity extends Activity {
         
 		Bundle bundle = getIntent().getExtras();
 		questPk = bundle.getInt("questPk");
+		dtRegistration = bundle.getInt("dtRegistration");
 		
 		new MainNodeTask().execute();
 		
@@ -252,6 +254,7 @@ public class NFCActivity extends Activity {
 
                         questions.putExtra("nodePk", nodePk);
                         questions.putExtra("questPk", questPk);
+                        questions.putExtra("dtRegistration", dtRegistration);
                         questions.putExtra("questionIDs", node.getQuestionIDs());
 
                         startActivity(questions);
