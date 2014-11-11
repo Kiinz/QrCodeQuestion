@@ -104,4 +104,26 @@ public class QuestMethods {
     	
     	return scores;
     }
+    
+    public static void setUserQuest(int userId, int questId) throws JSONException, IOException{
+    	
+    	JSONObject user = new JSONObject();
+    	
+    	user.put("id", userId );
+    	
+    	JSONObject quest = new JSONObject();
+    	
+    	quest.put("id", questId);
+    	
+    	JSONObject userquest = new JSONObject();
+    	
+    	userquest.put("dtState", 1);
+    	
+    	userquest.put("user", user);
+    	userquest.put("quest", quest);
+    	
+    	HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/userQuest/save.json", userquest.toString());
+    	
+    	System.out.println("" + userquest);
+    }
 }
