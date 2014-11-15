@@ -47,6 +47,7 @@ public class NFCActivity extends Activity {
 	private int dtRegistration = 0;
 	private ArrayList<Node> nodes;
 	private String errorString="";
+	private int userPk;
 	
 	private GoogleMap map;
 	
@@ -71,6 +72,7 @@ public class NFCActivity extends Activity {
         
 		Bundle bundle = getIntent().getExtras();
 		questPk = bundle.getInt("questPk");
+		userPk = bundle.getInt("userPk");
 		dtRegistration = bundle.getInt("dtRegistration");
 		
 		new MainNodeTask().execute();
@@ -311,6 +313,7 @@ public class NFCActivity extends Activity {
 	@Override
     public void onBackPressed() {
         Intent intent = new Intent(this, QuestActivity.class);
+        intent.putExtra("userPk", userPk);
         startActivity(intent);
     }
 	

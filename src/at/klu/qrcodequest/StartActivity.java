@@ -102,6 +102,7 @@ public class StartActivity extends Activity implements OnClickListener {
 
                 // Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
+                intent.putExtra("userPk", id);
                 start.setClickable(true);
             } catch (IOException e) {
                 errorString="networkError";

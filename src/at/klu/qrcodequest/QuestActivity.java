@@ -18,6 +18,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
@@ -25,21 +26,26 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
     ExpandableListView list;
     ProgressBar bar;
     ExpandableListAdapter adapter;
-    ArrayList<Quest> quests = new ArrayList<Quest>();
+    private ArrayList<Quest> quests = new ArrayList<Quest>();
+    private int userPk;
     private String errorString = "";
+    HashMap<Integer, Boolean> userQuestMap = new HashMap<Integer, Boolean>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest);
 
-
+        Bundle bundle = getIntent().getExtras();
+        userPk = bundle.getInt("userPk");
+        
         AppDown.register(this);
 
         bar = (ProgressBar) findViewById(R.id.marker_progress);
-        list = (ExpandableListView) findViewById(R.id.listView1);
+        
 //        list.setOnItemClickListener(this);
 
+        list = (ExpandableListView) findViewById(R.id.listView1);
         new QuestTask().execute();
         
         list.setOnGroupExpandListener(new OnGroupExpandListener(){
@@ -73,6 +79,12 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
         protected Void doInBackground(Void... arg0) {
             try {
                 quests = QuestMethods.getQuests(); //Einlesen der Quest
+                
+                for (int i = 0; i < quests.size(); i++){
+                	userQuestMap.put(quests.get(i).getId(), QuestMethods.getUserQuest(userPk, quests.get(i).getId()));
+                	System.out.println("" + userPk + "   " + QuestMethods.getUserQuest(userPk, quests.get(i).getId()));
+                }
+                
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -98,7 +110,7 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
                 values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
             }
             
-            adapter = new ExpandableListAdapter(getApplicationContext(), values, quests);
+            adapter = new ExpandableListAdapter(getApplicationContext(), values, quests, userQuestMap, userPk);
             list.setAdapter(adapter);
 
             bar.setVisibility(View.INVISIBLE);

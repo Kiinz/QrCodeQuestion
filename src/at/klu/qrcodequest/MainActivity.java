@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
     private ArrayList<Node> nodes;
     private int dtRegistration;
     private Context context;
+    private int userPk;
     private String errorString = "";
 
     @Override
@@ -53,6 +54,7 @@ public class MainActivity extends Activity {
         Button btscan = (Button) findViewById(R.id.weiter);
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
+        userPk = bundle.getInt("userPk");
         dtRegistration = bundle.getInt("dtRegistration");
         
 //        System.out.println("" + questPk);

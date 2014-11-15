@@ -1,11 +1,18 @@
 package at.klu.qrcodequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.json.JSONException;
+
+import com.google.android.gms.internal.es;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +28,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	private List<String> listParents;
 	private HashMap<String, List<String>> listChildren;
 	private List<Quest> quests;
+	private HashMap<Integer, Boolean> userQuestMap;
+	private int userPk;
 	
-	public ExpandableListAdapter(Context context, List<String> listParents, ArrayList<Quest> quests) {
+	public ExpandableListAdapter(Context context, List<String> listParents, ArrayList<Quest> quests, HashMap<Integer, Boolean> userQuestMap, int userPk) {
 		this.context = context;
 		this.listChildren = null;
 		this.listParents = listParents;
 		this.quests = quests;
+		this.userQuestMap = userQuestMap;
+		this.userPk = userPk;
 	}
 	
 	@Override
@@ -68,12 +79,14 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
 
-		String text = (String) getGroup(groupPosition);
+			String text = (String) getGroup(groupPosition);
 		
-		if(convertView == null){
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.list_group, parent, false);	
-		}
+			
+			if(userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()) == true){
+				convertView.setBackgroundColor(Color.parseColor("#55FF0000"));
+			}
 		
 	
 		TextView textView = (TextView) convertView.findViewById(R.id.textView1);
@@ -82,21 +95,32 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition,
+	public View getChildView(final int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
 		
-UserHolder2 holder;
-		
-		if(convertView == null){
+			UserHolder2 holder;
+
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.list_child, parent, false);
+			
+			if(userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()) == true){
+				convertView.setBackgroundColor(Color.parseColor("#55FF0000"));
+			}
 			holder = new UserHolder2();
-			holder.anmelden = (Button)convertView.findViewById(R.id.sign);
+			holder.anmelden = (Button) convertView.findViewById(R.id.sign);
 			holder.bestenliste = (Button)convertView.findViewById(R.id.best);
+			
+			if(userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()) == true){
+				System.out.println("" + userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()));
+				holder.anmelden.setText("Fortsetzen");
+				
+			}else if(userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()) == false){
+
+				holder.anmelden.setText("Anmelden");
+			}
+			
 			convertView.setTag(holder);
-		}else{
-			holder = (UserHolder2) convertView.getTag();
-		}
+		
 		final int id = (int)getGroupId(groupPosition);
 		String tquest = listParents.get(id);
 		
@@ -107,15 +131,23 @@ UserHolder2 holder;
 				
 				if(quests.get((int)getGroupId(id)).getDtRegistration() == 2){
 					//QR-Code
+					if(userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()) == false){
+						new UserQuestTask().execute(groupPosition);
+					}
 					intent = new Intent(context,MainActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
+					intent.putExtra("userPk", userPk);
 					intent.putExtra("dtRegistration", quests.get((int)getGroupId(id)).getDtRegistration());
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 3){
+					if(userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()) == false){
+						new UserQuestTask().execute(groupPosition);
+					}
 					intent = new Intent(context,NFCActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
+					intent.putExtra("userPk", userPk);
 					intent.putExtra("dtRegistration", quests.get((int)getGroupId(id)).getDtRegistration());
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
@@ -151,5 +183,22 @@ UserHolder2 holder;
 		Button bestenliste;
 		Button anmelden;
 	}
+	
+	 private class UserQuestTask extends AsyncTask<Integer, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Integer... params) {
+			try {
+				QuestMethods.setUserQuest(userPk, quests.get((int)getGroupId(params[0])).getId());
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;
+		} 
+}
 
 }
