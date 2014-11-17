@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +30,8 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
     private ArrayList<Quest> quests = new ArrayList<Quest>();
     private int userPk;
     private String errorString = "";
-    HashMap<Integer, Boolean> userQuestMap = new HashMap<Integer, Boolean>();
+//    HashMap<Integer, Boolean> userQuestMap = new HashMap<Integer, Boolean>();
+    SparseBooleanArray userQuestMap = new SparseBooleanArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +81,10 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
         protected Void doInBackground(Void... arg0) {
             try {
                 quests = QuestMethods.getQuests(); //Einlesen der Quest
-                
-                for (int i = 0; i < quests.size(); i++){
-                	userQuestMap.put(quests.get(i).getId(), QuestMethods.getUserQuest(userPk, quests.get(i).getId()));
-                	System.out.println("" + userPk + "   " + QuestMethods.getUserQuest(userPk, quests.get(i).getId()));
+
+                for (Quest quest : quests) {
+                    userQuestMap.put(quest.getId(), QuestMethods.getUserQuest(userPk, quest.getId()));
+                    System.out.println("" + userPk + "   " + QuestMethods.getUserQuest(userPk, quest.getId()));
                 }
                 
             } catch (JSONException e) {
