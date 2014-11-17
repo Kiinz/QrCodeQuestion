@@ -131,16 +131,11 @@ public class BestlistActivity extends Activity {
 
         @Override
         protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
-
             bar.setVisibility(View.VISIBLE);
         }
 
         @Override
         protected Void doInBackground(Void... params) {
-            // TODO Auto-generated method stub
-
             try {
                 scores = QuestMethods.getScore(questPk);
 
@@ -185,9 +180,6 @@ public class BestlistActivity extends Activity {
 
         @Override
         protected void onPostExecute(Void result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-
             bar.setVisibility(View.INVISIBLE);
             setRows(bldata);
         }
@@ -199,7 +191,6 @@ class ScoreComparator implements Comparator<Score> {
 
     @Override
     public int compare(Score lhs, Score rhs) {
-
         return rhs.getScore() - lhs.getScore();
     }
 
