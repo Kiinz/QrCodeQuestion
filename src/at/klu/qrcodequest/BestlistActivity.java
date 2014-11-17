@@ -20,18 +20,10 @@ public class BestlistActivity extends Activity {
 
     ArrayList<Score> scores = new ArrayList<Score>();
     ArrayList<Score> bldata = new ArrayList<Score>();
-
     HashMap<String, Score> hMap = new HashMap<String, Score>();
     int questPk = 0;
-
     Context context;
-
-    TextView text1;
-    TextView text2;
-    TextView text3;
-    TextView text4;
-    TextView title;
-
+    TextView text1, text2, text3, text4, title;
     ProgressBar bar;
 
     @Override
@@ -48,7 +40,7 @@ public class BestlistActivity extends Activity {
         questPk = bundle.getInt("questPk");
 
 
-        //Titel in die Tabelle einf�gen
+        //Titel in die Tabelle einfügen
 //        TableLayout layout = (TableLayout) findViewById(R.id.table);
 //        title = new TextView(this);
 //		title.setText("Bestenliste");
