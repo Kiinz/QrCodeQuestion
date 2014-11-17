@@ -123,7 +123,7 @@ public class QuestionsActivity extends Activity {
     public void shuffleAnswers() {
         answerSparseArray = questions.get(questionNumber).getAnswerSparseArray();
 //        Integer[] numbers = new Integer[answerSparseArray.size()];
-        randomKeys = new ArrayList<Integer>(answerSparseArray.size()+5);
+        randomKeys = new ArrayList<>(answerSparseArray.size()+5);
         for (int i = 0; i < answerSparseArray.size(); i++) {
 //            numbers[i] = i;
             randomKeys.add(i);
@@ -131,6 +131,26 @@ public class QuestionsActivity extends Activity {
 
 //        randomKeys = Arrays.asList(numbers);
         Collections.shuffle(randomKeys); //Zufällige Keys, um die Antworten zu mischen
+    }
+
+    public String createJSONString(){
+        // TODO Parameter
+        JSONObject userQuestNode = new JSONObject();
+        try {
+            userQuestNode.put("id", 3084);
+
+            JSONObject question = new JSONObject();
+            question.put("id", 26);
+
+            JSONObject scoreJSONObject = new JSONObject();
+            scoreJSONObject.put("userQuestNode", userQuestNode);
+            scoreJSONObject.put("question", question);
+            scoreJSONObject.put("result", 1);
+            scoreJSONObject.put("score", 500);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return userQuestNode.toString();
     }
 
     private class getQuestionTask extends AsyncTask<Void, Void, Void> {
@@ -157,7 +177,6 @@ public class QuestionsActivity extends Activity {
             for (int questionID : questionIDs) {
                 try {
                     String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json") + "]}";
-
                     JSONObject questionJSON = new JSONObject(questionsString);
 
                     nodePk = 2;

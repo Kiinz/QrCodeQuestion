@@ -3,23 +3,17 @@ package at.klu.qrcodequest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
-import android.view.Menu;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
-
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
@@ -30,7 +24,6 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
     private ArrayList<Quest> quests = new ArrayList<Quest>();
     private int userPk;
     private String errorString = "";
-//    HashMap<Integer, Boolean> userQuestMap = new HashMap<Integer, Boolean>();
     SparseBooleanArray userQuestMap = new SparseBooleanArray();
 
     @Override
@@ -54,8 +47,6 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 
 			@Override
 			public void onGroupExpand(int groupPosition) {
-				// TODO Auto-generated method stub
-				
 				for(int i = 0; i < quests.size(); i++){
 					if(list.isGroupExpanded(i)){
 						if(i != groupPosition){
