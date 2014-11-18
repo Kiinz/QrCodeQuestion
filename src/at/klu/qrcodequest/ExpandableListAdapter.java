@@ -81,7 +81,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			convertView = inflater.inflate(R.layout.list_group, parent, false);	
 			
 			if(userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
-				convertView.setBackgroundColor(Color.parseColor("#55FF0000"));
+				convertView.setBackgroundColor(Color.parseColor("#70FF0000"));
 			}
 		
 	
@@ -145,7 +145,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					intent.putExtra("userPk", userPk);
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
-					//GPS
+					intent = new Intent(context, GoogleMapsActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
+					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
+					intent.putExtra("userPk", userPk);
+					context.startActivity(intent);
 				}
 				
 			}
