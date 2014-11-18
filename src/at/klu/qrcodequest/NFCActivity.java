@@ -44,7 +44,7 @@ public class NFCActivity extends Activity {
 	
 	private int questPk = 0;
 	private int nodePk = 0;
-	private int dtRegistration = 0;
+	private int dtRegistration = 3; //NFC_dtRegistration = 3
 	private ArrayList<Node> nodes;
 	private String errorString="";
 	private int userPk;
@@ -73,7 +73,6 @@ public class NFCActivity extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		questPk = bundle.getInt("questPk");
 		userPk = bundle.getInt("userPk");
-		dtRegistration = bundle.getInt("dtRegistration");
 		
 		new MainNodeTask().execute();
 		
