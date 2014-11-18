@@ -4,18 +4,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import com.android.volley.*;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.*;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.*;
-import java.util.Map;
+import java.io.IOException;
 
 
 public class HTTPHelper {
@@ -60,8 +54,6 @@ public class HTTPHelper {
     }
 
     public static void makeJSONPost (String urlString, JSONObject postParameters, Context context) {
-//        String url = "http://193.171.127.102:8080/Quest/score/save.json";
-        System.out.println(postParameters);
         JsonObjectRequest postRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, urlString, postParameters,
                 new com.android.volley.Response.Listener<JSONObject>() {
                     @Override
@@ -75,34 +67,7 @@ public class HTTPHelper {
                     }
                 }
         );
-//        queue.add(postRequest);
         VolleySingleton.getInstance(context).addToRequestQueue(postRequest);
-    }
-
-    private static final char PARAMETER_DELIMITER = '&';
-    private static final char PARAMETER_EQUALS_CHAR = '=';
-    public static String createQueryStringForParameters(Map<String, String> parameters) {
-        StringBuilder parametersAsQueryString = new StringBuilder();
-        if (parameters != null) {
-            boolean firstParameter = true;
-
-            for (String parameterName : parameters.keySet()) {
-                if (!firstParameter) {
-                    parametersAsQueryString.append(PARAMETER_DELIMITER);
-                }
-
-                try {
-                    parametersAsQueryString.append(parameterName)
-                            .append(PARAMETER_EQUALS_CHAR)
-                            .append(URLEncoder.encode(parameters.get(parameterName), "UTF-8"));
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
-
-                firstParameter = false;
-            }
-        }
-        return parametersAsQueryString.toString();
     }
 
     public static void HTTPExceptionHandler(String errorString, final Activity activity) {

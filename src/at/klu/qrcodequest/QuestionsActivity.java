@@ -24,11 +24,10 @@ import java.util.*;
 public class QuestionsActivity extends Activity {
 
     private static ArrayList <Question> questions;
-    private SparseArray<String> answerSparseArray = new SparseArray<String>();
+    private SparseArray<String> answerSparseArray = new SparseArray<>();
     private int questionNumber = 0;
     private int nodePk, questPk, dtRegistration;
     private int[] questionIDs;
-    private String errorString;
     private List<Integer> randomKeys;
     int finishedRespones = 0;
     String postUrl = "http://193.171.127.102:8080/Quest/score/save.json";
@@ -57,7 +56,7 @@ public class QuestionsActivity extends Activity {
         bar.setVisibility(View.VISIBLE);
         loadQuestionsTextView.setVisibility(View.VISIBLE);
 
-        questions = new ArrayList<Question>();
+        questions = new ArrayList<>();
 
         for (int i = 0; i < questionIDs.length; i++) {
             final String url = "http://193.171.127.102:8080/Quest/question/show/" + questionIDs[i] + ".json";
@@ -88,10 +87,7 @@ public class QuestionsActivity extends Activity {
                                 questions.add(question);
 
                                 finishedRespones++;
-                                System.out.println(finishedRespones + " " + questionIDs.length);
-                                if (finishedRespones == questionIDs.length) {
-                                    System.out.println("FINISHED");
-
+                                if (finishedRespones == questionIDs.length) { // Wenn alle Requests abgearbeitet sind
                                     bar.setVisibility(View.GONE);
                                     loadQuestionsTextView.setVisibility(View.GONE);
                                     shuffleAnswers();
