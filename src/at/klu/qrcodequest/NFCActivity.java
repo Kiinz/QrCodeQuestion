@@ -29,7 +29,9 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ExpandableListView;
 import android.widget.Toast;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 
 
 public class NFCActivity extends Activity {
@@ -49,33 +51,39 @@ public class NFCActivity extends Activity {
 	private String errorString="";
 	private int userPk;
 	
-	private GoogleMap map;
-	
+	private ExpandableListViewNodes adapter;
+	private ExpandableListView list;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nfc);
 		
+		
 		AppDown.register(this);
 		
-		map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
-        map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
-        
-      //Abfragen ob die Map erstellt werden konnte
-        if (map == null) {
-            Toast.makeText(getApplicationContext(), "Die Karte konnte nicht erstellt werden", Toast.LENGTH_LONG).show();
-        } else {
-            map.setMyLocationEnabled(true);
-            abfrage();
-        }
-        
 		Bundle bundle = getIntent().getExtras();
 		questPk = bundle.getInt("questPk");
 		userPk = bundle.getInt("userPk");
 		
+		list = (ExpandableListView) findViewById(R.id.listView1);
 		new MainNodeTask().execute();
 		
+		list.setOnGroupExpandListener(new OnGroupExpandListener(){
+
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				for(int i = 0; i < nodes.size(); i++){
+					if(list.isGroupExpanded(i)){
+						if(i != groupPosition){
+							list.collapseGroup(i);
+						}
+						
+					}
+				}
+			}
+        	
+        });
 		
 		context = this;
 		//Laden des NFC Adapters. Wird verwendet um die Verfügbarkeit zu überprüfen
@@ -275,6 +283,7 @@ public class NFCActivity extends Activity {
             System.out.println("Hier" + questPk);
             try {
                 nodes = QuestMethods.getNodes(questPk);
+                
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -292,6 +301,9 @@ public class NFCActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
             HTTPHelper.HTTPExceptionHandler(errorString, NFCActivity.this);
+            
+            adapter = new ExpandableListViewNodes(getApplicationContext(), nodes);
+            list.setAdapter(adapter);
         }
     }
 	

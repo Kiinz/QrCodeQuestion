@@ -23,5 +23,10 @@
     <string name="LadeFragen">Lade Fragen…</string>
     <string name="anmelden">Anmelden</string>
     <string name="title_activity_nfc">NFCActivity</string>
+    <string name="nodes">Nodes</string>
+    <string name="text">Text</string>
+    <string name="text1">Text</string>
+    <string name="location">Location:</string>
+    <string name="beschreibung">Beschreibung:</string>
 
 </resources>
