@@ -25,7 +25,6 @@ public class StartActivity extends Activity implements OnClickListener {
     private Intent intent;
     private Button start;
     private static User user;
-    private RequestQueue queue = Volley.newRequestQueue(this);
 
 
 

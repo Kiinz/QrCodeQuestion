@@ -88,7 +88,7 @@ public class QuestionsActivity extends Activity {
 
                                 finishedRespones++;
                                 if (finishedRespones == questionIDs.length) { // Wenn alle Requests abgearbeitet sind
-                                    bar.setVisibility(View.GONE);
+                                    bar.setVisibility(View.GONE);             // Evtl mit HashMap und Flag ersetzen
                                     loadQuestionsTextView.setVisibility(View.GONE);
                                     shuffleAnswers();
                                     generateNextQuestionWithAnswers();
