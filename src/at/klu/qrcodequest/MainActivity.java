@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
         }
     }
 
-    void placeMarker(double latitude, double longitude, String title) {
+    public void placeMarker(double latitude, double longitude, String title) {
 
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude));
         marker.title(title);

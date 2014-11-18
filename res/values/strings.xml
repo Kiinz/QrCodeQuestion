@@ -28,5 +28,7 @@
     <string name="text1">Text</string>
     <string name="location">Location:</string>
     <string name="beschreibung">Beschreibung:</string>
+    <string name="title_activity_google_maps">GoogleMapsActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
