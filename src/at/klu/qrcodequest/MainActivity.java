@@ -27,7 +27,7 @@ public class MainActivity extends Activity {
     private int questPk = 0;
     private int nodePk = 0;
     private ArrayList<Node> nodes;
-    private int dtRegistration;
+    private int dtRegistration = 2;
     private Context context;
     private int userPk;
     private String errorString = "";
@@ -55,7 +55,6 @@ public class MainActivity extends Activity {
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
         userPk = bundle.getInt("userPk");
-        dtRegistration = bundle.getInt("dtRegistration");
         
 //        System.out.println("" + questPk);
 

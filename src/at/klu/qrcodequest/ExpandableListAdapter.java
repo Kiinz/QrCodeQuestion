@@ -134,7 +134,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
 					intent.putExtra("userPk", userPk);
-					intent.putExtra("dtRegistration", quests.get((int)getGroupId(id)).getDtRegistration());
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 3){
 					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
@@ -144,7 +143,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
 					intent.putExtra("userPk", userPk);
-					intent.putExtra("dtRegistration", quests.get((int)getGroupId(id)).getDtRegistration());
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
 					//GPS
