@@ -2,8 +2,8 @@ package at.klu.qrcodequest;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,24 +11,30 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class QuestionsActivity extends Activity {
 
     private static ArrayList <Question> questions;
-    private ArrayList<Boolean> rightAnswerChosen = new ArrayList<Boolean>();
     private SparseArray<String> answerSparseArray = new SparseArray<String>();
     private int questionNumber = 0;
     private int nodePk, questPk, dtRegistration;
     private int[] questionIDs;
     private String errorString;
     private List<Integer> randomKeys;
+    int finishedRespones = 0;
+    String postUrl = "http://193.171.127.102:8080/Quest/score/save.json";
+    private ProgressBar bar;
+    private TextView loadQuestionsTextView;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,14 +42,77 @@ public class QuestionsActivity extends Activity {
         setContentView(R.layout.activity_questions);
         AppDown.register(this);
 
-        Bundle bundle = getIntent().getExtras();
-        nodePk = bundle.getInt("nodePk");
-        questPk = bundle.getInt("questPk");
-        dtRegistration = bundle.getInt("dtRegistration");
-        questionIDs = bundle.getIntArray("questionIDs");
-        new getQuestionTask().execute();
+//        Bundle bundle = getIntent().getExtras();
+//        nodePk = bundle.getInt("nodePk");
+//        questPk = bundle.getInt("questPk");
+//        dtRegistration = bundle.getInt("dtRegistration");
+//        questionIDs = bundle.getIntArray("questionIDs");
+        nodePk = 22;
+        dtRegistration = 2;
+        questionIDs = new int[]{26, 27, 28};
 
+        // Progress Bar
+        bar = (ProgressBar) findViewById(R.id.marker_progress);
+        loadQuestionsTextView = (TextView) findViewById(R.id.loadQuestionsText);
+        bar.setVisibility(View.VISIBLE);
+        loadQuestionsTextView.setVisibility(View.VISIBLE);
 
+        questions = new ArrayList<Question>();
+
+        for (int i = 0; i < questionIDs.length; i++) {
+            final String url = "http://193.171.127.102:8080/Quest/question/show/" + questionIDs[i] + ".json";
+            final int finalI = i;
+
+            // prepare the Request
+            JsonObjectRequest getRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            System.out.println(response);
+                            try {
+                                int nodePk = 2; // TODO
+                                boolean active = response.getBoolean("active");
+                                String name = response.getString("name");
+                                String descr = response.getString("description");
+                                String o1 = response.getString("option1");
+                                String o2 = response.getString("option2");
+                                String o3 = response.getString("option3");
+                                String o4 = response.getString("option4");
+                                String o5 = response.getString("option5");
+                                String o6 = response.getString("option6");
+                                String o7 = response.getString("option7");
+                                String o8 = response.getString("option8");
+                                String o9 = response.getString("option9");
+                                String o10 = response.getString("option10");
+
+                                Question question = new Question(questionIDs[finalI], nodePk, active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
+                                questions.add(question);
+
+                                finishedRespones++;
+                                System.out.println(finishedRespones + " " + questionIDs.length);
+                                if (finishedRespones == questionIDs.length) {
+                                    System.out.println("FINISHED");
+
+                                    bar.setVisibility(View.GONE);
+                                    loadQuestionsTextView.setVisibility(View.GONE);
+                                    shuffleAnswers();
+                                    generateNextQuestionWithAnswers();
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Log.d("Error.Response", error.toString());
+                        }
+                    }
+            );
+
+            // add it to the RequestQueue
+            VolleySingleton.getInstance(this).addToRequestQueue(getRequest);
+        }
 
     }
 
@@ -89,9 +158,9 @@ public class QuestionsActivity extends Activity {
                 public void onClick(View v) {
                     Button b = (Button) v;
                     if (answerSparseArray.indexOfValue(b.getText().toString()) == 0) {
-                        rightAnswerChosen.add(questionNumber, true);
+                        HTTPHelper.makeJSONPost(postUrl, buildJSONObjectPost(true, questions.get(questionNumber).getId()), getApplicationContext());
                     } else {
-                        rightAnswerChosen.add(questionNumber, false);
+                        HTTPHelper.makeJSONPost(postUrl, buildJSONObjectPost(false, questions.get(questionNumber).getId()), getApplicationContext());
                     }
 
                     if (questionNumber < questions.size()-1) {
@@ -119,7 +188,6 @@ public class QuestionsActivity extends Activity {
 
     }
 
-
     public void shuffleAnswers() {
         answerSparseArray = questions.get(questionNumber).getAnswerSparseArray();
 //        Integer[] numbers = new Integer[answerSparseArray.size()];
@@ -133,93 +201,29 @@ public class QuestionsActivity extends Activity {
         Collections.shuffle(randomKeys); //Zufällige Keys, um die Antworten zu mischen
     }
 
-    public String createJSONString(){
+    public JSONObject buildJSONObjectPost(boolean answeredCorrect, int questionID){
         // TODO Parameter
         JSONObject userQuestNode = new JSONObject();
+        JSONObject scoreJSONObject = new JSONObject();
         try {
             userQuestNode.put("id", 3084);
 
             JSONObject question = new JSONObject();
-            question.put("id", 26);
+            question.put("id", questionID);
 
-            JSONObject scoreJSONObject = new JSONObject();
             scoreJSONObject.put("userQuestNode", userQuestNode);
             scoreJSONObject.put("question", question);
-            scoreJSONObject.put("result", 1);
-            scoreJSONObject.put("score", 500);
+            if (answeredCorrect) {
+                scoreJSONObject.put("result", 1);
+                scoreJSONObject.put("score", 500);
+            } else {
+                scoreJSONObject.put("result", 0);
+                scoreJSONObject.put("score", 0);
+            }
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return userQuestNode.toString();
-    }
-
-    private class getQuestionTask extends AsyncTask<Void, Void, Void> {
-        private ProgressBar bar;
-        private TextView loadQuestionsTextView;
-
-        @Override
-        protected void onPreExecute(){
-            bar = (ProgressBar) findViewById(R.id.marker_progress);
-            loadQuestionsTextView = (TextView) findViewById(R.id.loadQuestionsText);
-            bar.setVisibility(View.VISIBLE);
-            loadQuestionsTextView.setVisibility(View.VISIBLE);
-
-        }
-
-        @Override
-        protected Void doInBackground(Void... arg0) {
-
-            int nodePk;
-            boolean active;
-            String o1,o2,o3,o4,o5,o6,o7,o8,o9,o10, name, descr;
-            questions = new ArrayList<Question>();
-
-            for (int questionID : questionIDs) {
-                try {
-                    String questionsString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/question/show/" + questionID + ".json") + "]}";
-                    JSONObject questionJSON = new JSONObject(questionsString);
-
-                    nodePk = 2;
-                    active = questionJSON.getBoolean("active");
-                    name = questionJSON.getString("name");
-                    descr = questionJSON.getString("description");
-                    o1 = questionJSON.getString("option1");
-                    o2 = questionJSON.getString("option2");
-                    o3 = questionJSON.getString("option3");
-                    o4 = questionJSON.getString("option4");
-                    o5 = questionJSON.getString("option5");
-                    o6 = questionJSON.getString("option6");
-                    o7 = questionJSON.getString("option7");
-                    o8 = questionJSON.getString("option8");
-                    o9 = questionJSON.getString("option9");
-                    o10 = questionJSON.getString("option10");
-
-                    Question question = new Question(nodePk, active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
-                    questions.add(question);
-                } catch (IOException e) {
-                    if (e.getMessage().equals("falseStatusCode")) {
-                        errorString = "falseStatusCode";
-                    } else {
-                        errorString="networkError";
-                    }
-                    return null;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-//            HTTPHelper.HTTPExceptionHandler(errorString, QuestionsActivity.this);
-
-            bar.setVisibility(View.GONE);
-            loadQuestionsTextView.setVisibility(View.GONE);
-            shuffleAnswers();
-            generateNextQuestionWithAnswers();
-        }
+        return scoreJSONObject;
     }
 }

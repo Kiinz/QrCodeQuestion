@@ -2,8 +2,16 @@ package at.klu.qrcodequest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import com.android.volley.*;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.squareup.okhttp.*;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.net.*;
@@ -51,6 +59,26 @@ public class HTTPHelper {
         return response.body().string();
     }
 
+    public static void makeJSONPost (String urlString, JSONObject postParameters, Context context) {
+//        String url = "http://193.171.127.102:8080/Quest/score/save.json";
+        System.out.println(postParameters);
+        JsonObjectRequest postRequest = new JsonObjectRequest(com.android.volley.Request.Method.POST, urlString, postParameters,
+                new com.android.volley.Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                    }
+                },
+                new com.android.volley.Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+
+                    }
+                }
+        );
+//        queue.add(postRequest);
+        VolleySingleton.getInstance(context).addToRequestQueue(postRequest);
+    }
+
     private static final char PARAMETER_DELIMITER = '&';
     private static final char PARAMETER_EQUALS_CHAR = '=';
     public static String createQueryStringForParameters(Map<String, String> parameters) {
@@ -78,6 +106,7 @@ public class HTTPHelper {
     }
 
     public static void HTTPExceptionHandler(String errorString, final Activity activity) {
+        System.out.println(errorString);
         if (errorString.equals("networkError")) {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle("Fehler: Keine Verbindung");

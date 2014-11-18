@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +18,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 
 public class StartActivity extends Activity implements OnClickListener {
 
@@ -24,6 +25,8 @@ public class StartActivity extends Activity implements OnClickListener {
     private Intent intent;
     private Button start;
     private static User user;
+    private RequestQueue queue = Volley.newRequestQueue(this);
+
 
 
     @Override
