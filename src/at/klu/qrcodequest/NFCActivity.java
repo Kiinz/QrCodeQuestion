@@ -232,7 +232,7 @@ public class NFCActivity extends Activity {
 					|| ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN) {
 
 				try {
-					System.out.println("Hier bini ich");
+//					System.out.println("Hier bini ich");
 					return readText(ndefRecord);
 
 				} catch (UnsupportedEncodingException e) {
