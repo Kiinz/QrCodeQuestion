@@ -2,6 +2,7 @@ package at.klu.qrcodequest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -137,6 +138,7 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 
         bar.setVisibility(View.INVISIBLE);
     }
+
 
 //    @Override
 //    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

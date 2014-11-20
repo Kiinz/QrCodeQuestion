@@ -3,6 +3,7 @@ package at.klu.qrcodequest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -136,6 +138,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					intent.putExtra("userPk", userPk);
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 3){
+					NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(v.getContext());
+					if (nfcAdapter == null) {
+						Toast.makeText(v.getContext(), "Auf diesem Gerät wird leider kein NFC unterstützt.", Toast.LENGTH_LONG).show();
+						return;
+					}
 					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
 						new UserQuestTask().execute(groupPosition);
 					}
