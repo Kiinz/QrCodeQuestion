@@ -26,7 +26,7 @@ public class QuestionsActivity extends Activity {
     private static ArrayList <Question> questions;
     private SparseArray<String> answerSparseArray = new SparseArray<>();
     private int questionNumber = 0;
-    private int nodePk, questPk, dtRegistration;
+    private int nodePk, questPk, dtRegistration, userPk;
     private int[] questionIDs;
     private List<Integer> randomKeys;
     int finishedRespones = 0;
@@ -41,15 +41,16 @@ public class QuestionsActivity extends Activity {
         setContentView(R.layout.activity_questions);
         AppDown.register(this);
 
-//        Bundle bundle = getIntent().getExtras();
-//        nodePk = bundle.getInt("nodePk");
-//        questPk = bundle.getInt("questPk");
-//        dtRegistration = bundle.getInt("dtRegistration");
-//        questionIDs = bundle.getIntArray("questionIDs");
-        nodePk = 22;
-        dtRegistration = 2;
-        questionIDs = new int[]{26, 27, 28};
-
+        Bundle bundle = getIntent().getExtras();
+        nodePk = bundle.getInt("nodePk");
+        questPk = bundle.getInt("questPk");
+        dtRegistration = bundle.getInt("dtRegistration");
+        userPk = bundle.getInt("userPk");
+        questionIDs = bundle.getIntArray("questionIDs");
+        System.out.println("" + questionIDs[0]);
+//        dtRegistration = 2;
+//        questionIDs = new int[]{26, 27, 28};
+//        nodePk = 22;
         // Progress Bar
         bar = (ProgressBar) findViewById(R.id.marker_progress);
         loadQuestionsTextView = (TextView) findViewById(R.id.loadQuestionsText);
@@ -68,7 +69,7 @@ public class QuestionsActivity extends Activity {
                         public void onResponse(JSONObject response) {
                             System.out.println(response);
                             try {
-                                int nodePk = 2; // TODO
+//                                int nodePk = 2; // TODO
                                 boolean active = response.getBoolean("active");
                                 String name = response.getString("name");
                                 String descr = response.getString("description");
@@ -120,10 +121,25 @@ public class QuestionsActivity extends Activity {
             shuffleAnswers();
             generateNextQuestionWithAnswers();
         } else {
-            Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
-            nodeIntent.putExtra("finished", false);
-            nodeIntent.putExtra("questPk", questPk);
-            startActivity(nodeIntent);
+        	if(dtRegistration == 2){
+        		Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
+                nodeIntent.putExtra("finished", true);
+                nodeIntent.putExtra("questPk", questPk);
+                nodeIntent.putExtra("userPk", userPk);
+                startActivity(nodeIntent);
+        	}else if(dtRegistration == 3){
+        		Intent nodeIntent = new Intent (getApplicationContext(), NFCActivity.class);
+                nodeIntent.putExtra("finished", true);
+                nodeIntent.putExtra("questPk", questPk);
+                nodeIntent.putExtra("userPk", userPk);
+                startActivity(nodeIntent);
+        	}else if(dtRegistration == 4){
+        		Intent nodeIntent = new Intent (getApplicationContext(), GoogleMapsActivity.class);
+                nodeIntent.putExtra("finished", true);
+                nodeIntent.putExtra("questPk", questPk);
+                nodeIntent.putExtra("userPk", userPk);
+                startActivity(nodeIntent);                        
+        	}
         }
     }
 
@@ -167,12 +183,20 @@ public class QuestionsActivity extends Activity {
                     		Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
                             nodeIntent.putExtra("finished", true);
                             nodeIntent.putExtra("questPk", questPk);
+                            nodeIntent.putExtra("userPk", userPk);
                             startActivity(nodeIntent);
                     	}else if(dtRegistration == 3){
                     		Intent nodeIntent = new Intent (getApplicationContext(), NFCActivity.class);
                             nodeIntent.putExtra("finished", true);
                             nodeIntent.putExtra("questPk", questPk);
+                            nodeIntent.putExtra("userPk", userPk);
                             startActivity(nodeIntent);
+                    	}else if(dtRegistration == 4){
+                    		Intent nodeIntent = new Intent (getApplicationContext(), GoogleMapsActivity.class);
+                            nodeIntent.putExtra("finished", true);
+                            nodeIntent.putExtra("questPk", questPk);
+                            nodeIntent.putExtra("userPk", userPk);
+                            startActivity(nodeIntent);                        
                     	}
                         
                     }

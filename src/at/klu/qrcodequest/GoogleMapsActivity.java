@@ -1,6 +1,9 @@
 package at.klu.qrcodequest;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import org.json.JSONException;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,15 +17,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class GoogleMapsActivity extends Activity implements OnMyLocationChangeListener {
@@ -31,12 +29,14 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 	private int questPk;
 	private int dtRegistration = 4;
 	private int userPk;
-	private ArrayList<Node> nodes;
+	private ArrayList<Node> nodes = null;
 	private Context context;
-	
-	private LocationManager locationManager = null;
-	private String locationProvider;
 	private String errorString = "";
+	
+	private Location location;
+	private double latitude;
+	private double longitude;
+	private double accuracy;
 	
 	
 	@Override
@@ -62,7 +62,7 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
         map.setOnMyLocationChangeListener(this);
 //        System.out.println("" + map.getMyLocation().getAccuracy());
         
-
+        
         Location location = map.getMyLocation();
         
         if(location != null){
@@ -75,6 +75,8 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
         userPk = bundle.getInt("userPk");
+        
+        new MainNodeTask().execute();
 	}
 	
 	@Override
@@ -116,6 +118,74 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 	@Override
 	public void onMyLocationChange(Location location) {
 		Toast.makeText(getApplicationContext(), "Latitude: " + location.getLatitude() + "Longitude: " + location.getLongitude() + "Genauigkeit: " + location.getAccuracy(), Toast.LENGTH_SHORT).show();
+		
+		latitude = location.getLatitude();
+		longitude = location.getLongitude();
+		accuracy = location.getAccuracy();
+		
+		double d = 0;
+		
+		if(nodes != null && accuracy <=20){
+			for (int i = 0; i < nodes.size(); i++){
+				
+				double dx = 71.5 * (latitude - Double.parseDouble(nodes.get(i).getRegistrationTarget1()));
+				double dy = 111.3 * (longitude - Double.parseDouble(nodes.get(i).getRegistrationTarget2()));
+				
+				d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))*1000;
+				
+				if(d <= 3){
+					Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
+
+                    questions.putExtra("nodePk", nodes.get(i).getId());
+                    questions.putExtra("questPk", questPk);
+                    questions.putExtra("dtRegistration", dtRegistration);
+                    questions.putExtra("questionIDs", nodes.get(i).getQuestionIDs());
+
+                    startActivity(questions);
+				}
+				Toast.makeText(getApplicationContext(), "" + d, Toast.LENGTH_SHORT).show();
+				
+				
+			}
+		}
+	}
+	
+	private class MainNodeTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			nodes = new ArrayList<Node>();
+
+            try {
+                nodes = QuestMethods.getNodes(questPk);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                if (e.getMessage().equals("falseStatusCode")) {
+                    errorString = "falseStatusCode";
+                } else {
+                    errorString="networkError";
+                }
+                return null;
+            }
+            
+            
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+            
+            for (int i = 0; i < nodes.size(); i++){
+            	double latitude = Double.parseDouble(nodes.get(i).getRegistrationTarget1());
+            	double longitude = Double.parseDouble(nodes.get(i).getRegistrationTarget2());
+            	String title = nodes.get(i).getDescription();
+            	placeMarker(latitude, longitude, title);
+            }
+		}
 		
 		
 	}
