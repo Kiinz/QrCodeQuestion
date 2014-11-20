@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMyLocationChangeListener;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
@@ -13,14 +14,18 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class GoogleMapsActivity extends Activity {
+public class GoogleMapsActivity extends Activity implements OnMyLocationChangeListener {
 
 	private GoogleMap map;
 	private int questPk;
@@ -28,6 +33,9 @@ public class GoogleMapsActivity extends Activity {
 	private int userPk;
 	private ArrayList<Node> nodes;
 	private Context context;
+	
+	private LocationManager locationManager = null;
+	private String locationProvider;
 	private String errorString = "";
 	
 	
@@ -37,6 +45,7 @@ public class GoogleMapsActivity extends Activity {
 		setContentView(R.layout.activity_google_maps);
 		
 		AppDown.register(this);
+		
 		//GoogleMaps
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
@@ -46,9 +55,14 @@ public class GoogleMapsActivity extends Activity {
             Toast.makeText(getApplicationContext(), "Die Karte konnte nicht erstellt werden", Toast.LENGTH_LONG).show();
         } else {
             map.setMyLocationEnabled(true);
+            
             abfrage();
         }
+        map.getUiSettings().setCompassEnabled(false);
+        map.setOnMyLocationChangeListener(this);
+//        System.out.println("" + map.getMyLocation().getAccuracy());
         
+
         Location location = map.getMyLocation();
         
         if(location != null){
@@ -57,8 +71,7 @@ public class GoogleMapsActivity extends Activity {
             
             setCameraPosition(latitude, longitude);
         }
-        
-
+            
         Bundle bundle = getIntent().getExtras();
         questPk = bundle.getInt("questPk");
         userPk = bundle.getInt("userPk");
@@ -100,5 +113,10 @@ public class GoogleMapsActivity extends Activity {
 		map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 	}
 
-	
+	@Override
+	public void onMyLocationChange(Location location) {
+		Toast.makeText(getApplicationContext(), "Latitude: " + location.getLatitude() + "Longitude: " + location.getLongitude() + "Genauigkeit: " + location.getAccuracy(), Toast.LENGTH_SHORT).show();
+		
+		
+	}
 }
