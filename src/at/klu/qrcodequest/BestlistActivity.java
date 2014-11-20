@@ -159,14 +159,6 @@ public class BestlistActivity extends Activity {
                 e.printStackTrace();
             }
 
-//		Handler handler = new Handler(context.getMainLooper());
-//        handler.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                setRows(scores); 
-//            }
-//        });
-
             return null;
         }
 

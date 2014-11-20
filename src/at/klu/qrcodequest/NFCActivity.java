@@ -60,7 +60,7 @@ public class NFCActivity extends Activity {
 		setContentView(R.layout.activity_nfc);
 		
 		
-		AppDown.register(this);
+		AppDown.register(this); // Methode für das Beenden der Applikation
 		
 		Bundle bundle = getIntent().getExtras();
 		questPk = bundle.getInt("questPk");

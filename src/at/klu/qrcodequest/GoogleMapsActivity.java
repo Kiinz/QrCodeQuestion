@@ -36,6 +36,7 @@ public class GoogleMapsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_google_maps);
 		
+		AppDown.register(this);
 		//GoogleMaps
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         map.setMapType(GoogleMap.MAP_TYPE_HYBRID);
