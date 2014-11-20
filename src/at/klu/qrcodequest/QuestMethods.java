@@ -3,6 +3,10 @@ package at.klu.qrcodequest;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,8 +21,9 @@ public class QuestMethods {
 
         String json;
         json = "{Quests:" + HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest.json") + "}";
-        System.out.println("" + json);
-		
+
+//        System.out.println("" + json);
+
 		
 		JSONObject obj = new JSONObject(json);
 		JSONArray array = obj.getJSONArray("Quests");
@@ -28,12 +33,12 @@ public class QuestMethods {
 			String name = quest.getString("name");
 			int id = quest.getInt("id");
 			int dtRegistration = quest.getInt("dtRegistration");
-			System.out.println("" + dtRegistration);
+//			System.out.println("" + dtRegistration);
 			Quest quest1 = new Quest(id, name, dtRegistration);
 			quests.add(quest1);
 			
 		}
-		System.out.println("" + json);
+//		System.out.println("" + json);
 		return quests;
 	}
 
@@ -130,7 +135,7 @@ public class QuestMethods {
     public static boolean getUserQuest(int userId, int questId) throws IOException{
     	
     	String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/userQuest/get?userPk=" + userId + "&questPk=" + questId);
-    	
+
     	if(json.equals("[]")){
     		return false;
     	}else{

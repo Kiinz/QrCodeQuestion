@@ -313,8 +313,7 @@ public class NFCActivity extends Activity {
 		byte[]payload = record.getPayload();
 		
 		//Erfassen der Codierung
-		String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8"
-				: "UTF-16";
+		String textEncoding = ((payload[0] & 128) == 0) ? "UTF-8" : "UTF-16";
 		
 		//byte[], Encoding - z.B. UTF-8
 		return new String(payload, textEncoding);

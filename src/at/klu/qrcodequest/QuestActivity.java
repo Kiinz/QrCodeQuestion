@@ -3,16 +3,19 @@ package at.klu.qrcodequest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 
@@ -21,9 +24,9 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
     ExpandableListView list;
     ProgressBar bar;
     ExpandableListAdapter adapter;
-    private ArrayList<Quest> quests = new ArrayList<Quest>();
+    private ArrayList<Quest> quests = new ArrayList<>();
     private int userPk;
-    private String errorString = "";
+    private int finished = 0;
     SparseBooleanArray userQuestMap = new SparseBooleanArray();
 
     @Override
@@ -37,11 +40,16 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
         AppDown.register(this);
 
         bar = (ProgressBar) findViewById(R.id.marker_progress);
-        
+        bar.setVisibility(View.VISIBLE);
+
 //        list.setOnItemClickListener(this);
 
         list = (ExpandableListView) findViewById(R.id.listView1);
-        new QuestTask().execute();
+
+        getQuests();
+//        new QuestTask().execute();
+
+
         
         list.setOnGroupExpandListener(new OnGroupExpandListener(){
 
@@ -58,56 +66,76 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 			}
         	
         });
-
-
     }
 
-    private class QuestTask extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            bar.setVisibility(View.VISIBLE);
-        }
+    private void getQuests() {
+        String url = "http://193.171.127.102:8080/Quest/quest.json";
+        JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject quest = response.getJSONObject(i);
+                                String name = quest.getString("name");
+                                int id = quest.getInt("id");
+                                int dtRegistration = quest.getInt("dtRegistration");
+                                Quest quest1 = new Quest(id, name, dtRegistration);
+                                quests.add(quest1);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        getUserQuests();
+                    }
+                }, new com.android.volley.Response.ErrorListener() {
 
-        @Override
-        protected Void doInBackground(Void... arg0) {
-            try {
-                quests = QuestMethods.getQuests(); //Einlesen der Quest
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO Auto-generated method stub
+                        System.out.println(error);
+                    }
+                });
+        VolleySingleton.getInstance(this.getApplicationContext()).addToRequestQueue(jsObjRequest);
+    }
 
-                for (Quest quest : quests) {
-                    userQuestMap.put(quest.getId(), QuestMethods.getUserQuest(userPk, quest.getId()));
-                    System.out.println("" + userPk + "   " + QuestMethods.getUserQuest(userPk, quest.getId()));
+    private void getUserQuests() {
+
+        for (final Quest quest : quests) {
+            String url = ("http://193.171.127.102:8080/Quest/userQuest/get?userPk=" + userPk + "&questPk=" + quest.getId());
+
+            JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    boolean existing = !response.toString().equals("[]"); // Wenn die Antwort [] ist -> false
+                    userQuestMap.put(quest.getId(), existing);
+                    finished++;
+                    if (finished == quests.size()) { // Wenn alle Requests abgearbeitet sind
+                        drawList();
+                    }
                 }
-                
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                if (e.getMessage().equals("falseStatusCode")) {
-                    //Im Backgroundtask können keine UI-Methoden aufgerufen werden
-                    errorString = "falseStatusCode";
-                } else {
-                    errorString="networkError";
+            }, new com.android.volley.Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // TODO Auto-generated method stub
+                    System.out.println(error);
                 }
-                return null;
-            }
-            return null;
+            });
+            VolleySingleton.getInstance(this.getApplicationContext()).addToRequestQueue(jsObjRequest);
+        }
+    }
+
+    private void drawList() {
+        ArrayList<String> values = new ArrayList<>();
+
+        for (Quest quest : quests) {
+            values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
         }
 
-        @Override
-        protected void onPostExecute(Void result) {
+        adapter = new ExpandableListAdapter(getApplicationContext(), values, quests, userQuestMap, userPk);
+        list.setAdapter(adapter);
 
-            HTTPHelper.HTTPExceptionHandler(errorString, QuestActivity.this);
-
-            ArrayList<String> values = new ArrayList<String>();
-
-            for (Quest quest : quests) {
-                values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
-            }
-            
-            adapter = new ExpandableListAdapter(getApplicationContext(), values, quests, userQuestMap, userPk);
-            list.setAdapter(adapter);
-
-            bar.setVisibility(View.INVISIBLE);
-        }
+        bar.setVisibility(View.INVISIBLE);
     }
 
 //    @Override

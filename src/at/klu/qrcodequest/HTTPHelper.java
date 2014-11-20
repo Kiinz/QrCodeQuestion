@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import com.android.volley.VolleyError;
+import com.android.volley.*;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.squareup.okhttp.*;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -25,8 +27,8 @@ public class HTTPHelper {
             throw new IOException("falseStatusCode");
         }
         return response.body().string();
-
     }
+
 
     public static StringBuffer makePostRequest(@SuppressWarnings("SameParameterValue") String urlString, String postParameters) throws IOException {
         MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");

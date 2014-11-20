@@ -5,6 +5,10 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+// http://developer.android.com/training/volley/index.html
+// Automatisch im AsyncTask,
+// Wird hier als Singleton erstellt, damit die Requestqueue in der ganzen App bestehen bleibt
+
 public class VolleySingleton {
     private static VolleySingleton mInstance;
     private RequestQueue mRequestQueue;
