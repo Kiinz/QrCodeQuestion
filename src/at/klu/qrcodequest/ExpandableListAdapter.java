@@ -152,6 +152,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					intent.putExtra("userPk", userPk);
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
+					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+						new UserQuestTask().execute(groupPosition);
+					}
 					intent = new Intent(context, GoogleMapsActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
 					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
