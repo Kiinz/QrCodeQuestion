@@ -2,7 +2,6 @@ package at.klu.qrcodequest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
@@ -13,7 +12,6 @@ import android.widget.ProgressBar;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import de.greenrobot.event.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,7 +33,9 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest);
 
-        user = EventBus.getDefault().removeStickyEvent(User.class); // User-Objekt wird vom Bus geholt
+//        user = EventBus.getDefault().removeStickyEvent(User.class); // User-Objekt wird vom Bus geholt
+        Data data = (Data) getApplicationContext();
+        user = data.getUser();
 
         AppDown.register(this);
 

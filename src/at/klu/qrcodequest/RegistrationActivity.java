@@ -6,7 +6,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-import de.greenrobot.event.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -21,7 +20,7 @@ public class RegistrationActivity extends Activity {
     private String vorname, nachname, spitzname, userID;
     private int userPk;
     private Boolean useName;
-    private User user;
+    private Data data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,6 +28,7 @@ public class RegistrationActivity extends Activity {
         setContentView(R.layout.activity_registration);
         AppDown.register(this);
 
+        data = (Data) getApplicationContext();
         Bundle bundle = getIntent().getExtras();
         userID = bundle.getString("userID");
 
@@ -64,8 +64,8 @@ public class RegistrationActivity extends Activity {
                 } else { //Alle Eingaben valid
                     registerButton.setClickable(false);
 
-                    // User wird in StartActivity gespeichert
-                    user = new User(userPk, vorname, nachname, spitzname, userID);
+                    // User wird in der Datenklasse gespeichert
+                    data.setUser(new User(userPk, vorname, nachname, spitzname, userID));
 
 
                     new RegistrationTask().execute();
@@ -89,10 +89,10 @@ public class RegistrationActivity extends Activity {
                     return null;
                 }
 
-                String JSONOutput = HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/user/save.json", StartActivity.getUser().getJSONString());
+                String JSONOutput = HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/user/save.json", data.getUser().getJSONString());
                 JSONObject jsonObjectOutput = new JSONObject(JSONOutput);
                 userPk = jsonObjectOutput.getInt("id"); // Zurückbekommene ID wird gespeichert
-                user.setId(userPk);
+                data.getUser().setId(userPk);
 
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
@@ -107,8 +107,8 @@ public class RegistrationActivity extends Activity {
             bar.setVisibility(View.GONE);
             if (!existing) { // Wenn der Nickname bereits verwendet wird in der Activity bleiben
                 Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
-                intent.putExtra("userPk", userPk);
-                EventBus.getDefault().postSticky(user);
+//                intent.putExtra("userPk", userPk);
+//                EventBus.getDefault().postSticky(user);
                 startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(), "Dieser Spitzname ist leider bereits vergeben.", Toast.LENGTH_LONG).show();
