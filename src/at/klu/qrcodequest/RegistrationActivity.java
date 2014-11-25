@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import de.greenrobot.event.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -18,16 +19,18 @@ public class RegistrationActivity extends Activity {
     Button registerButton;
     private CheckBox checkBox;
     private String vorname, nachname, spitzname, userID;
-    private int id;
+    private int userPk;
     private Boolean useName;
-    public static Activity registrationActivity;
+    private User user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
-        registrationActivity = this;
         AppDown.register(this);
+
+        Bundle bundle = getIntent().getExtras();
+        userID = bundle.getString("userID");
 
         checkBox = (CheckBox) findViewById(R.id.checkBox);
         bar = (ProgressBar) findViewById(R.id.marker_progress);
@@ -61,9 +64,8 @@ public class RegistrationActivity extends Activity {
                 } else { //Alle Eingaben valid
                     registerButton.setClickable(false);
 
-                    userID = StartActivity.getUserID();
                     // User wird in StartActivity gespeichert
-                    StartActivity.setUser(new User(id, vorname, nachname, spitzname, userID));
+                    user = new User(userPk, vorname, nachname, spitzname, userID);
 
 
                     new RegistrationTask().execute();
@@ -89,23 +91,9 @@ public class RegistrationActivity extends Activity {
 
                 String JSONOutput = HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/user/save.json", StartActivity.getUser().getJSONString());
                 JSONObject jsonObjectOutput = new JSONObject(JSONOutput);
-                StartActivity.getUser().setId(jsonObjectOutput.getInt("id")); // Zurückbekomme ID wird gespeichert
+                userPk = jsonObjectOutput.getInt("id"); // Zurückbekommene ID wird gespeichert
+                user.setId(userPk);
 
-/*            } catch (final HTTPExceptions e) {
-                Handler handler = new Handler(getApplicationContext().getMainLooper());
-                handler.post( new Runnable(){
-                    public void run(){
-                        if (e.getMessage().equals("timeout")) {
-                            Toast.makeText(getApplicationContext(), "Fehler: Anfrage dauerte zu lange, bitte überprüfen Sie Ihre Internetverbindung oder versuchen Sie es später erneut.", Toast.LENGTH_LONG).show();
-                        } else if (e.getMessage().equals("falseStatusCode")) {
-                            Toast.makeText(getApplicationContext(), "Fehler: User konnte nicht erstellt werden.", Toast.LENGTH_LONG).show();
-                        } else if (e.getMessage().equals("networkError")) {
-                            Toast.makeText(getApplicationContext(), "Fehler: Keine Internetverbindung.", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-                registerButton.setClickable(true);
-                return null;*/
             } catch (IOException | JSONException e) {
                 e.printStackTrace();
             }
@@ -119,6 +107,8 @@ public class RegistrationActivity extends Activity {
             bar.setVisibility(View.GONE);
             if (!existing) { // Wenn der Nickname bereits verwendet wird in der Activity bleiben
                 Intent intent = new Intent (getApplicationContext(),QuestActivity.class);
+                intent.putExtra("userPk", userPk);
+                EventBus.getDefault().postSticky(user);
                 startActivity(intent);
             } else {
                 Toast.makeText(getApplicationContext(), "Dieser Spitzname ist leider bereits vergeben.", Toast.LENGTH_LONG).show();

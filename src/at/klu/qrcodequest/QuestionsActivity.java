@@ -18,7 +18,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.*;
 
 public class QuestionsActivity extends Activity {
@@ -121,25 +120,7 @@ public class QuestionsActivity extends Activity {
             shuffleAnswers();
             generateNextQuestionWithAnswers();
         } else {
-        	if(dtRegistration == 2){
-        		Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
-                nodeIntent.putExtra("finished", true);
-                nodeIntent.putExtra("questPk", questPk);
-                nodeIntent.putExtra("userPk", userPk);
-                startActivity(nodeIntent);
-        	}else if(dtRegistration == 3){
-        		Intent nodeIntent = new Intent (getApplicationContext(), NFCActivity.class);
-                nodeIntent.putExtra("finished", true);
-                nodeIntent.putExtra("questPk", questPk);
-                nodeIntent.putExtra("userPk", userPk);
-                startActivity(nodeIntent);
-        	}else if(dtRegistration == 4){
-        		Intent nodeIntent = new Intent (getApplicationContext(), GoogleMapsActivity.class);
-                nodeIntent.putExtra("finished", true);
-                nodeIntent.putExtra("questPk", questPk);
-                nodeIntent.putExtra("userPk", userPk);
-                startActivity(nodeIntent);                        
-        	}
+        	changeActivity();
         }
     }
 
@@ -179,26 +160,7 @@ public class QuestionsActivity extends Activity {
                         questionNumber++;
                         shuffleAnswers();
                     } else {
-                    	if(dtRegistration == 2){
-                    		Intent nodeIntent = new Intent (getApplicationContext(), MainActivity.class);
-                            nodeIntent.putExtra("finished", true);
-                            nodeIntent.putExtra("questPk", questPk);
-                            nodeIntent.putExtra("userPk", userPk);
-                            startActivity(nodeIntent);
-                    	}else if(dtRegistration == 3){
-                    		Intent nodeIntent = new Intent (getApplicationContext(), NFCActivity.class);
-                            nodeIntent.putExtra("finished", true);
-                            nodeIntent.putExtra("questPk", questPk);
-                            nodeIntent.putExtra("userPk", userPk);
-                            startActivity(nodeIntent);
-                    	}else if(dtRegistration == 4){
-                    		Intent nodeIntent = new Intent (getApplicationContext(), GoogleMapsActivity.class);
-                            nodeIntent.putExtra("finished", true);
-                            nodeIntent.putExtra("questPk", questPk);
-                            nodeIntent.putExtra("userPk", userPk);
-                            startActivity(nodeIntent);                        
-                    	}
-                        
+                    	changeActivity();
                     }
                     generateNextQuestionWithAnswers();
                 }
@@ -245,5 +207,23 @@ public class QuestionsActivity extends Activity {
             e.printStackTrace();
         }
         return scoreJSONObject;
+    }
+
+    private void changeActivity(Class newActivity) {
+        Intent nodeIntent = new Intent (getApplicationContext(), newActivity);
+        nodeIntent.putExtra("finished", true);
+        nodeIntent.putExtra("questPk", questPk);
+        nodeIntent.putExtra("userPk", userPk);
+        startActivity(nodeIntent);
+    }
+
+    private void changeActivity() {
+        if(dtRegistration == 2){
+            changeActivity(MainActivity.class);
+        }else if(dtRegistration == 3){
+            changeActivity(NFCActivity.class);
+        }else if(dtRegistration == 4){
+            changeActivity(GoogleMapsActivity.class);
+        }
     }
 }

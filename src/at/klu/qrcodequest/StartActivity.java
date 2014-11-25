@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import de.greenrobot.event.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -104,6 +105,7 @@ public class StartActivity extends Activity implements OnClickListener {
 
                 // Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
+                EventBus.getDefault().postSticky(user);
                 intent.putExtra("userPk", id);
                 start.setClickable(true);
             } catch (IOException e) {
@@ -113,6 +115,7 @@ public class StartActivity extends Activity implements OnClickListener {
             } catch (Exception e) {
                 if (e.getMessage().equals("UserNotExisting")) {
                     intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                    intent.putExtra("userID", userID);
                     start.setClickable(true);
                 }
             }

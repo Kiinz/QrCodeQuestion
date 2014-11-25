@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import de.greenrobot.event.EventBus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,22 +23,20 @@ import java.util.ArrayList;
 
 public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 
-    ExpandableListView list;
-    ProgressBar bar;
-    ExpandableListAdapter adapter;
+    private ExpandableListView list;
+    private ProgressBar bar;
     private ArrayList<Quest> quests = new ArrayList<>();
-    private int userPk;
     private int finished = 0;
-    SparseBooleanArray userQuestMap = new SparseBooleanArray();
+    private User user;
+    private SparseBooleanArray userQuestMap = new SparseBooleanArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest);
 
-        Bundle bundle = getIntent().getExtras();
-        userPk = bundle.getInt("userPk");
-        
+        user = EventBus.getDefault().removeStickyEvent(User.class); // User-Objekt wird vom Bus geholt
+
         AppDown.register(this);
 
         bar = (ProgressBar) findViewById(R.id.marker_progress);
@@ -102,7 +101,7 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
     private void getUserQuests() {
 
         for (final Quest quest : quests) {
-            String url = ("http://193.171.127.102:8080/Quest/userQuest/get?userPk=" + userPk + "&questPk=" + quest.getId());
+            String url = ("http://193.171.127.102:8080/Quest/userQuest/get?userPk=" + user.getId() + "&questPk=" + quest.getId());
 
             JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
                 @Override
@@ -133,7 +132,7 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
             values.add(quest.getName()); //speichert die Namen der Quest in die ArrayList
         }
 
-        adapter = new ExpandableListAdapter(getApplicationContext(), values, quests, userQuestMap, userPk);
+        ExpandableListAdapter adapter = new ExpandableListAdapter(getApplicationContext(), values, quests, userQuestMap, user.getId());
         list.setAdapter(adapter);
 
         bar.setVisibility(View.INVISIBLE);
