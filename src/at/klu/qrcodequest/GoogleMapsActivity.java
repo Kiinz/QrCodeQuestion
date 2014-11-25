@@ -133,9 +133,11 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 				
 				d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))*1000;
 				
-				if(d <= 3){
+				if(d <= 5){
 					Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
+					System.out.println("" + nodes.get(i).getQuestionIDs()[0]);
+					
                     questions.putExtra("nodePk", nodes.get(i).getId());
                     questions.putExtra("questPk", questPk);
                     questions.putExtra("dtRegistration", dtRegistration);
