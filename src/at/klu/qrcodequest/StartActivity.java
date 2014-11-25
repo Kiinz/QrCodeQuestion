@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,10 +71,6 @@ public class StartActivity extends Activity implements OnClickListener {
         return buffer.toString();
     }
 
-    public static String getUserID() {
-        return userID;
-    }
-
     private class StartTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -100,11 +94,14 @@ public class StartActivity extends Activity implements OnClickListener {
                 String lastname = userJSON.getString("lastname");
                 String nickname = userJSON.getString("nickname");
                 user = new User(id,firstname,lastname,nickname, userID);
-                System.out.println(user.toString());
+
+                Data data = (Data) getApplicationContext(); // Globale Datenklasse
+                data.setUser(user);
 
                 // Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
-                intent.putExtra("userPk", id);
+//                EventBus.getDefault().postSticky(user);
+//                intent.putExtra("userPk", id);
                 start.setClickable(true);
             } catch (IOException e) {
                 errorString="networkError";
@@ -113,6 +110,7 @@ public class StartActivity extends Activity implements OnClickListener {
             } catch (Exception e) {
                 if (e.getMessage().equals("UserNotExisting")) {
                     intent = new Intent(getApplicationContext(), RegistrationActivity.class);
+                    intent.putExtra("userID", userID);
                     start.setClickable(true);
                 }
             }
@@ -123,12 +121,5 @@ public class StartActivity extends Activity implements OnClickListener {
         protected void onPostExecute(Void result) {
             HTTPHelper.HTTPExceptionHandler(errorString, StartActivity.this);
         }
-    }
-
-    public static User getUser() {
-        return user;
-    }
-    public static void setUser(User user) {
-        StartActivity.user = user;
     }
 }
