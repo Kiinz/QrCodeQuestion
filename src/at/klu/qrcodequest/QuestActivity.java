@@ -33,7 +33,6 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quest);
 
-//        user = EventBus.getDefault().removeStickyEvent(User.class); // User-Objekt wird vom Bus geholt
         Data data = (Data) getApplicationContext();
         user = data.getUser();
 
@@ -41,8 +40,6 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 
         bar = (ProgressBar) findViewById(R.id.marker_progress);
         bar.setVisibility(View.VISIBLE);
-
-//        list.setOnItemClickListener(this);
 
         list = (ExpandableListView) findViewById(R.id.listView1);
 
@@ -172,14 +169,7 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 
             }
         });
-        builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-
-            }
-        });
+        builder.setNegativeButton("Nein", null);
         AlertDialog dialog = builder.create();
         dialog.show();
     }

@@ -19,10 +19,10 @@ import java.security.NoSuchAlgorithmException;
 
 public class StartActivity extends Activity implements OnClickListener {
 
-    private static String userID, errorString = "";
+    private static String errorString = "";
     private Intent intent;
     private Button start;
-    private static User user;
+    private Typeface typeface;
 
 
 
@@ -40,7 +40,7 @@ public class StartActivity extends Activity implements OnClickListener {
         start.setOnClickListener(this);
         start.setClickable(false);
         TextView willkommen = (TextView) findViewById(R.id.textViewWillkommen);
-        Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/TYPOGRAPH PRO Light.ttf");
+        typeface = Typeface.createFromAsset(getAssets(), "fonts/TYPOGRAPH PRO Light.ttf");
         willkommen.setTypeface(typeface);
 
 	}
@@ -75,7 +75,7 @@ public class StartActivity extends Activity implements OnClickListener {
 
         @Override
         protected Void doInBackground(Void... params) {
-            userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+            String userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
             userID = sha1(userID);
 
             try {
@@ -93,15 +93,21 @@ public class StartActivity extends Activity implements OnClickListener {
                 String firstname = userJSON.getString("firstname");
                 String lastname = userJSON.getString("lastname");
                 String nickname = userJSON.getString("nickname");
-                user = new User(id,firstname,lastname,nickname, userID);
+                User user = new User(id, firstname, lastname, nickname, userID);
 
                 Data data = (Data) getApplicationContext(); // Globale Datenklasse
-                data.setUser(user);
+                data.setUser(user); // User wird Global gespeichert
+
+                TextView welcomeUser = (TextView) findViewById(R.id.textViewUser);
+                welcomeUser.setTypeface(typeface);
+                if (firstname.equals("unknown")) {
+                    welcomeUser.setText("zurück " + nickname + "!");
+                } else {
+                    welcomeUser.setText("zurück " + firstname + "a!");
+                }
 
                 // Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
-//                EventBus.getDefault().postSticky(user);
-//                intent.putExtra("userPk", id);
                 start.setClickable(true);
             } catch (IOException e) {
                 errorString="networkError";
