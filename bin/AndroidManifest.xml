@@ -42,13 +42,13 @@
             android:value="AIzaSyDQPgBXh7eI2QHuhLyOoD12C0wOjPyn2V8" />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".Activities.MainActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".QuestionsActivity"
+            android:name=".Activities.QuestionsActivity"
             android:configChanges="orientation"
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
@@ -57,16 +57,17 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
- >
+ >
+
         </activity>
         <activity
-            android:name=".BestlistActivity"
+            android:name=".Activities.BestlistActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_bestlist"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".RegistrationActivity"
+            android:name=".Activities.RegistrationActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_quest"
             android:screenOrientation="portrait" >
@@ -77,7 +78,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".QuestActivity"
+            android:name=".Activities.QuestActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_quest"
             android:screenOrientation="portrait" >
@@ -104,7 +105,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".StartActivity"
+            android:name=".Activities.StartActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_start"
             android:screenOrientation="portrait" >
@@ -115,7 +116,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NFCActivity"
+            android:name=".Activities.NFCActivity"
             android:configChanges="orientation"
             android:label="@string/title_activity_nfc"
             android:screenOrientation="portrait" >
@@ -124,7 +125,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".GoogleMapsActivity"
+            android:name=".Activities.GoogleMapsActivity"
             android:label="@string/title_activity_google_maps"
             android:configChanges="orientation"
             android:screenOrientation="portrait"

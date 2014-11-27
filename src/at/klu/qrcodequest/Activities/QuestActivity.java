@@ -1,4 +1,4 @@
-package at.klu.qrcodequest;
+package at.klu.qrcodequest.Activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
+import at.klu.qrcodequest.*;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;

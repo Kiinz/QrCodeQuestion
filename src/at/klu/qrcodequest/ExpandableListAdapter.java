@@ -14,11 +14,14 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import at.klu.qrcodequest.Activities.BestlistActivity;
+import at.klu.qrcodequest.Activities.GoogleMapsActivity;
+import at.klu.qrcodequest.Activities.MainActivity;
+import at.klu.qrcodequest.Activities.NFCActivity;
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {

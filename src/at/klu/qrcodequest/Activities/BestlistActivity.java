@@ -1,4 +1,4 @@
-package at.klu.qrcodequest;
+package at.klu.qrcodequest.Activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,10 @@ import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import at.klu.qrcodequest.AppDown;
+import at.klu.qrcodequest.QuestMethods;
+import at.klu.qrcodequest.R;
+import at.klu.qrcodequest.Score;
 import org.json.JSONException;
 
 import java.io.IOException;

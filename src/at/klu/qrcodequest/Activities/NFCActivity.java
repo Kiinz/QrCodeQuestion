@@ -1,4 +1,4 @@
-package at.klu.qrcodequest;
+package at.klu.qrcodequest.Activities;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -6,10 +6,8 @@ import java.io.UnsupportedEncodingException;
 
 import java.util.ArrayList;
 
+import at.klu.qrcodequest.*;
 import org.json.JSONException;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -25,10 +23,7 @@ import android.nfc.Tag;
 import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.OnGroupExpandListener;
