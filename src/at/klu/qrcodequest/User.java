@@ -7,11 +7,14 @@ public class User {
 	
 	private int id;
 	private int dtOwner = 1;
-	private String firstname, lastname, nickname, userId;
+	private String firstname;
+	private String lastname;
+	private String nickname;
+	private String userId;
 	private boolean active = true;
 	
-	public User (){
-
+	public User (String userId){
+		this.userId = userId;
 	}
 	
 	public User(int id, String firstname, String lastname,
