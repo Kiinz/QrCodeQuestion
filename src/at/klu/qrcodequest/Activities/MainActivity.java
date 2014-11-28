@@ -1,4 +1,4 @@
-package at.klu.qrcodequest;
+package at.klu.qrcodequest.Activities;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import at.klu.qrcodequest.*;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;

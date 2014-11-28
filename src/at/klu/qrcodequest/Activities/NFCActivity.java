@@ -325,13 +325,13 @@ public class NFCActivity extends Activity {
 	public void abfrage() {
         EnableGPSorWLAN enable = new EnableGPSorWLAN(this);
 
-        if (!enable.isGPSenabled() && enable.WIFIenabled) {
+        if (!enable.isGPSenabled() && enable.isWIFIEnabled()) {
             enable.enableGPS();
         }
-        if (enable.isWIFIDisabled() && enable.isGPSenabled()) {
+        if (!enable.isWIFIEnabled() && enable.isGPSenabled()) {
             enable.enableNetwork();
         }
-        if (enable.isWIFIDisabled() && !enable.isGPSenabled()) {
+        if (!enable.isWIFIEnabled() && !enable.isGPSenabled()) {
             enable.enableAll();
         }
     }
