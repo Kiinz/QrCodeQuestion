@@ -37,8 +37,8 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 	private double latitude;
 	private double longitude;
 	private double accuracy;
-	
-	
+	private Data data;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,7 +46,7 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 
 		AppDown.register(this);
 
-		Data data = (Data) getApplicationContext();
+		data = (Data) getApplicationContext();
 		questPk = data.getQuest().getId();
 		userPk = data.getUser().getId();
 		
@@ -134,14 +134,7 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 
 				if (d <= 5) {
 					Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
-
-					System.out.println("" + node.getQuestionIDs()[0]);
-
-					questions.putExtra("nodePk", node.getId());
-					questions.putExtra("questPk", questPk);
-					questions.putExtra("dtRegistration", dtRegistration);
-					questions.putExtra("questionIDs", node.getQuestionIDs());
-
+					data.setNode(node);
 					startActivity(questions);
 				}
 				Toast.makeText(getApplicationContext(), "" + d, Toast.LENGTH_SHORT).show();

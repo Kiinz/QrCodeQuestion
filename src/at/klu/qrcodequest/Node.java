@@ -46,10 +46,6 @@ public class Node {
 		this.id = id;
 		new Node(questPk, active, sequence, dtRegistration, registrationTarget1, registrationTarget2, name, description, location);
 	}
-
-	public Node() {
-		
-	}
 	
 	
 	public int getDtRegistration() {

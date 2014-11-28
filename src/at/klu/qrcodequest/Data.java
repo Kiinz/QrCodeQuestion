@@ -35,4 +35,12 @@ public class Data extends Application {
     public void setNodeList(ArrayList<Node> nodeList) {
         this.nodeList = nodeList;
     }
+
+    public Node getNode() {
+        return node;
+    }
+
+    public void setNode(Node node) {
+        this.node = node;
+    }
 }

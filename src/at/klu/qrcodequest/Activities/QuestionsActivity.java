@@ -12,9 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import at.klu.qrcodequest.*;
-import at.klu.qrcodequest.activities.GoogleMapsActivity;
-import at.klu.qrcodequest.activities.MainActivity;
-import at.klu.qrcodequest.activities.NFCActivity;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -31,8 +28,8 @@ public class QuestionsActivity extends Activity {
     private static ArrayList <Question> questions;
     private SparseArray<String> answerSparseArray = new SparseArray<>();
     private int questionNumber = 0;
-    private int nodePk, questPk, dtRegistration, userPk;
     private int[] questionIDs;
+    private Node node;
     private List<Integer> randomKeys;
     int finishedRespones = 0;
     String postUrl = "http://193.171.127.102:8080/Quest/score/save.json";
@@ -46,16 +43,10 @@ public class QuestionsActivity extends Activity {
         setContentView(R.layout.activity_questions);
         AppDown.register(this);
 
-        Bundle bundle = getIntent().getExtras();
-        nodePk = bundle.getInt("nodePk");
-        questPk = bundle.getInt("questPk");
-        dtRegistration = bundle.getInt("dtRegistration");
-        userPk = bundle.getInt("userPk");
-        questionIDs = bundle.getIntArray("questionIDs");
-        System.out.println("" + questionIDs[0]);
-//        dtRegistration = 2;
-//        questionIDs = new int[]{26, 27, 28};
-//        nodePk = 22;
+        Data data = (Data) getApplicationContext();
+        node = data.getNode();
+        questionIDs = node.getQuestionIDs();
+
         // Progress Bar
         bar = (ProgressBar) findViewById(R.id.marker_progress);
         loadQuestionsTextView = (TextView) findViewById(R.id.loadQuestionsText);
@@ -89,7 +80,7 @@ public class QuestionsActivity extends Activity {
                                 String o9 = response.getString("option9");
                                 String o10 = response.getString("option10");
 
-                                Question question = new Question(questionIDs[finalI], nodePk, active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
+                                Question question = new Question(questionIDs[finalI], node.getId(), active, name, descr, o1, o2, o3, o4, o5, o6, o7, o8, o9, o10);
                                 questions.add(question);
 
                                 finishedRespones++;
@@ -218,12 +209,11 @@ public class QuestionsActivity extends Activity {
     private void changeActivity(Class newActivity) {
         Intent nodeIntent = new Intent (getApplicationContext(), newActivity);
         nodeIntent.putExtra("finished", true);
-        nodeIntent.putExtra("questPk", questPk);
-        nodeIntent.putExtra("userPk", userPk);
         startActivity(nodeIntent);
     }
 
     private void changeActivity() {
+        int dtRegistration = node.getDtRegistration();
         if(dtRegistration == 2){
             changeActivity(MainActivity.class);
         }else if(dtRegistration == 3){
