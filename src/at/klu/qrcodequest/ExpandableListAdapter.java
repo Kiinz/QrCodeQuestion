@@ -130,7 +130,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			
 			@Override
 			public void onClick(View v) {
-				
+
+				Data data = (Data) context.getApplicationContext();
+				data.setQuest(quests.get((int) getGroupId(id)));
+
 				if(quests.get((int)getGroupId(id)).getDtRegistration() == 2){
 					//QR-Code
 					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
@@ -138,8 +141,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					}
 					intent = new Intent(context,MainActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
-					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
-					intent.putExtra("userPk", userPk);
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 3){
 					NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(v.getContext());
@@ -152,8 +153,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					}
 					intent = new Intent(context,NFCActivity.class);
 					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
-					intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
-					intent.putExtra("userPk", userPk);
 					context.startActivity(intent);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
 					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){

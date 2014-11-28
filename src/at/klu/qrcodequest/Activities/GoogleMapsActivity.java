@@ -43,8 +43,12 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_google_maps);
-		
+
 		AppDown.register(this);
+
+		Data data = (Data) getApplicationContext();
+		questPk = data.getQuest().getId();
+		userPk = data.getUser().getId();
 		
 		//GoogleMaps
         map = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
@@ -71,10 +75,6 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
             
             setCameraPosition(latitude, longitude);
         }
-            
-        Bundle bundle = getIntent().getExtras();
-        questPk = bundle.getInt("questPk");
-        userPk = bundle.getInt("userPk");
         
         new MainNodeTask().execute();
 	}
@@ -82,7 +82,6 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 	@Override
     public void onBackPressed() {
         Intent intent = new Intent(this, QuestActivity.class);
-        intent.putExtra("userPk", userPk);
         startActivity(intent);
     }
 	
@@ -123,31 +122,31 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 		longitude = location.getLongitude();
 		accuracy = location.getAccuracy();
 		
-		double d = 0;
+		double d;
 		
 		if(nodes != null && accuracy <=20){
-			for (int i = 0; i < nodes.size(); i++){
-				
-				double dx = 71.5 * (latitude - Double.parseDouble(nodes.get(i).getRegistrationTarget1()));
-				double dy = 111.3 * (longitude - Double.parseDouble(nodes.get(i).getRegistrationTarget2()));
-				
-				d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2))*1000;
-				
-				if(d <= 5){
+			for (Node node : nodes) {
+
+				double dx = 71.5 * (latitude - Double.parseDouble(node.getRegistrationTarget1()));
+				double dy = 111.3 * (longitude - Double.parseDouble(node.getRegistrationTarget2()));
+
+				d = Math.sqrt(Math.pow(dx, 2) + Math.pow(dy, 2)) * 1000;
+
+				if (d <= 5) {
 					Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
-					System.out.println("" + nodes.get(i).getQuestionIDs()[0]);
-					
-                    questions.putExtra("nodePk", nodes.get(i).getId());
-                    questions.putExtra("questPk", questPk);
-                    questions.putExtra("dtRegistration", dtRegistration);
-                    questions.putExtra("questionIDs", nodes.get(i).getQuestionIDs());
+					System.out.println("" + node.getQuestionIDs()[0]);
 
-                    startActivity(questions);
+					questions.putExtra("nodePk", node.getId());
+					questions.putExtra("questPk", questPk);
+					questions.putExtra("dtRegistration", dtRegistration);
+					questions.putExtra("questionIDs", node.getQuestionIDs());
+
+					startActivity(questions);
 				}
 				Toast.makeText(getApplicationContext(), "" + d, Toast.LENGTH_SHORT).show();
-				
-				
+
+
 			}
 		}
 	}
@@ -156,7 +155,7 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			nodes = new ArrayList<Node>();
+			nodes = new ArrayList<>();
 
             try {
                 nodes = QuestMethods.getNodes(questPk);
@@ -180,13 +179,13 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 		protected void onPostExecute(Void result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-            
-            for (int i = 0; i < nodes.size(); i++){
-            	double latitude = Double.parseDouble(nodes.get(i).getRegistrationTarget1());
-            	double longitude = Double.parseDouble(nodes.get(i).getRegistrationTarget2());
-            	String title = nodes.get(i).getDescription();
-            	placeMarker(latitude, longitude, title);
-            }
+
+			for (Node node : nodes) {
+				double latitude = Double.parseDouble(node.getRegistrationTarget1());
+				double longitude = Double.parseDouble(node.getRegistrationTarget2());
+				String title = node.getDescription();
+				placeMarker(latitude, longitude, title);
+			}
 		}
 		
 		

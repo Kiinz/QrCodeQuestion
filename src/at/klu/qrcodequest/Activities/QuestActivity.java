@@ -45,9 +45,6 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
         list = (ExpandableListView) findViewById(R.id.listView1);
 
         getQuests();
-//        new QuestTask().execute();
-
-
         
         list.setOnGroupExpandListener(new OnGroupExpandListener(){
 
