@@ -1,4 +1,4 @@
-package at.klu.qrcodequest;
+package at.klu.qrcodequest.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import at.klu.qrcodequest.*;
+import at.klu.qrcodequest.Activities.QuestActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 

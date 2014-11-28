@@ -1,4 +1,4 @@
-package at.klu.qrcodequest;
+package at.klu.qrcodequest.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import at.klu.qrcodequest.*;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,7 +104,7 @@ public class StartActivity extends Activity implements OnClickListener {
                 if (firstname.equals("unknown")) {
                     welcomeUser.setText("zurück " + nickname + "!");
                 } else {
-                    welcomeUser.setText("zurück " + firstname + "a!");
+                    welcomeUser.setText("zurück " + firstname + "!");
                 }
 
                 // Wenn User existiert keine Registrierung

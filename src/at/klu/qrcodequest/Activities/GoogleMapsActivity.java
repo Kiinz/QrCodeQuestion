@@ -1,8 +1,9 @@
-package at.klu.qrcodequest;
+package at.klu.qrcodequest.Activities;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
+import at.klu.qrcodequest.*;
 import org.json.JSONException;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -18,7 +19,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -89,13 +89,13 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 	public void abfrage() {
         EnableGPSorWLAN enable = new EnableGPSorWLAN(this);
 
-        if (!enable.isGPSenabled() && enable.WIFIenabled) {
+        if (!enable.isGPSenabled() && enable.isWIFIEnabled()) {
             enable.enableGPS();
         }
-        if (enable.isWIFIDisabled() && enable.isGPSenabled()) {
+        if (!enable.isWIFIEnabled() && enable.isGPSenabled()) {
             enable.enableNetwork();
         }
-        if (enable.isWIFIDisabled() && !enable.isGPSenabled()) {
+        if (!enable.isWIFIEnabled() && !enable.isGPSenabled()) {
             enable.enableAll();
         }
     }

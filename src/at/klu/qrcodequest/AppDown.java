@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 
-class AppDown {
+public class AppDown {
 	
 	private static final ArrayList<Activity> activities = new ArrayList<Activity>();
 	
