@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
-import at.klu.qrcodequest.Activities.BestlistActivity;
+import at.klu.qrcodequest.activities.BestlistActivity;
 
 import java.util.ArrayList;
 
