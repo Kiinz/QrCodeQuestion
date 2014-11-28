@@ -1,4 +1,4 @@
-package at.klu.qrcodequest.Activities;
+package at.klu.qrcodequest.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -12,13 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import at.klu.qrcodequest.*;
-import at.klu.qrcodequest.Activities.GoogleMapsActivity;
-import at.klu.qrcodequest.Activities.MainActivity;
-import at.klu.qrcodequest.Activities.NFCActivity;
+import at.klu.qrcodequest.activities.GoogleMapsActivity;
+import at.klu.qrcodequest.activities.MainActivity;
+import at.klu.qrcodequest.activities.NFCActivity;
+
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package at.klu.qrcodequest.Activities;
+package at.klu.qrcodequest.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
