@@ -24,6 +24,7 @@ public class StartActivity extends Activity implements OnClickListener {
     private Intent intent;
     private Button start;
     private Typeface typeface;
+    private TextView welcomeUser;
 
 
 
@@ -43,6 +44,9 @@ public class StartActivity extends Activity implements OnClickListener {
         TextView willkommen = (TextView) findViewById(R.id.textViewWillkommen);
         typeface = Typeface.createFromAsset(getAssets(), "fonts/TYPOGRAPH PRO Light.ttf");
         willkommen.setTypeface(typeface);
+
+        welcomeUser = (TextView) findViewById(R.id.textViewUser);
+        welcomeUser.setTypeface(typeface);
 
 	}
 
@@ -99,8 +103,6 @@ public class StartActivity extends Activity implements OnClickListener {
                 Data data = (Data) getApplicationContext(); // Globale Datenklasse
                 data.setUser(user); // User wird Global gespeichert
 
-                TextView welcomeUser = (TextView) findViewById(R.id.textViewUser);
-                welcomeUser.setTypeface(typeface);
                 if (firstname.equals("unknown")) {
                     welcomeUser.setText("zurück " + nickname + "!");
                 } else {
