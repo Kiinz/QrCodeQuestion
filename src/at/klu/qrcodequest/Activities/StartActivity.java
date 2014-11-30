@@ -24,7 +24,6 @@ public class StartActivity extends Activity implements OnClickListener {
     private Intent intent;
     private Button start;
     private Typeface typeface;
-    private TextView welcomeUser;
 
 
 
@@ -44,9 +43,6 @@ public class StartActivity extends Activity implements OnClickListener {
         TextView willkommen = (TextView) findViewById(R.id.textViewWillkommen);
         typeface = Typeface.createFromAsset(getAssets(), "fonts/TYPOGRAPH PRO Light.ttf");
         willkommen.setTypeface(typeface);
-
-        welcomeUser = (TextView) findViewById(R.id.textViewUser);
-        welcomeUser.setTypeface(typeface);
 
 	}
 
@@ -78,10 +74,14 @@ public class StartActivity extends Activity implements OnClickListener {
 
     private class StartTask extends AsyncTask<Void, Void, Void> {
 
+    	String firstname;
+        String lastname;
+        String nickname;
         @Override
         protected Void doInBackground(Void... params) {
             String userID = android.provider.Settings.Secure.getString(getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
             userID = sha1(userID);
+            
 
             try {
                 String userJSONString = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/user/get?userId=" + userID);
@@ -95,19 +95,15 @@ public class StartActivity extends Activity implements OnClickListener {
                 JSONObject userJSON = new JSONObject(userJSONArray.getString(0));
                 
                 int id = userJSON.getInt("id");
-                String firstname = userJSON.getString("firstname");
-                String lastname = userJSON.getString("lastname");
-                String nickname = userJSON.getString("nickname");
+                firstname = userJSON.getString("firstname");
+                lastname = userJSON.getString("lastname");
+                nickname = userJSON.getString("nickname");
                 User user = new User(id, firstname, lastname, nickname, userID);
 
                 Data data = (Data) getApplicationContext(); // Globale Datenklasse
                 data.setUser(user); // User wird Global gespeichert
 
-                if (firstname.equals("unknown")) {
-                    welcomeUser.setText("zurück " + nickname + "!");
-                } else {
-                    welcomeUser.setText("zurück " + firstname + "!");
-                }
+                
 
                 // Wenn User existiert keine Registrierung
                 intent = new Intent(getApplicationContext(), QuestActivity.class);
@@ -128,6 +124,14 @@ public class StartActivity extends Activity implements OnClickListener {
 
         @Override
         protected void onPostExecute(Void result) {
+        	
+        	TextView welcomeUser = (TextView) findViewById(R.id.textViewUser);
+            welcomeUser.setTypeface(typeface);
+            if (firstname.equals("unknown")) {
+                welcomeUser.setText("zurück " + nickname + "!");
+            } else {
+                welcomeUser.setText("zurück " + firstname + "!");
+            }
             HTTPHelper.HTTPExceptionHandler(errorString, StartActivity.this);
         }
     }
