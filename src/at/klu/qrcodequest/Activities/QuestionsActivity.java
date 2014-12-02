@@ -30,6 +30,7 @@ public class QuestionsActivity extends Activity {
     private int questionNumber = 0;
     private int[] questionIDs;
     private Node node;
+    private Quest quest;
     private List<Integer> randomKeys;
     int finishedRespones = 0;
     String postUrl = "http://193.171.127.102:8080/Quest/score/save.json";
@@ -45,6 +46,7 @@ public class QuestionsActivity extends Activity {
 
         Data data = (Data) getApplicationContext();
         node = data.getNode();
+        quest = data.getQuest();
         questionIDs = node.getQuestionIDs();
 
         // Progress Bar
@@ -150,6 +152,7 @@ public class QuestionsActivity extends Activity {
                     if (answerSparseArray.indexOfValue(b.getText().toString()) == 0) {
                         HTTPHelper.makeJSONPost(postUrl, buildJSONObjectPost(true, questions.get(questionNumber).getId()), getApplicationContext());
                     } else {
+                    	System.out.println("" + buildJSONObjectPost(true, questions.get(questionNumber).getId()));
                         HTTPHelper.makeJSONPost(postUrl, buildJSONObjectPost(false, questions.get(questionNumber).getId()), getApplicationContext());
                     }
 
@@ -213,7 +216,7 @@ public class QuestionsActivity extends Activity {
     }
 
     private void changeActivity() {
-        int dtRegistration = node.getDtRegistration();
+        int dtRegistration = quest.getDtRegistration();
         if(dtRegistration == 2){
             changeActivity(MainActivity.class);
         }else if(dtRegistration == 3){

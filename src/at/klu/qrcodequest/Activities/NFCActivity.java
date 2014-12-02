@@ -256,10 +256,9 @@ public class NFCActivity extends Activity {
                         
                         Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
-                        questions.putExtra("nodePk", nodePk);
-                        questions.putExtra("questPk", questPk);
-                        questions.putExtra("dtRegistration", dtRegistration);
-                        questions.putExtra("questionIDs", node.getQuestionIDs());
+                        Data data = (Data) getApplicationContext();
+                        
+                        data.setNode(node);
 
                         startActivity(questions);
                     }

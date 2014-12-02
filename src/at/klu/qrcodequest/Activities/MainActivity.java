@@ -106,10 +106,9 @@ public class MainActivity extends Activity {
                         
                         Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
-                        questions.putExtra("nodePk", nodePk);
+                        Data data = (Data) getApplicationContext();
+                        data.setNode(node);
                         questions.putExtra("questPk", questPk);
-                        questions.putExtra("dtRegistration", dtRegistration);
-                        questions.putExtra("questionIDs", node.getQuestionIDs());
 
                         startActivity(questions);
                     }
