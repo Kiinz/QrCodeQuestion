@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import at.klu.qrcodequest.*;
@@ -33,8 +34,10 @@ public class MainActivity extends Activity {
     private ArrayList<Node> nodes;
     private int dtRegistration = 2;
     private Context context;
-    private int userPk;
+    private User user;
+    private Quest quest;
     private String errorString = "";
+    private ProgressBar bar;
     
     private ExpandableListViewNodes adapter;
     private ExpandableListView list;
@@ -47,12 +50,14 @@ public class MainActivity extends Activity {
         AppDown.register(this);
         context = this;
 
-        Bundle bundle = getIntent().getExtras();
-        questPk = bundle.getInt("questPk");
-        userPk = bundle.getInt("userPk");
+        Data data = (Data)getApplicationContext();
+        quest = data.getQuest();
+        user = data.getUser();
         
         Button btscan = (Button) findViewById(R.id.weiter);
         list = (ExpandableListView) findViewById(R.id.listView1);
+        
+        bar = (ProgressBar) findViewById(R.id.marker_progress);
         
         list.setOnGroupExpandListener(new OnGroupExpandListener(){
 
@@ -101,14 +106,11 @@ public class MainActivity extends Activity {
                 for (Node node : nodes) {
                     if (node.getRegistrationTarget1().equals(result)) {
                         nodePk = node.getId();
-                        System.out.println("" + nodePk);
 
-                        
                         Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
                         Data data = (Data) getApplicationContext();
                         data.setNode(node);
-                        questions.putExtra("questPk", questPk);
 
                         startActivity(questions);
                     }
@@ -120,19 +122,27 @@ public class MainActivity extends Activity {
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(this, QuestActivity.class);
-        intent.putExtra("userPk", userPk);
         startActivity(intent);
     }
 
     private class MainNodeTask extends AsyncTask<Void, Void, Void> {
 
+    	
         @Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			bar.setVisibility(View.VISIBLE);
+			
+		}
+
+		@Override
         protected Void doInBackground(Void... params) {
 
             nodes = new ArrayList<Node>();
 
             try {
-                nodes = QuestMethods.getNodes(questPk);
+                nodes = QuestMethods.getNodes(quest.getId());
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -174,6 +184,8 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
             HTTPHelper.HTTPExceptionHandler(errorString, MainActivity.this);
+            
+            bar.setVisibility(View.INVISIBLE);
             
             adapter = new ExpandableListViewNodes(getApplicationContext(), nodes);
             list.setAdapter(adapter);

@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import at.klu.qrcodequest.*;
+
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -24,7 +25,9 @@ import android.nfc.tech.Ndef;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 
@@ -39,29 +42,31 @@ public class NFCActivity extends Activity {
 	private NfcAdapter nfcAdapter;
 	private String[][] mNFCTechLists;
 	
-	private int questPk = 0;
-	private int nodePk = 0;
 	private int dtRegistration = 3; //NFC_dtRegistration = 3
 	private ArrayList<Node> nodes;
 	private String errorString="";
-	private int userPk;
+	private User user;
+	private Quest quest;
 	
 	private ExpandableListViewNodes adapter;
 	private ExpandableListView list;
+	
+	private ProgressBar bar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nfc);
 		
+		Data data = (Data)getApplicationContext();
+		quest = data.getQuest();
+		user = data.getUser();
 		
 		AppDown.register(this); // Methode für das Beenden der Applikation
 		
-		Bundle bundle = getIntent().getExtras();
-		questPk = bundle.getInt("questPk");
-		userPk = bundle.getInt("userPk");
-		
 		list = (ExpandableListView) findViewById(R.id.listView1);
+		
+		bar = (ProgressBar) findViewById(R.id.marker_progress);
 		new MainNodeTask().execute();
 		
 		list.setOnGroupExpandListener(new OnGroupExpandListener(){
@@ -250,8 +255,7 @@ public class NFCActivity extends Activity {
 				System.out.println("" + result);
 				for (Node node : nodes) {
                     if (node.getRegistrationTarget1().equals(result)) {
-                        nodePk = node.getId();
-                        System.out.println("" + nodePk);
+                        System.out.println("" + node.getId());
 
                         
                         Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
@@ -269,14 +273,23 @@ public class NFCActivity extends Activity {
 	
 	private class MainNodeTask extends AsyncTask<Void, Void, Void> {
 
+		
         @Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			
+			bar.setVisibility(View.VISIBLE);
+		}
+
+		@Override
         protected Void doInBackground(Void... params) {
 
             nodes = new ArrayList<Node>();
             
-            System.out.println("Hier" + questPk);
+            System.out.println("Hier" + quest.getId());
             try {
-                nodes = QuestMethods.getNodes(questPk);
+                nodes = QuestMethods.getNodes(quest.getId());
                 
 
             } catch (JSONException e) {
@@ -295,6 +308,7 @@ public class NFCActivity extends Activity {
         @Override
         protected void onPostExecute(Void result) {
             HTTPHelper.HTTPExceptionHandler(errorString, NFCActivity.this);
+            bar.setVisibility(View.INVISIBLE);
             
             adapter = new ExpandableListViewNodes(getApplicationContext(), nodes);
             list.setAdapter(adapter);
@@ -317,7 +331,6 @@ public class NFCActivity extends Activity {
 	@Override
     public void onBackPressed() {
         Intent intent = new Intent(this, QuestActivity.class);
-        intent.putExtra("userPk", userPk);
         startActivity(intent);
     }
 	
