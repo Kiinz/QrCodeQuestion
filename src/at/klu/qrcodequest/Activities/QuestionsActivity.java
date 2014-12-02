@@ -67,7 +67,7 @@ public class QuestionsActivity extends Activity {
                         public void onResponse(JSONObject response) {
                             System.out.println(response);
                             try {
-//                                int nodePk = 2; // TODO
+                                int nodePk = node.getId();
                                 boolean active = response.getBoolean("active");
                                 String name = response.getString("name");
                                 String descr = response.getString("description");
