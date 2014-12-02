@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import at.klu.qrcodequest.*;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -44,9 +48,11 @@ public class NFCActivity extends Activity {
 	
 	private int dtRegistration = 3; //NFC_dtRegistration = 3
 	private ArrayList<Node> nodes;
+	private ArrayList<Node> answeredNodesList;
 	private String errorString="";
 	private User user;
 	private Quest quest;
+	Data data;
 	
 	private ExpandableListViewNodes adapter;
 	private ExpandableListView list;
@@ -58,7 +64,7 @@ public class NFCActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_nfc);
 		
-		Data data = (Data)getApplicationContext();
+		data = (Data) getApplicationContext();
 		quest = data.getQuest();
 		user = data.getUser();
 		
@@ -252,19 +258,34 @@ public class NFCActivity extends Activity {
 				
 //				System.out.println("Read content: " + result);
 				
-				System.out.println("" + result);
-				for (Node node : nodes) {
+				for (final Node node : nodes) {
                     if (node.getRegistrationTarget1().equals(result)) {
                         System.out.println("" + node.getId());
 
-                        
-                        Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
+							int userQuestPk = (int)data.getUserQuestPk();
+							System.out.println("" + userQuestPk);
+							
+											try {
+												QuestMethods.setUserQuestNode(userQuestPk, node.getId());
+											} catch (JSONException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											} catch (IOException e) {
+												// TODO Auto-generated catch block
+												e.printStackTrace();
+											}
+							
+							            	Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
-                        Data data = (Data) getApplicationContext();
-                        
-                        data.setNode(node);
+							            	Data data = (Data) getApplicationContext();
+							
+							            	data.setNode(node);
 
-                        startActivity(questions);
+							            	startActivity(questions);
+							        
+						
+                        
+
                     }
 			}
 		}
@@ -286,11 +307,11 @@ public class NFCActivity extends Activity {
         protected Void doInBackground(Void... params) {
 
             nodes = new ArrayList<Node>();
+            answeredNodesList = new ArrayList<Node>();
             
             System.out.println("Hier" + quest.getId());
             try {
                 nodes = QuestMethods.getNodes(quest.getId());
-                
 
             } catch (JSONException e) {
                 e.printStackTrace();

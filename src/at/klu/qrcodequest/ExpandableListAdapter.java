@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.os.AsyncTask;
 import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,10 +32,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	private Intent intent;
 	private List<String> listParents;
 	private List<Quest> quests;
-	private SparseBooleanArray userQuestMap;
+	private SparseIntArray userQuestMap;
 	private int userPk;
 	
-	public ExpandableListAdapter(Context context, List<String> listParents, ArrayList<Quest> quests, SparseBooleanArray userQuestMap, int userPk) {
+	public ExpandableListAdapter(Context context, List<String> listParents, ArrayList<Quest> quests, SparseIntArray userQuestMap, int userPk) {
 		this.context = context;
 		this.listParents = listParents;
 		this.quests = quests;
@@ -85,8 +86,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.list_group, parent, false);	
-			
-			if(userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+			;
+			if(userQuestMap.indexOfKey(quests.get((int) getGroupId(groupPosition)).getId()) > 0 ){
 				convertView.setBackgroundColor(Color.parseColor("#70FF0000"));
 			}
 		
@@ -105,18 +106,18 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.list_child, parent, false);
 			
-			if(userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+			if(userQuestMap.indexOfKey(quests.get((int) getGroupId(groupPosition)).getId()) > 0){
 				convertView.setBackgroundColor(Color.parseColor("#55FF0000"));
 			}
 			holder = new UserHolder2();
 			holder.anmelden = (Button) convertView.findViewById(R.id.sign);
 			holder.bestenliste = (Button)convertView.findViewById(R.id.best);
 			
-			if(userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+			if(userQuestMap.indexOfKey(quests.get((int) getGroupId(groupPosition)).getId()) > 0){
 				System.out.println("" + userQuestMap.get(quests.get((int)getGroupId(groupPosition)).getId()));
 				holder.anmelden.setText("Fortsetzen");
 				
-			}else if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+			}else if(userQuestMap.indexOfKey(quests.get((int) getGroupId(groupPosition)).getId()) > 0){
 
 				holder.anmelden.setText("Anmelden");
 			}
@@ -136,8 +137,11 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 				if(quests.get((int)getGroupId(id)).getDtRegistration() == 2){
 					//QR-Code
-					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+					if(userQuestMap.indexOfKey(quests.get((int) getGroupId(groupPosition)).getId()) < 0){
 						new UserQuestTask().execute(groupPosition);
+						
+					}else{
+						data.setUserQuestPk(userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId()));
 					}
 					intent = new Intent(context,MainActivity.class);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 3){
@@ -146,20 +150,20 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 						Toast.makeText(v.getContext(), "Auf diesem Gerät wird leider kein NFC unterstützt.", Toast.LENGTH_LONG).show();
 						return;
 					}
-					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+					if(userQuestMap.indexOfKey(quests.get((int) getGroupId(groupPosition)).getId()) < 0){
 						new UserQuestTask().execute(groupPosition);
+					}else{
+						data.setUserQuestPk(userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId()));
 					}
 					intent = new Intent(context,NFCActivity.class);
 				}else if(quests.get((int)getGroupId(id)).getDtRegistration() == 4){
-					if(!userQuestMap.get(quests.get((int) getGroupId(groupPosition)).getId())){
+					if(userQuestMap.indexOfKey(quests.get((int) getGroupId(groupPosition)).getId()) < 0){
 						new UserQuestTask().execute(groupPosition);
 					}
 					intent = new Intent(context, GoogleMapsActivity.class);
 					
 				}
 				intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK); //dadurch kann eine neue Activity außerhalb einer Activity gestartet werden
-				intent.putExtra("questPk", quests.get((int)getGroupId(id)).getId());
-				intent.putExtra("userPk", userPk);
 				context.startActivity(intent);
 				
 			}

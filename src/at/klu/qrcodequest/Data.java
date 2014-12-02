@@ -4,14 +4,13 @@ import android.app.Application;
 
 import java.util.ArrayList;
 
-/**
- * Created by Messna on 25.11.2014.
- */
 public class Data extends Application {
     private User user;
     private Quest quest;
     private Node node;
-    private ArrayList<Node> nodeList = new ArrayList<>();
+    private int userQuestPk;
+    private ArrayList<Node> answeredNodeList = new ArrayList<Node>();
+    private ArrayList<Node> nodeList = new ArrayList<Node>();
 
     public User getUser() {
         return user;
@@ -43,4 +42,22 @@ public class Data extends Application {
     public void setNode(Node node) {
         this.node = node;
     }
+
+	public ArrayList<Node> getAnsweredNodeList() {
+		return answeredNodeList;
+	}
+
+	public void setAnsweredNodeList(ArrayList<Node> answeredNodeList) {
+		this.answeredNodeList = answeredNodeList;
+	}
+
+	public int getUserQuestPk() {
+		return userQuestPk;
+	}
+
+	public void setUserQuestPk(int userQuestPk) {
+		this.userQuestPk = userQuestPk;
+	}
+	
+    
 }

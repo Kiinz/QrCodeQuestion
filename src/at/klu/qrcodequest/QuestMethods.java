@@ -143,7 +143,19 @@ public class QuestMethods {
     	}
     }
     
-    public static void setUserQuestNode(int userquestId, int nodeId) throws JSONException, IOException{
+//    public static ArrayList<Node> getFinishedNodes(int userQuestPk) throws IOException{
+// 	   
+//    	String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/userQuest/done?userQuestPk=" + userQuestPk);
+// 	   
+//    	if(json.equals("[]")){
+//    		return null;
+//    	}else{
+//    		
+//    	}
+//    }
+//     
+    
+    public static JSONObject setUserQuestNode(int userquestId, int nodeId) throws JSONException, IOException{
     	
     	JSONObject userquest = new JSONObject();
     	
@@ -159,6 +171,8 @@ public class QuestMethods {
     	userquestnode.put("node", node);
     	
     	HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/userQuestNode/save.json", userquestnode.toString());
+    	
+    	return userquestnode;
     }
     
     public static void setScore(int userquestnodeId, int questionId) throws JSONException, IOException{

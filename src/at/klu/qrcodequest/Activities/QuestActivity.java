@@ -5,14 +5,17 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
+import android.util.SparseIntArray;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import at.klu.qrcodequest.*;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,7 +30,8 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
     private ArrayList<Quest> quests = new ArrayList<>();
     private int finished = 0;
     private User user;
-    private SparseBooleanArray userQuestMap = new SparseBooleanArray();
+    private SparseIntArray userQuestMap = new SparseIntArray();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +105,23 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
             JsonArrayRequest jsObjRequest = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
-                    boolean existing = !response.toString().equals("[]"); // Wenn die Antwort [] ist -> false
-                    userQuestMap.put(quest.getId(), existing);
+                	int id;
+					try {
+						if(response.length() != 0){
+							for (int i = 0; i < response.length(); i++){
+								id = response.getJSONObject(i).getInt("id");
+								System.out.println("" + id);
+								userQuestMap.put(quest.getId(), id);
+							}
+						}
+						
+						
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+//                    boolean existing = !response.toString().equals("[]"); // Wenn die Antwort [] ist -> false
+                    
                     finished++;
                     if (finished == quests.size()) { // Wenn alle Requests abgearbeitet sind
                         drawList();
