@@ -236,9 +236,10 @@ public class NFCActivity extends Activity {
 
 			if (ndefRecord.getTnf() == NdefRecord.TNF_MIME_MEDIA
 					|| ndefRecord.getTnf() == NdefRecord.TNF_WELL_KNOWN) {
-
+				
 				try {
 //					System.out.println("Hier bini ich");
+					
 					return readText(ndefRecord);
 
 				} catch (UnsupportedEncodingException e) {
@@ -265,16 +266,18 @@ public class NFCActivity extends Activity {
 							int userQuestPk = (int)data.getUserQuestPk();
 							System.out.println("" + userQuestPk);
 							
-											try {
-												QuestMethods.setUserQuestNode(userQuestPk, node.getId());
-											} catch (JSONException e) {
-												// TODO Auto-generated catch block
-												e.printStackTrace();
-											} catch (IOException e) {
-												// TODO Auto-generated catch block
-												e.printStackTrace();
-											}
 							
+							new UserQuestNodeTask().execute(userQuestPk, node.getId());
+//											try {
+//												QuestMethods.setUserQuestNode(userQuestPk, node.getId());
+//											} catch (JSONException e) {
+//												// TODO Auto-generated catch block
+//												e.printStackTrace();
+//											} catch (IOException e) {
+//												// TODO Auto-generated catch block
+//												e.printStackTrace();
+//											}
+////							
 							            	Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
 							            	Data data = (Data) getApplicationContext();
@@ -283,13 +286,32 @@ public class NFCActivity extends Activity {
 
 							            	startActivity(questions);
 							        
-						
-                        
 
                     }
 			}
 		}
 	}
+	}
+	
+	private class UserQuestNodeTask extends AsyncTask<Integer, Void, Void>{
+
+		@Override
+		protected Void doInBackground(Integer... params) {
+			// TODO Auto-generated method stub
+			
+			try {
+				QuestMethods.setUserQuestNode(params[0], params[1]);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
+		
 	}
 	
 	private class MainNodeTask extends AsyncTask<Void, Void, Void> {
