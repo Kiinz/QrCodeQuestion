@@ -155,7 +155,7 @@ public class QuestMethods {
 //    }
 //     
     
-    public static void setUserQuestNode(int userquestId, int nodeId) throws JSONException, IOException{
+    public static String setUserQuestNode(int userquestId, int nodeId) throws JSONException, IOException{
     	
     	JSONObject userquest = new JSONObject();
     	
@@ -176,7 +176,9 @@ public class QuestMethods {
     	
     	System.out.println("" + userquestnode.toString());
     	
-    	HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/userQuestNode/save.json", userquestnode.toString());
+    	String output = HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/userQuestNode/save.json", userquestnode.toString());
+    	
+    	return output;
     	
     }
     

@@ -268,16 +268,7 @@ public class NFCActivity extends Activity {
 							
 							
 							new UserQuestNodeTask().execute(userQuestPk, node.getId());
-//											try {
-//												QuestMethods.setUserQuestNode(userQuestPk, node.getId());
-//											} catch (JSONException e) {
-//												// TODO Auto-generated catch block
-//												e.printStackTrace();
-//											} catch (IOException e) {
-//												// TODO Auto-generated catch block
-//												e.printStackTrace();
-//											}
-////							
+					
 							            	Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
 							            	Data data = (Data) getApplicationContext();
@@ -285,8 +276,6 @@ public class NFCActivity extends Activity {
 							            	data.setNode(node);
 
 							            	startActivity(questions);
-							        
-
                     }
 			}
 		}
@@ -300,7 +289,12 @@ public class NFCActivity extends Activity {
 			// TODO Auto-generated method stub
 			
 			try {
-				QuestMethods.setUserQuestNode(params[0], params[1]);
+				String json = QuestMethods.setUserQuestNode(params[0], params[1]);
+				
+				JSONObject obj = new JSONObject(json);
+				
+				int userQuestNodeId = obj.getInt("id");
+						
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
