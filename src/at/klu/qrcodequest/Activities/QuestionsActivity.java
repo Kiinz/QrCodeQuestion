@@ -49,6 +49,8 @@ public class QuestionsActivity extends Activity {
         quest = data.getQuest();
         questionIDs = node.getQuestionIDs();
 
+        TextView nodeText = (TextView) findViewById(R.id.textViewNode);
+        nodeText.setText(node.getName());
         // Progress Bar
         bar = (ProgressBar) findViewById(R.id.marker_progress);
         loadQuestionsTextView = (TextView) findViewById(R.id.loadQuestionsText);
@@ -67,7 +69,6 @@ public class QuestionsActivity extends Activity {
                         public void onResponse(JSONObject response) {
                             System.out.println(response);
                             try {
-//                                int nodePk = 2; // TODO
                                 boolean active = response.getBoolean("active");
                                 String name = response.getString("name");
                                 String descr = response.getString("description");
