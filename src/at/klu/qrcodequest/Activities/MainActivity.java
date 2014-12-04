@@ -12,9 +12,11 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 import at.klu.qrcodequest.*;
+
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -22,6 +24,7 @@ public class MainActivity extends Activity {
     private Quest quest;
     private String errorString = "";
     private ProgressBar bar;
+    private int userQuestPk;
 
     private ExpandableListView list;
 
@@ -34,7 +37,8 @@ public class MainActivity extends Activity {
 
         Data data = (Data)getApplicationContext();
         quest = data.getQuest();
-
+        userQuestPk = data.getUserQuestPk();
+        
         Button btscan = (Button) findViewById(R.id.weiter);
         list = (ExpandableListView) findViewById(R.id.listView1);
 
@@ -105,12 +109,15 @@ public class MainActivity extends Activity {
     }
 
     private class MainNodeTask extends AsyncTask<Void, Void, Void> {
-
+    	
+    	ArrayList <Integer> nodeIds = new ArrayList<Integer>();
+    	
 		@Override
         protected Void doInBackground(Void... params) {
 
             try {
                 nodes = QuestMethods.getNodes(quest.getId());
+                ArrayList <Integer> nodeIds = QuestMethods.getFinishedNodes(userQuestPk);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -130,8 +137,8 @@ public class MainActivity extends Activity {
             HTTPHelper.HTTPExceptionHandler(errorString, MainActivity.this);
 
             bar.setVisibility(View.INVISIBLE);
-
-            ExpandableListViewNodes adapter = new ExpandableListViewNodes(getApplicationContext(), nodes);
+            
+            ExpandableListViewNodes adapter = new ExpandableListViewNodes(getApplicationContext(), nodes, nodeIds);
             list.setAdapter(adapter);
         }
     }

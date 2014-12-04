@@ -36,7 +36,7 @@ public class QuestionsActivity extends Activity {
     String postUrl = "http://193.171.127.102:8080/Quest/score/save.json";
     private ProgressBar bar;
     private TextView loadQuestionsTextView;
-
+    private Data data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class QuestionsActivity extends Activity {
         setContentView(R.layout.activity_questions);
         AppDown.register(this);
 
-        Data data = (Data) getApplicationContext();
+        data = (Data) getApplicationContext();
         node = data.getNode();
         quest = data.getQuest();
         questionIDs = node.getQuestionIDs();
@@ -187,7 +187,7 @@ public class QuestionsActivity extends Activity {
         JSONObject userQuestNode = new JSONObject();
         JSONObject scoreJSONObject = new JSONObject();
         try {
-            userQuestNode.put("id", 3084); // TODO userQuestNode
+            userQuestNode.put("id", data.getUserQuestNodePk()); // TODO userQuestNode
 
             JSONObject question = new JSONObject();
             question.put("id", questionID);

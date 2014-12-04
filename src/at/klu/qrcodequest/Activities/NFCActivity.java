@@ -53,10 +53,12 @@ public class NFCActivity extends Activity {
 	private String errorString="";
 	private User user;
 	private Quest quest;
+	private int userQuestPk;
 	Data data;
 	
 	private ExpandableListViewNodes adapter;
 	private ExpandableListView list;
+	ArrayList<Integer> nodeIds = new ArrayList<Integer>();
 	
 	private ProgressBar bar;
 	
@@ -68,6 +70,7 @@ public class NFCActivity extends Activity {
 		data = (Data) getApplicationContext();
 		quest = data.getQuest();
 		user = data.getUser();
+		userQuestPk = data.getUserQuestPk();
 		
 		AppDown.register(this); // Methode für das Beenden der Applikation
 		
@@ -268,9 +271,16 @@ public class NFCActivity extends Activity {
 							int userQuestPk = (int)data.getUserQuestPk();
 							System.out.println("" + userQuestPk);
 							
-							
-							new UserQuestNodeTask().execute(userQuestPk, node.getId());
-					
+							boolean exist = false;
+							for (int x = 0; x < nodeIds.size(); x++){
+								if (node.getId() == nodeIds.get(x)){
+										exist = true;
+									}
+								}
+							if (exist == false){
+								new UserQuestNodeTask().execute(userQuestPk, node.getId());
+								
+							}
 							            	Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
 							            	Data data = (Data) getApplicationContext();
@@ -300,6 +310,7 @@ public class NFCActivity extends Activity {
 				Data data = (Data) getApplicationContext();
 				
 				data.setUserQuestNodePk(userQuestNodePk);
+				
 						
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
@@ -333,6 +344,8 @@ public class NFCActivity extends Activity {
             System.out.println("Hier" + quest.getId());
             try {
                 nodes = QuestMethods.getNodes(quest.getId());
+                
+                nodeIds = QuestMethods.getFinishedNodes(userQuestPk);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -352,7 +365,7 @@ public class NFCActivity extends Activity {
             HTTPHelper.HTTPExceptionHandler(errorString, NFCActivity.this);
             bar.setVisibility(View.INVISIBLE);
             
-            adapter = new ExpandableListViewNodes(getApplicationContext(), nodes);
+            adapter = new ExpandableListViewNodes(getApplicationContext(), nodes, nodeIds);
             list.setAdapter(adapter);
         }
     }

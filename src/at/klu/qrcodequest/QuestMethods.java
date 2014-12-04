@@ -86,17 +86,29 @@ public class QuestMethods {
     	}
     }
     
-//    public static ArrayList<Node> getFinishedNodes(int userQuestPk) throws IOException{
-// 	   
-//    	String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/userQuest/done?userQuestPk=" + userQuestPk);
-// 	   
-//    	if(json.equals("[]")){
-//    		return null;
-//    	}else{
-//    		
-//    	}
-//    }
-//     
+    public static ArrayList<Integer> getFinishedNodes(int userQuestPk) throws IOException, JSONException{
+ 	   
+    	String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/userQuest/done?userQuestPk=" + userQuestPk);
+    	
+    	ArrayList<Integer> nodeIds = new ArrayList<Integer>();
+    	
+    	JSONArray array = new JSONArray(json);
+    	
+    	for (int i = 0; i < array.length(); i++){
+    		
+    		JSONObject obj = array.getJSONObject(i);
+    		JSONObject nodeId = obj.getJSONObject("node");
+    		
+    		int userQuestNodePk = obj.getInt("id");
+    		
+    		int nodePk = nodeId.getInt("id");
+    		
+    		nodeIds.add(nodePk);
+    	}
+    
+    	return nodeIds;
+    }
+     
     
     public static String setUserQuestNode(int userquestId, int nodeId) throws JSONException, IOException{
     	
