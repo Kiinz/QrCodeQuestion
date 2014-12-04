@@ -9,6 +9,7 @@ public class Data extends Application {
     private Quest quest;
     private Node node;
     private int userQuestPk;
+    private int userQuestNodePk;
     private ArrayList<Node> answeredNodeList = new ArrayList<Node>();
     private ArrayList<Node> nodeList = new ArrayList<Node>();
 
@@ -58,6 +59,16 @@ public class Data extends Application {
 	public void setUserQuestPk(int userQuestPk) {
 		this.userQuestPk = userQuestPk;
 	}
+
+	public int getUserQuestNodePk() {
+		return userQuestNodePk;
+	}
+
+	public void setUserQuestNodePk(int userQuestNodePk) {
+		this.userQuestNodePk = userQuestNodePk;
+	}
+	
+	
 	
     
 }

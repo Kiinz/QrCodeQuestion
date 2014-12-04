@@ -20,6 +20,8 @@ public class QuestMethods {
 		for (Node node : nodes) {
 			String json2 = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + node.getId() + ".json");
 			node.setQuestionIDs(new JSONObject(json2).getJSONArray("questions"));
+			node.setQuestPk(questPk);
+			System.out.println(node);
 		}
 
 		return nodes;

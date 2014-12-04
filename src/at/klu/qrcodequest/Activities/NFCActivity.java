@@ -48,6 +48,7 @@ public class NFCActivity extends Activity {
 	
 	private int dtRegistration = 3; //NFC_dtRegistration = 3
 	private Node[] nodes;
+	private Node node;
 	private ArrayList<Node> answeredNodesList;
 	private String errorString="";
 	private User user;
@@ -260,7 +261,8 @@ public class NFCActivity extends Activity {
 //				System.out.println("Read content: " + result);
 				
 				for (final Node node : nodes) {
-                    if (node.getRegistrationTarget1().equals(result)) {
+					System.out.println("nfcnode" + node);
+                    if (node.getRegistrationTarget1()!= null && node.getRegistrationTarget1().equals(result)) {
                         System.out.println("" + node.getId());
 
 							int userQuestPk = (int)data.getUserQuestPk();
@@ -293,7 +295,11 @@ public class NFCActivity extends Activity {
 				
 				JSONObject obj = new JSONObject(json);
 				
-				int userQuestNodeId = obj.getInt("id");
+				int userQuestNodePk = obj.getInt("id");
+				
+				Data data = (Data) getApplicationContext();
+				
+				data.setUserQuestNodePk(userQuestNodePk);
 						
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
