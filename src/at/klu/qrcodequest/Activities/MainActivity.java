@@ -15,7 +15,6 @@ import at.klu.qrcodequest.*;
 import org.json.JSONException;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -58,7 +57,6 @@ public class MainActivity extends Activity {
         });
 
         //Thread für die Abfrage der Nodes
-//        getNodes();
         new MainNodeTask().execute();
 
         btscan.setOnClickListener(new OnClickListener() {
@@ -111,11 +109,8 @@ public class MainActivity extends Activity {
 		@Override
         protected Void doInBackground(Void... params) {
 
-//            nodes = new ArrayList<>();
-
             try {
                 nodes = QuestMethods.getNodes(quest.getId());
-                System.out.println(nodes[0].getQuestionIDs()[0]);
 
             } catch (JSONException e) {
                 e.printStackTrace();

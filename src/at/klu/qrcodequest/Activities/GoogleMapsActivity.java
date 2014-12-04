@@ -29,7 +29,7 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 	private int questPk;
 	private int dtRegistration = 4;
 	private int userPk;
-	private ArrayList<Node> nodes = null;
+	private Node[] nodes;
 	private Context context;
 	private String errorString = "";
 	
@@ -148,11 +148,8 @@ public class GoogleMapsActivity extends Activity implements OnMyLocationChangeLi
 
 		@Override
 		protected Void doInBackground(Void... params) {
-			nodes = new ArrayList<>();
-
             try {
                 nodes = QuestMethods.getNodes(questPk);
-
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (IOException e) {

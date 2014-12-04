@@ -47,7 +47,7 @@ public class NFCActivity extends Activity {
 	private String[][] mNFCTechLists;
 	
 	private int dtRegistration = 3; //NFC_dtRegistration = 3
-	private ArrayList<Node> nodes;
+	private Node[] nodes;
 	private ArrayList<Node> answeredNodesList;
 	private String errorString="";
 	private User user;
@@ -79,7 +79,7 @@ public class NFCActivity extends Activity {
 
 			@Override
 			public void onGroupExpand(int groupPosition) {
-				for(int i = 0; i < nodes.size(); i++){
+				for(int i = 0; i < nodes.length; i++){
 					if(list.isGroupExpanded(i)){
 						if(i != groupPosition){
 							list.collapseGroup(i);
@@ -322,8 +322,7 @@ public class NFCActivity extends Activity {
 		@Override
         protected Void doInBackground(Void... params) {
 
-            nodes = new ArrayList<Node>();
-            answeredNodesList = new ArrayList<Node>();
+			answeredNodesList = new ArrayList<Node>();
             
             System.out.println("Hier" + quest.getId());
             try {

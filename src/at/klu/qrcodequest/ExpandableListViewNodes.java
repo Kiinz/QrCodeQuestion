@@ -1,9 +1,6 @@
 package at.klu.qrcodequest;
 
-import java.util.List;
-
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +13,6 @@ public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 	private Context context;
 	
 	public ExpandableListViewNodes(Context context, Node[] nodes) {
-		// TODO Auto-generated constructor stub
 		this.nodes = nodes;
 		this.context = context;
 	}
@@ -24,51 +20,42 @@ public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 
 	@Override
 	public int getGroupCount() {
-		// TODO Auto-generated method stub
 		return this.nodes.length;
 	}
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		// TODO Auto-generated method stub
 		return 1;
 	}
 
 	@Override
 	public Object getGroup(int groupPosition) {
-		// TODO Auto-generated method stub
 		return this.nodes[groupPosition].getName();
 	}
 
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public long getGroupId(int groupPosition) {
-		// TODO Auto-generated method stub
 		return groupPosition;
 	}
 
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return childPosition;
 	}
 
 	@Override
 	public boolean hasStableIds() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded,
-			View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		
+	public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+
 		String nodeName = (String) getGroup(groupPosition);
 		
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -81,10 +68,8 @@ public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 	}
 
 	@Override
-	public View getChildView(int groupPosition, int childPosition,
-			boolean isLastChild, View convertView, ViewGroup parent) {
-		// TODO Auto-generated method stub
-		
+	public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		convertView = inflater.inflate(R.layout.list_child_nodes, parent, false);	
 		
@@ -101,7 +86,6 @@ public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
