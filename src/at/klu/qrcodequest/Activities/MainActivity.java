@@ -1,26 +1,17 @@
 package at.klu.qrcodequest.activities;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-import android.widget.ExpandableListView.OnGroupExpandListener;
 import at.klu.qrcodequest.*;
-
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -28,54 +19,46 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
-    private String result;
-    private int questPk = 0;
-    private int nodePk = 0;
-    private ArrayList<Node> nodes;
-    private int dtRegistration = 2;
-    private Context context;
-    private User user;
+    private Node[] nodes;
     private Quest quest;
     private String errorString = "";
     private ProgressBar bar;
-    
-    private ExpandableListViewNodes adapter;
+
     private ExpandableListView list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         AppDown.register(this);
-        context = this;
 
         Data data = (Data)getApplicationContext();
         quest = data.getQuest();
-        user = data.getUser();
-        
+
         Button btscan = (Button) findViewById(R.id.weiter);
         list = (ExpandableListView) findViewById(R.id.listView1);
-        
+
         bar = (ProgressBar) findViewById(R.id.marker_progress);
-        
+
         list.setOnGroupExpandListener(new OnGroupExpandListener(){
 
 			@Override
 			public void onGroupExpand(int groupPosition) {
-				for(int i = 0; i < nodes.size(); i++){
+				for(int i = 0; i < nodes.length; i++){
 					if(list.isGroupExpanded(i)){
 						if(i != groupPosition){
 							list.collapseGroup(i);
 						}
-						
+
 					}
 				}
 			}
-        	
+
         });
 
         //Thread für die Abfrage der Nodes
+//        getNodes();
         new MainNodeTask().execute();
 
         btscan.setOnClickListener(new OnClickListener() {
@@ -100,13 +83,11 @@ public class MainActivity extends Activity {
 
             if (resultCode == RESULT_OK) {
 
-                result = intent.getStringExtra("SCAN_RESULT");
+                String result = intent.getStringExtra("SCAN_RESULT");
                 System.out.println("" + result);
 
                 for (Node node : nodes) {
                     if (node.getRegistrationTarget1().equals(result)) {
-                        nodePk = node.getId();
-
                         Intent questions = new Intent(getApplicationContext(), QuestionsActivity.class);
 
                         Data data = (Data) getApplicationContext();
@@ -127,22 +108,14 @@ public class MainActivity extends Activity {
 
     private class MainNodeTask extends AsyncTask<Void, Void, Void> {
 
-    	
-        @Override
-		protected void onPreExecute() {
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-			bar.setVisibility(View.VISIBLE);
-			
-		}
-
 		@Override
         protected Void doInBackground(Void... params) {
 
-            nodes = new ArrayList<Node>();
+//            nodes = new ArrayList<>();
 
             try {
                 nodes = QuestMethods.getNodes(quest.getId());
+                System.out.println(nodes[0].getQuestionIDs()[0]);
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -154,40 +127,16 @@ public class MainActivity extends Activity {
                 }
                 return null;
             }
-
-//            for (int i = 0; i < nodes.size(); i++) {
-//                if (nodes.get(i).getLocation() != null) {
-//                    String s = nodes.get(i).getLocation();
-//                    System.out.println("" + s);
-//                    if (s.charAt(0) == '@') {
-//                        String locationString = s.substring(1);
-//                        String[] location;
-//                        location = locationString.split(", ");
-//                        System.out.println(location[0] + "  " + location[1]);
-//                        final int position = i;
-//                        final double latitude = Double.parseDouble(location[0]);
-//                        final double longitude = Double.parseDouble(location[1]);
-//
-//                        Handler handler = new Handler(context.getMainLooper());
-//                        handler.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                placeMarker(latitude, longitude, nodes.get(position).getName());
-//                            }
-//                        });
-//                    }
-//                }
-//            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             HTTPHelper.HTTPExceptionHandler(errorString, MainActivity.this);
-            
+
             bar.setVisibility(View.INVISIBLE);
-            
-            adapter = new ExpandableListViewNodes(getApplicationContext(), nodes);
+
+            ExpandableListViewNodes adapter = new ExpandableListViewNodes(getApplicationContext(), nodes);
             list.setAdapter(adapter);
         }
     }

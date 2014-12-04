@@ -6,21 +6,13 @@ import org.json.JSONObject;
 public class User {
 	
 	private int id;
-	private int dtOwner = 1;
 	private String firstname;
 	private String lastname;
 	private String nickname;
 	private String userId;
-	private boolean active = true;
-	
-	public User (String userId){
-		this.userId = userId;
-	}
-	
-	public User(int id, String firstname, String lastname,
-			String nickname, String userId) {
-		super();
-        this.id = id;
+
+	public User(int id, String firstname, String lastname, String nickname, String userId) {
+		this.id = id;
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.nickname = nickname;
@@ -34,9 +26,11 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getFirstname() {
 		return firstname;
 	}
+
 	public String getNickname() {
 		return nickname;
 	}
