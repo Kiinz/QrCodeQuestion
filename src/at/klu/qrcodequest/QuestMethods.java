@@ -1,88 +1,29 @@
 package at.klu.qrcodequest;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
 
 public class QuestMethods {
 
+	public static Node[] getNodes(int questPk) throws JSONException, IOException {
+		String json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json");
 
-    public static ArrayList<Quest> getQuests() throws JSONException, IOException {
-		
-		ArrayList<Quest> quests = new ArrayList<Quest>();
+		Gson gson = new Gson();
+		Node[] nodes = gson.fromJson(new JSONObject(json).getJSONArray("nodes").toString(), Node[].class);
 
-        String json;
-        json = "{Quests:" + HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest.json") + "}";
-
-//        System.out.println("" + json);
-
-		
-		JSONObject obj = new JSONObject(json);
-		JSONArray array = obj.getJSONArray("Quests");
-		
-		for (int i = 0; i < array.length(); i++) {
-			JSONObject quest = array.getJSONObject(i);
-			String name = quest.getString("name");
-			int id = quest.getInt("id");
-			int dtRegistration = quest.getInt("dtRegistration");
-//			System.out.println("" + dtRegistration);
-			Quest quest1 = new Quest(id, name, dtRegistration);
-			quests.add(quest1);
-			
+		for (Node node : nodes) {
+			String json2 = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + node.getId() + ".json");
+			node.setQuestionIDs(new JSONObject(json2).getJSONArray("questions"));
 		}
-//		System.out.println("" + json);
-		return quests;
+
+		return nodes;
 	}
-
-    public static ArrayList<Node> getNodes(int questPk) throws JSONException, IOException {
-
-        ArrayList<Node> nodes = new ArrayList<Node>();
-
-        String json;
-        json = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/quest/show/" + questPk + ".json");
-
-//		System.out.println("" + json);
-
-        JSONObject obj = new JSONObject(json);
-        JSONArray array = obj.getJSONArray("nodes");
-
-
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject node = array.getJSONObject(i);
-            int id = node.getInt("id");
-
-
-            Node node1 = new Node(id);
-            node1.setDescription(node.getString("description"));
-            node1.setName(node.getString("name"));
-            node1.setRegistrationTarget1(node.getString("registrationTarget1"));
-            node1.setRegistrationTarget2(node.getString("registrationTarget2"));
-            node1.setLocation(node.getString("location"));
-//			node1.setActive(node.getBoolean("active"));
-            node1.setSequence(node.getInt("sequence"));
-            node1.setDtRegistration(node.getInt("dtRegistration"));
-
-            String jsonn;
-            jsonn = HTTPHelper.makeGetRequest("http://193.171.127.102:8080/Quest/node/show/" + id + ".json");
-            System.out.println("" + jsonn);
-
-            JSONObject obj2 = new JSONObject(jsonn);
-
-
-            node1.setQuestionIDs(obj2.getJSONArray("questions"));
-
-            nodes.add(node1);
-        }
-        return nodes;
-    }
     
     public static ArrayList<Score> getScore(int questPk) throws IOException, JSONException{
     	
@@ -179,27 +120,6 @@ public class QuestMethods {
     	String output = HTTPHelper.makeJSONPost("http://193.171.127.102:8080/Quest/userQuestNode/save.json", userquestnode.toString());
     	
     	return output;
-    	
-    }
-    
-    public static void setScore(int userquestnodeId, int questionId) throws JSONException, IOException{
-    	
-    	JSONObject userquestnode = new JSONObject();
-    	
-    	userquestnode.put("id", userquestnodeId);
-    	
-    	JSONObject question = new JSONObject();
-    	
-    	question.put("id", questionId);
-    	
-    	
-    	JSONObject score = new JSONObject();
-    	
-    	score.put("userQuestNode", userquestnode);
-    	
-    	score.put("question", questionId);
-    	
-    	HTTPHelper.makePostRequest("http://193.171.127.102:8080/Quest/score/save.json", score.toString());
     	
     }
 }

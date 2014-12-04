@@ -12,10 +12,10 @@ import android.widget.TextView;
 
 public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 	
-	private List<Node> nodes;
+	private Node[] nodes;
 	private Context context;
 	
-	public ExpandableListViewNodes(Context context, List<Node> nodes) {
+	public ExpandableListViewNodes(Context context, Node[] nodes) {
 		// TODO Auto-generated constructor stub
 		this.nodes = nodes;
 		this.context = context;
@@ -25,7 +25,7 @@ public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 	@Override
 	public int getGroupCount() {
 		// TODO Auto-generated method stub
-		return this.nodes.size();
+		return this.nodes.length;
 	}
 
 	@Override
@@ -37,7 +37,7 @@ public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 	@Override
 	public Object getGroup(int groupPosition) {
 		// TODO Auto-generated method stub
-		return this.nodes.get(groupPosition).getName();
+		return this.nodes[groupPosition].getName();
 	}
 
 	@Override
@@ -88,8 +88,8 @@ public class ExpandableListViewNodes extends BaseExpandableListAdapter{
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		convertView = inflater.inflate(R.layout.list_child_nodes, parent, false);	
 		
-		String location = nodes.get(groupPosition).getLocation();
-		String beschreibung = nodes.get(groupPosition).getDescription();
+		String location = nodes[groupPosition].getLocation();
+		String beschreibung = nodes[groupPosition].getDescription();
 		
 		TextView textLocation = (TextView) convertView.findViewById(R.id.textView3);
 		TextView textBeschreibung = (TextView) convertView.findViewById(R.id.textView4);

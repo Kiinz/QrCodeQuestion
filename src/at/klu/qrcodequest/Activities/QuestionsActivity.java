@@ -184,11 +184,10 @@ public class QuestionsActivity extends Activity {
     }
 
     public JSONObject buildJSONObjectPost(boolean answeredCorrect, int questionID){
-        // TODO Parameter
         JSONObject userQuestNode = new JSONObject();
         JSONObject scoreJSONObject = new JSONObject();
         try {
-            userQuestNode.put("id", 3084);
+            userQuestNode.put("id", 3084); // TODO userQuestNode
 
             JSONObject question = new JSONObject();
             question.put("id", questionID);
