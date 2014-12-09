@@ -51,8 +51,8 @@ public class NFCActivity extends Activity {
 	private Node node;
 	private ArrayList<Node> answeredNodesList;
 	private String errorString="";
-	private User user;
-	private Quest quest;
+	private int userId;
+	private int questId;
 	private int userQuestPk;
 	Data data;
 	
@@ -68,9 +68,21 @@ public class NFCActivity extends Activity {
 		setContentView(R.layout.activity_nfc);
 		
 		data = (Data) getApplicationContext();
-		quest = data.getQuest();
-		user = data.getUser();
-		userQuestPk = data.getUserQuestPk();
+		
+		if(savedInstanceState != null){
+			questId = savedInstanceState.getInt("questId");
+			userId = savedInstanceState.getInt("questId");
+			userQuestPk = savedInstanceState.getInt("userQuestPk");
+			
+			data.setUserQuestPk(userQuestPk);
+			data.setQuest(new Quest(questId));
+			data.setUser(new User(userId));
+		}else{
+			questId = data.getQuest().getId();
+			userId = data.getUser().getId();
+			userQuestPk = data.getUserQuestPk();
+		}
+		
 		
 		AppDown.register(this); // Methode für das Beenden der Applikation
 		
@@ -341,9 +353,9 @@ public class NFCActivity extends Activity {
 
 			answeredNodesList = new ArrayList<Node>();
             
-            System.out.println("Hier" + quest.getId());
+            System.out.println("Hier" + questId);
             try {
-                nodes = QuestMethods.getNodes(quest.getId());
+                nodes = QuestMethods.getNodes(questId);
                 
                 nodeIds = QuestMethods.getFinishedNodes(userQuestPk);
 
@@ -402,5 +414,17 @@ public class NFCActivity extends Activity {
             enable.enableAll();
         }
     }
+
+	@Override
+	protected void onSaveInstanceState(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onSaveInstanceState(savedInstanceState);
+		
+		savedInstanceState.putInt("userQuestPk", userQuestPk);
+		savedInstanceState.putInt("questId", questId);
+		savedInstanceState.putInt("userId", userId);
+	}
+	
+	
 
 }

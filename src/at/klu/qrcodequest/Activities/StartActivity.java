@@ -1,19 +1,26 @@
 package at.klu.qrcodequest.activities;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import at.klu.qrcodequest.*;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +42,8 @@ public class StartActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
 		AppDown.register(this);
+		
+		
 
         start = (Button) findViewById(R.id.button1);
         start.setOnClickListener(this);
@@ -44,6 +53,16 @@ public class StartActivity extends Activity implements OnClickListener {
         willkommen.setTypeface(typeface);
 
         getUser();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+//    	ActionBar bar = getActionBar();
+//		bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#282B2B")));
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.start_activity, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
 

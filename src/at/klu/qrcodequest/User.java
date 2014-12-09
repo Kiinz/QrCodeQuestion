@@ -18,6 +18,14 @@ public class User {
 		this.nickname = nickname;
 		this.userId = userId;
 	}
+	
+
+
+	public User(int id) {
+		super();
+		this.id = id;
+	}
+
 
 
 	public int getId() {

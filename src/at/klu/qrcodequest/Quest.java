@@ -28,6 +28,10 @@ public class Quest {
 	}
 	
 
+	public Quest(int id) {
+		super();
+		this.id = id;
+	}
 	public Quest(int id, String name, int dtRegistration) {
 		super();
 		this.id = id;
