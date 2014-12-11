@@ -206,8 +206,9 @@ public class QuestActivity extends Activity /*implements OnItemClickListener*/ {
 		// TODO Auto-generated method stub
 		super.onSaveInstanceState(savedInstanceState);
 		
-		int userId2 = userId;
-		savedInstanceState.putInt("userId", userId2 );
+		
+		savedInstanceState.putInt("userId", userId );
+
 	}
 
 	
