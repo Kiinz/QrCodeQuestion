@@ -71,11 +71,17 @@ public class NFCActivity extends Activity {
 		
 		if(savedInstanceState != null){
 			questId = savedInstanceState.getInt("questId");
-			userId = savedInstanceState.getInt("questId");
+			userId = savedInstanceState.getInt("userId");
 			userQuestPk = savedInstanceState.getInt("userQuestPk");
 			
+			int dtRegistration = savedInstanceState.getInt("dtRegistration");
+			
+			Quest quest = new Quest();
+			quest.setDtRegistration(dtRegistration);
+			quest.setId(questId);
+			
 			data.setUserQuestPk(userQuestPk);
-			data.setQuest(new Quest(questId));
+			data.setQuest(quest);
 			data.setUser(new User(userId));
 		}else{
 			questId = data.getQuest().getId();
@@ -423,6 +429,7 @@ public class NFCActivity extends Activity {
 		savedInstanceState.putInt("userQuestPk", userQuestPk);
 		savedInstanceState.putInt("questId", questId);
 		savedInstanceState.putInt("userId", userId);
+		savedInstanceState.putInt("dtRegistration", data.getQuest().getDtRegistration());
 	}
 	
 	
